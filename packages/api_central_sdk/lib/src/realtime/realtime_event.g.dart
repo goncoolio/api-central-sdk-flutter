@@ -431,6 +431,246 @@ Map<String, dynamic> _$StreamReactionBurstEventToJson(
   'type': instance.$type,
 };
 
+CallJoinedEvent _$CallJoinedEventFromJson(Map<String, dynamic> json) =>
+    CallJoinedEvent(
+      callId: json['callId'] as String,
+      $type: json['type'] as String?,
+    );
+
+Map<String, dynamic> _$CallJoinedEventToJson(CallJoinedEvent instance) =>
+    <String, dynamic>{'callId': instance.callId, 'type': instance.$type};
+
+CallLeftEvent _$CallLeftEventFromJson(Map<String, dynamic> json) =>
+    CallLeftEvent(
+      callId: json['callId'] as String,
+      $type: json['type'] as String?,
+    );
+
+Map<String, dynamic> _$CallLeftEventToJson(CallLeftEvent instance) =>
+    <String, dynamic>{'callId': instance.callId, 'type': instance.$type};
+
+CallIncomingEvent _$CallIncomingEventFromJson(Map<String, dynamic> json) =>
+    CallIncomingEvent(
+      callId: json['callId'] as String,
+      callerId: json['callerId'] as String,
+      callerName: json['callerName'] as String?,
+      callType: json['callType'] as String?,
+      $type: json['type'] as String?,
+    );
+
+Map<String, dynamic> _$CallIncomingEventToJson(CallIncomingEvent instance) =>
+    <String, dynamic>{
+      'callId': instance.callId,
+      'callerId': instance.callerId,
+      'callerName': instance.callerName,
+      'callType': instance.callType,
+      'type': instance.$type,
+    };
+
+CallAnsweredEvent _$CallAnsweredEventFromJson(Map<String, dynamic> json) =>
+    CallAnsweredEvent(
+      callId: json['callId'] as String,
+      userId: json['userId'] as String,
+      $type: json['type'] as String?,
+    );
+
+Map<String, dynamic> _$CallAnsweredEventToJson(CallAnsweredEvent instance) =>
+    <String, dynamic>{
+      'callId': instance.callId,
+      'userId': instance.userId,
+      'type': instance.$type,
+    };
+
+CallConnectedEvent _$CallConnectedEventFromJson(Map<String, dynamic> json) =>
+    CallConnectedEvent(
+      callId: json['callId'] as String,
+      participantIds:
+          (json['participantIds'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const <String>[],
+      $type: json['type'] as String?,
+    );
+
+Map<String, dynamic> _$CallConnectedEventToJson(CallConnectedEvent instance) =>
+    <String, dynamic>{
+      'callId': instance.callId,
+      'participantIds': instance.participantIds,
+      'type': instance.$type,
+    };
+
+CallDeclinedEvent _$CallDeclinedEventFromJson(Map<String, dynamic> json) =>
+    CallDeclinedEvent(
+      callId: json['callId'] as String,
+      userId: json['userId'] as String,
+      $type: json['type'] as String?,
+    );
+
+Map<String, dynamic> _$CallDeclinedEventToJson(CallDeclinedEvent instance) =>
+    <String, dynamic>{
+      'callId': instance.callId,
+      'userId': instance.userId,
+      'type': instance.$type,
+    };
+
+CallEndedEvent _$CallEndedEventFromJson(Map<String, dynamic> json) =>
+    CallEndedEvent(
+      callId: json['callId'] as String,
+      reason: json['reason'] as String?,
+      durationSeconds: (json['durationSeconds'] as num?)?.toInt(),
+      $type: json['type'] as String?,
+    );
+
+Map<String, dynamic> _$CallEndedEventToJson(CallEndedEvent instance) =>
+    <String, dynamic>{
+      'callId': instance.callId,
+      'reason': instance.reason,
+      'durationSeconds': instance.durationSeconds,
+      'type': instance.$type,
+    };
+
+CallParticipantJoinedEvent _$CallParticipantJoinedEventFromJson(
+  Map<String, dynamic> json,
+) => CallParticipantJoinedEvent(
+  callId: json['callId'] as String,
+  userId: json['userId'] as String,
+  userName: json['userName'] as String?,
+  $type: json['type'] as String?,
+);
+
+Map<String, dynamic> _$CallParticipantJoinedEventToJson(
+  CallParticipantJoinedEvent instance,
+) => <String, dynamic>{
+  'callId': instance.callId,
+  'userId': instance.userId,
+  'userName': instance.userName,
+  'type': instance.$type,
+};
+
+CallParticipantLeftEvent _$CallParticipantLeftEventFromJson(
+  Map<String, dynamic> json,
+) => CallParticipantLeftEvent(
+  callId: json['callId'] as String,
+  userId: json['userId'] as String,
+  $type: json['type'] as String?,
+);
+
+Map<String, dynamic> _$CallParticipantLeftEventToJson(
+  CallParticipantLeftEvent instance,
+) => <String, dynamic>{
+  'callId': instance.callId,
+  'userId': instance.userId,
+  'type': instance.$type,
+};
+
+CallOfferReceivedEvent _$CallOfferReceivedEventFromJson(
+  Map<String, dynamic> json,
+) => CallOfferReceivedEvent(
+  callId: json['callId'] as String,
+  fromUserId: json['fromUserId'] as String,
+  sdp: json['sdp'] as String,
+  $type: json['type'] as String?,
+);
+
+Map<String, dynamic> _$CallOfferReceivedEventToJson(
+  CallOfferReceivedEvent instance,
+) => <String, dynamic>{
+  'callId': instance.callId,
+  'fromUserId': instance.fromUserId,
+  'sdp': instance.sdp,
+  'type': instance.$type,
+};
+
+CallAnswerReceivedEvent _$CallAnswerReceivedEventFromJson(
+  Map<String, dynamic> json,
+) => CallAnswerReceivedEvent(
+  callId: json['callId'] as String,
+  fromUserId: json['fromUserId'] as String,
+  sdp: json['sdp'] as String,
+  $type: json['type'] as String?,
+);
+
+Map<String, dynamic> _$CallAnswerReceivedEventToJson(
+  CallAnswerReceivedEvent instance,
+) => <String, dynamic>{
+  'callId': instance.callId,
+  'fromUserId': instance.fromUserId,
+  'sdp': instance.sdp,
+  'type': instance.$type,
+};
+
+CallIceCandidateReceivedEvent _$CallIceCandidateReceivedEventFromJson(
+  Map<String, dynamic> json,
+) => CallIceCandidateReceivedEvent(
+  callId: json['callId'] as String,
+  fromUserId: json['fromUserId'] as String,
+  candidate: json['candidate'] as String,
+  $type: json['type'] as String?,
+);
+
+Map<String, dynamic> _$CallIceCandidateReceivedEventToJson(
+  CallIceCandidateReceivedEvent instance,
+) => <String, dynamic>{
+  'callId': instance.callId,
+  'fromUserId': instance.fromUserId,
+  'candidate': instance.candidate,
+  'type': instance.$type,
+};
+
+CallMuteChangedEvent _$CallMuteChangedEventFromJson(
+  Map<String, dynamic> json,
+) => CallMuteChangedEvent(
+  callId: json['callId'] as String,
+  userId: json['userId'] as String,
+  isMuted: json['isMuted'] as bool? ?? false,
+  $type: json['type'] as String?,
+);
+
+Map<String, dynamic> _$CallMuteChangedEventToJson(
+  CallMuteChangedEvent instance,
+) => <String, dynamic>{
+  'callId': instance.callId,
+  'userId': instance.userId,
+  'isMuted': instance.isMuted,
+  'type': instance.$type,
+};
+
+CallVideoChangedEvent _$CallVideoChangedEventFromJson(
+  Map<String, dynamic> json,
+) => CallVideoChangedEvent(
+  callId: json['callId'] as String,
+  userId: json['userId'] as String,
+  isVideoEnabled: json['isVideoEnabled'] as bool? ?? false,
+  $type: json['type'] as String?,
+);
+
+Map<String, dynamic> _$CallVideoChangedEventToJson(
+  CallVideoChangedEvent instance,
+) => <String, dynamic>{
+  'callId': instance.callId,
+  'userId': instance.userId,
+  'isVideoEnabled': instance.isVideoEnabled,
+  'type': instance.$type,
+};
+
+CallScreenShareChangedEvent _$CallScreenShareChangedEventFromJson(
+  Map<String, dynamic> json,
+) => CallScreenShareChangedEvent(
+  callId: json['callId'] as String,
+  userId: json['userId'] as String,
+  isScreenSharing: json['isScreenSharing'] as bool? ?? false,
+  $type: json['type'] as String?,
+);
+
+Map<String, dynamic> _$CallScreenShareChangedEventToJson(
+  CallScreenShareChangedEvent instance,
+) => <String, dynamic>{
+  'callId': instance.callId,
+  'userId': instance.userId,
+  'isScreenSharing': instance.isScreenSharing,
+  'type': instance.$type,
+};
+
 UnknownEvent _$UnknownEventFromJson(Map<String, dynamic> json) => UnknownEvent(
   type: json['type'] as String? ?? '',
   data: json['data'] as Map<String, dynamic>? ?? const <String, dynamic>{},

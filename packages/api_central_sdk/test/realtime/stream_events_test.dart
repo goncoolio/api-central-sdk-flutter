@@ -66,14 +66,14 @@ void main() {
       expect(burst.count, equals(12));
     });
 
-    test('les événements d appel restent en unknown', () {
+    test('un type inconnu du SDK reste en unknown', () {
       final event = parseRealtimeEvent(const {
-        'type': 'call_incoming',
-        'callId': 'c1',
+        'type': 'evenement_futur',
+        'donnee': 'x',
       });
 
       expect(event, isA<UnknownEvent>(),
-          reason: 'les appels sont typés en phase 5');
+          reason: 'le repli protège des évolutions du protocole');
     });
   });
 

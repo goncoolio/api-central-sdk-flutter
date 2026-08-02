@@ -18,6 +18,7 @@ class RealtimeModule {
   final WebSocketClient _client;
   final Set<String> _conversations = {};
   final Set<String> _streams = {};
+  final Set<String> _calls = {};
   StreamSubscription<ConnectionState>? _abonnementEtat;
 
   /// Conversations actuellement rejointes.
@@ -25,6 +26,9 @@ class RealtimeModule {
 
   /// Directs actuellement rejoints.
   Set<String> get joinedStreams => Set.unmodifiable(_streams);
+
+  /// Appels actuellement rejoints.
+  Set<String> get joinedCalls => Set.unmodifiable(_calls);
 
   Stream<RealtimeEvent> get events => _client.events;
   Stream<ConnectionState> get states => _client.states;
@@ -58,7 +62,38 @@ class RealtimeModule {
     for (final id in _streams) {
       _client.send('stream_join', {'streamId': id});
     }
+    for (final id in _calls) {
+      _client.send('call_join', {'callId': id});
+    }
   }
+
+  // --- Appels --------------------------------------------------------------
+
+  void joinCall(String callId) {
+    _calls.add(callId);
+    _client.send('call_join', {'callId': callId});
+  }
+
+  void leaveCall(String callId) {
+    _calls.remove(callId);
+    _client.send('call_leave', {'callId': callId});
+  }
+
+  /// Transmet une offre SDP. Alternative WebSocket à `calls.sendOffer`.
+  void sendCallOffer(String callId,
+          {required String toUserId, required String sdp}) =>
+      _client.send(
+          'call_offer', {'callId': callId, 'toUserId': toUserId, 'sdp': sdp});
+
+  void sendCallAnswer(String callId,
+          {required String toUserId, required String sdp}) =>
+      _client.send(
+          'call_answer', {'callId': callId, 'toUserId': toUserId, 'sdp': sdp});
+
+  void sendCallIceCandidate(String callId,
+          {required String toUserId, required String candidate}) =>
+      _client.send('call_ice_candidate',
+          {'callId': callId, 'toUserId': toUserId, 'candidate': candidate});
 
   // --- Directs -------------------------------------------------------------
 
@@ -130,6 +165,17 @@ class RealtimeModule {
   Stream<StreamEndedEvent> get onStreamEnded => on<StreamEndedEvent>();
   Stream<StreamReactionBurstEvent> get onStreamReactionBurst =>
       on<StreamReactionBurstEvent>();
+
+  Stream<CallIncomingEvent> get onCallIncoming => on<CallIncomingEvent>();
+  Stream<CallEndedEvent> get onCallEnded => on<CallEndedEvent>();
+  Stream<CallConnectedEvent> get onCallConnected => on<CallConnectedEvent>();
+  Stream<CallDeclinedEvent> get onCallDeclined => on<CallDeclinedEvent>();
+  Stream<CallOfferReceivedEvent> get onCallOfferReceived =>
+      on<CallOfferReceivedEvent>();
+  Stream<CallAnswerReceivedEvent> get onCallAnswerReceived =>
+      on<CallAnswerReceivedEvent>();
+  Stream<CallIceCandidateReceivedEvent> get onCallIceCandidateReceived =>
+      on<CallIceCandidateReceivedEvent>();
 
   /// Réémet les `conversation_join` mémorisés. Réservé aux tests.
   void debugSimulerReconnexion() => _rejoindreRooms();

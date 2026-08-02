@@ -59,16 +59,18 @@ void main() {
 
   group('parseRealtimeEvent', () {
     test('range les événements non typés dans unknown', () {
+      // Le SDK type désormais tous les événements de l'API : ce cas couvre une
+      // version future du serveur qui en introduirait un nouveau.
       final event = parseRealtimeEvent(const {
-        'type': 'call_incoming',
-        'callId': 'call-1',
-        'callerId': 'u9',
+        'type': 'evenement_futur',
+        'ressourceId': 'r-1',
+        'valeur': 42,
       });
 
       expect(event, isA<UnknownEvent>());
       final inconnu = event as UnknownEvent;
-      expect(inconnu.type, equals('call_incoming'));
-      expect(inconnu.data['callId'], equals('call-1'));
+      expect(inconnu.type, equals('evenement_futur'));
+      expect(inconnu.data['ressourceId'], equals('r-1'));
       expect(inconnu.data.containsKey('type'), isFalse,
           reason: 'le discriminant est extrait, pas dupliqué dans data');
     });
@@ -91,12 +93,12 @@ void main() {
     });
 
     test('permet un pattern matching exhaustif', () {
-      // `call_incoming` sera typé en phase 5 ; il sert ici de représentant des
-      // événements que le SDK ne connaît pas encore.
+      // Tous les événements de l'API sont désormais typés : on utilise un type
+      // fictif pour vérifier que le repli fonctionne toujours.
       const messages = <Map<String, dynamic>>[
         {'type': 'pong', 'timestamp': '2026-08-02T10:00:00Z'},
         {'type': 'notification_all_read'},
-        {'type': 'call_incoming', 'callId': 'c1'},
+        {'type': 'evenement_futur', 'donnee': 'x'},
       ];
 
       final libelles = messages.map(parseRealtimeEvent).map((event) =>
@@ -107,7 +109,7 @@ void main() {
             _ => 'autre',
           });
 
-      expect(libelles, equals(['pong', 'tout lu', 'inconnu:call_incoming']));
+      expect(libelles, equals(['pong', 'tout lu', 'inconnu:evenement_futur']));
     });
   });
 }

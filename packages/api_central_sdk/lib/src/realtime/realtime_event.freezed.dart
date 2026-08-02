@@ -119,6 +119,66 @@ RealtimeEvent _$RealtimeEventFromJson(
           return StreamReactionBurstEvent.fromJson(
             json
           );
+                case 'call_joined':
+          return CallJoinedEvent.fromJson(
+            json
+          );
+                case 'call_left':
+          return CallLeftEvent.fromJson(
+            json
+          );
+                case 'call_incoming':
+          return CallIncomingEvent.fromJson(
+            json
+          );
+                case 'call_answered':
+          return CallAnsweredEvent.fromJson(
+            json
+          );
+                case 'call_connected':
+          return CallConnectedEvent.fromJson(
+            json
+          );
+                case 'call_declined':
+          return CallDeclinedEvent.fromJson(
+            json
+          );
+                case 'call_ended':
+          return CallEndedEvent.fromJson(
+            json
+          );
+                case 'call_participant_joined':
+          return CallParticipantJoinedEvent.fromJson(
+            json
+          );
+                case 'call_participant_left':
+          return CallParticipantLeftEvent.fromJson(
+            json
+          );
+                case 'call_offer_received':
+          return CallOfferReceivedEvent.fromJson(
+            json
+          );
+                case 'call_answer_received':
+          return CallAnswerReceivedEvent.fromJson(
+            json
+          );
+                case 'call_ice_candidate_received':
+          return CallIceCandidateReceivedEvent.fromJson(
+            json
+          );
+                case 'call_mute_changed':
+          return CallMuteChangedEvent.fromJson(
+            json
+          );
+                case 'call_video_changed':
+          return CallVideoChangedEvent.fromJson(
+            json
+          );
+                case 'call_screen_share_changed':
+          return CallScreenShareChangedEvent.fromJson(
+            json
+          );
         
           default:
             return UnknownEvent.fromJson(
@@ -174,7 +234,7 @@ extension RealtimeEventPatterns on RealtimeEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( ConnectedEvent value)?  connected,TResult Function( ConversationJoinedEvent value)?  conversationJoined,TResult Function( ConversationLeftEvent value)?  conversationLeft,TResult Function( MessageNewEvent value)?  messageNew,TResult Function( MessageUpdatedEvent value)?  messageUpdated,TResult Function( MessageDeletedEvent value)?  messageDeleted,TResult Function( MessageReadEvent value)?  messageRead,TResult Function( MessageReactionAddedEvent value)?  messageReactionAdded,TResult Function( MessageReactionRemovedEvent value)?  messageReactionRemoved,TResult Function( TypingUpdateEvent value)?  typingUpdate,TResult Function( PresenceUpdateEvent value)?  presenceUpdate,TResult Function( NotificationNewEvent value)?  notificationNew,TResult Function( NotificationReadEvent value)?  notificationRead,TResult Function( NotificationAllReadEvent value)?  notificationAllRead,TResult Function( PongEvent value)?  pong,TResult Function( ErrorEvent value)?  errorEvent,TResult Function( StreamJoinedEvent value)?  streamJoined,TResult Function( StreamLeftEvent value)?  streamLeft,TResult Function( StreamStartedEvent value)?  streamStarted,TResult Function( StreamPausedEvent value)?  streamPaused,TResult Function( StreamEndedEvent value)?  streamEnded,TResult Function( StreamViewerCountEvent value)?  streamViewerCount,TResult Function( StreamViewerJoinedEvent value)?  streamViewerJoined,TResult Function( StreamViewerLeftEvent value)?  streamViewerLeft,TResult Function( StreamCommentNewEvent value)?  streamCommentNew,TResult Function( StreamReactionBurstEvent value)?  streamReactionBurst,TResult Function( UnknownEvent value)?  unknown,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( ConnectedEvent value)?  connected,TResult Function( ConversationJoinedEvent value)?  conversationJoined,TResult Function( ConversationLeftEvent value)?  conversationLeft,TResult Function( MessageNewEvent value)?  messageNew,TResult Function( MessageUpdatedEvent value)?  messageUpdated,TResult Function( MessageDeletedEvent value)?  messageDeleted,TResult Function( MessageReadEvent value)?  messageRead,TResult Function( MessageReactionAddedEvent value)?  messageReactionAdded,TResult Function( MessageReactionRemovedEvent value)?  messageReactionRemoved,TResult Function( TypingUpdateEvent value)?  typingUpdate,TResult Function( PresenceUpdateEvent value)?  presenceUpdate,TResult Function( NotificationNewEvent value)?  notificationNew,TResult Function( NotificationReadEvent value)?  notificationRead,TResult Function( NotificationAllReadEvent value)?  notificationAllRead,TResult Function( PongEvent value)?  pong,TResult Function( ErrorEvent value)?  errorEvent,TResult Function( StreamJoinedEvent value)?  streamJoined,TResult Function( StreamLeftEvent value)?  streamLeft,TResult Function( StreamStartedEvent value)?  streamStarted,TResult Function( StreamPausedEvent value)?  streamPaused,TResult Function( StreamEndedEvent value)?  streamEnded,TResult Function( StreamViewerCountEvent value)?  streamViewerCount,TResult Function( StreamViewerJoinedEvent value)?  streamViewerJoined,TResult Function( StreamViewerLeftEvent value)?  streamViewerLeft,TResult Function( StreamCommentNewEvent value)?  streamCommentNew,TResult Function( StreamReactionBurstEvent value)?  streamReactionBurst,TResult Function( CallJoinedEvent value)?  callJoined,TResult Function( CallLeftEvent value)?  callLeft,TResult Function( CallIncomingEvent value)?  callIncoming,TResult Function( CallAnsweredEvent value)?  callAnswered,TResult Function( CallConnectedEvent value)?  callConnected,TResult Function( CallDeclinedEvent value)?  callDeclined,TResult Function( CallEndedEvent value)?  callEnded,TResult Function( CallParticipantJoinedEvent value)?  callParticipantJoined,TResult Function( CallParticipantLeftEvent value)?  callParticipantLeft,TResult Function( CallOfferReceivedEvent value)?  callOfferReceived,TResult Function( CallAnswerReceivedEvent value)?  callAnswerReceived,TResult Function( CallIceCandidateReceivedEvent value)?  callIceCandidateReceived,TResult Function( CallMuteChangedEvent value)?  callMuteChanged,TResult Function( CallVideoChangedEvent value)?  callVideoChanged,TResult Function( CallScreenShareChangedEvent value)?  callScreenShareChanged,TResult Function( UnknownEvent value)?  unknown,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case ConnectedEvent() when connected != null:
@@ -203,7 +263,22 @@ return streamViewerCount(_that);case StreamViewerJoinedEvent() when streamViewer
 return streamViewerJoined(_that);case StreamViewerLeftEvent() when streamViewerLeft != null:
 return streamViewerLeft(_that);case StreamCommentNewEvent() when streamCommentNew != null:
 return streamCommentNew(_that);case StreamReactionBurstEvent() when streamReactionBurst != null:
-return streamReactionBurst(_that);case UnknownEvent() when unknown != null:
+return streamReactionBurst(_that);case CallJoinedEvent() when callJoined != null:
+return callJoined(_that);case CallLeftEvent() when callLeft != null:
+return callLeft(_that);case CallIncomingEvent() when callIncoming != null:
+return callIncoming(_that);case CallAnsweredEvent() when callAnswered != null:
+return callAnswered(_that);case CallConnectedEvent() when callConnected != null:
+return callConnected(_that);case CallDeclinedEvent() when callDeclined != null:
+return callDeclined(_that);case CallEndedEvent() when callEnded != null:
+return callEnded(_that);case CallParticipantJoinedEvent() when callParticipantJoined != null:
+return callParticipantJoined(_that);case CallParticipantLeftEvent() when callParticipantLeft != null:
+return callParticipantLeft(_that);case CallOfferReceivedEvent() when callOfferReceived != null:
+return callOfferReceived(_that);case CallAnswerReceivedEvent() when callAnswerReceived != null:
+return callAnswerReceived(_that);case CallIceCandidateReceivedEvent() when callIceCandidateReceived != null:
+return callIceCandidateReceived(_that);case CallMuteChangedEvent() when callMuteChanged != null:
+return callMuteChanged(_that);case CallVideoChangedEvent() when callVideoChanged != null:
+return callVideoChanged(_that);case CallScreenShareChangedEvent() when callScreenShareChanged != null:
+return callScreenShareChanged(_that);case UnknownEvent() when unknown != null:
 return unknown(_that);case _:
   return orElse();
 
@@ -222,7 +297,7 @@ return unknown(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( ConnectedEvent value)  connected,required TResult Function( ConversationJoinedEvent value)  conversationJoined,required TResult Function( ConversationLeftEvent value)  conversationLeft,required TResult Function( MessageNewEvent value)  messageNew,required TResult Function( MessageUpdatedEvent value)  messageUpdated,required TResult Function( MessageDeletedEvent value)  messageDeleted,required TResult Function( MessageReadEvent value)  messageRead,required TResult Function( MessageReactionAddedEvent value)  messageReactionAdded,required TResult Function( MessageReactionRemovedEvent value)  messageReactionRemoved,required TResult Function( TypingUpdateEvent value)  typingUpdate,required TResult Function( PresenceUpdateEvent value)  presenceUpdate,required TResult Function( NotificationNewEvent value)  notificationNew,required TResult Function( NotificationReadEvent value)  notificationRead,required TResult Function( NotificationAllReadEvent value)  notificationAllRead,required TResult Function( PongEvent value)  pong,required TResult Function( ErrorEvent value)  errorEvent,required TResult Function( StreamJoinedEvent value)  streamJoined,required TResult Function( StreamLeftEvent value)  streamLeft,required TResult Function( StreamStartedEvent value)  streamStarted,required TResult Function( StreamPausedEvent value)  streamPaused,required TResult Function( StreamEndedEvent value)  streamEnded,required TResult Function( StreamViewerCountEvent value)  streamViewerCount,required TResult Function( StreamViewerJoinedEvent value)  streamViewerJoined,required TResult Function( StreamViewerLeftEvent value)  streamViewerLeft,required TResult Function( StreamCommentNewEvent value)  streamCommentNew,required TResult Function( StreamReactionBurstEvent value)  streamReactionBurst,required TResult Function( UnknownEvent value)  unknown,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( ConnectedEvent value)  connected,required TResult Function( ConversationJoinedEvent value)  conversationJoined,required TResult Function( ConversationLeftEvent value)  conversationLeft,required TResult Function( MessageNewEvent value)  messageNew,required TResult Function( MessageUpdatedEvent value)  messageUpdated,required TResult Function( MessageDeletedEvent value)  messageDeleted,required TResult Function( MessageReadEvent value)  messageRead,required TResult Function( MessageReactionAddedEvent value)  messageReactionAdded,required TResult Function( MessageReactionRemovedEvent value)  messageReactionRemoved,required TResult Function( TypingUpdateEvent value)  typingUpdate,required TResult Function( PresenceUpdateEvent value)  presenceUpdate,required TResult Function( NotificationNewEvent value)  notificationNew,required TResult Function( NotificationReadEvent value)  notificationRead,required TResult Function( NotificationAllReadEvent value)  notificationAllRead,required TResult Function( PongEvent value)  pong,required TResult Function( ErrorEvent value)  errorEvent,required TResult Function( StreamJoinedEvent value)  streamJoined,required TResult Function( StreamLeftEvent value)  streamLeft,required TResult Function( StreamStartedEvent value)  streamStarted,required TResult Function( StreamPausedEvent value)  streamPaused,required TResult Function( StreamEndedEvent value)  streamEnded,required TResult Function( StreamViewerCountEvent value)  streamViewerCount,required TResult Function( StreamViewerJoinedEvent value)  streamViewerJoined,required TResult Function( StreamViewerLeftEvent value)  streamViewerLeft,required TResult Function( StreamCommentNewEvent value)  streamCommentNew,required TResult Function( StreamReactionBurstEvent value)  streamReactionBurst,required TResult Function( CallJoinedEvent value)  callJoined,required TResult Function( CallLeftEvent value)  callLeft,required TResult Function( CallIncomingEvent value)  callIncoming,required TResult Function( CallAnsweredEvent value)  callAnswered,required TResult Function( CallConnectedEvent value)  callConnected,required TResult Function( CallDeclinedEvent value)  callDeclined,required TResult Function( CallEndedEvent value)  callEnded,required TResult Function( CallParticipantJoinedEvent value)  callParticipantJoined,required TResult Function( CallParticipantLeftEvent value)  callParticipantLeft,required TResult Function( CallOfferReceivedEvent value)  callOfferReceived,required TResult Function( CallAnswerReceivedEvent value)  callAnswerReceived,required TResult Function( CallIceCandidateReceivedEvent value)  callIceCandidateReceived,required TResult Function( CallMuteChangedEvent value)  callMuteChanged,required TResult Function( CallVideoChangedEvent value)  callVideoChanged,required TResult Function( CallScreenShareChangedEvent value)  callScreenShareChanged,required TResult Function( UnknownEvent value)  unknown,}){
 final _that = this;
 switch (_that) {
 case ConnectedEvent():
@@ -251,7 +326,22 @@ return streamViewerCount(_that);case StreamViewerJoinedEvent():
 return streamViewerJoined(_that);case StreamViewerLeftEvent():
 return streamViewerLeft(_that);case StreamCommentNewEvent():
 return streamCommentNew(_that);case StreamReactionBurstEvent():
-return streamReactionBurst(_that);case UnknownEvent():
+return streamReactionBurst(_that);case CallJoinedEvent():
+return callJoined(_that);case CallLeftEvent():
+return callLeft(_that);case CallIncomingEvent():
+return callIncoming(_that);case CallAnsweredEvent():
+return callAnswered(_that);case CallConnectedEvent():
+return callConnected(_that);case CallDeclinedEvent():
+return callDeclined(_that);case CallEndedEvent():
+return callEnded(_that);case CallParticipantJoinedEvent():
+return callParticipantJoined(_that);case CallParticipantLeftEvent():
+return callParticipantLeft(_that);case CallOfferReceivedEvent():
+return callOfferReceived(_that);case CallAnswerReceivedEvent():
+return callAnswerReceived(_that);case CallIceCandidateReceivedEvent():
+return callIceCandidateReceived(_that);case CallMuteChangedEvent():
+return callMuteChanged(_that);case CallVideoChangedEvent():
+return callVideoChanged(_that);case CallScreenShareChangedEvent():
+return callScreenShareChanged(_that);case UnknownEvent():
 return unknown(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
@@ -266,7 +356,7 @@ return unknown(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( ConnectedEvent value)?  connected,TResult? Function( ConversationJoinedEvent value)?  conversationJoined,TResult? Function( ConversationLeftEvent value)?  conversationLeft,TResult? Function( MessageNewEvent value)?  messageNew,TResult? Function( MessageUpdatedEvent value)?  messageUpdated,TResult? Function( MessageDeletedEvent value)?  messageDeleted,TResult? Function( MessageReadEvent value)?  messageRead,TResult? Function( MessageReactionAddedEvent value)?  messageReactionAdded,TResult? Function( MessageReactionRemovedEvent value)?  messageReactionRemoved,TResult? Function( TypingUpdateEvent value)?  typingUpdate,TResult? Function( PresenceUpdateEvent value)?  presenceUpdate,TResult? Function( NotificationNewEvent value)?  notificationNew,TResult? Function( NotificationReadEvent value)?  notificationRead,TResult? Function( NotificationAllReadEvent value)?  notificationAllRead,TResult? Function( PongEvent value)?  pong,TResult? Function( ErrorEvent value)?  errorEvent,TResult? Function( StreamJoinedEvent value)?  streamJoined,TResult? Function( StreamLeftEvent value)?  streamLeft,TResult? Function( StreamStartedEvent value)?  streamStarted,TResult? Function( StreamPausedEvent value)?  streamPaused,TResult? Function( StreamEndedEvent value)?  streamEnded,TResult? Function( StreamViewerCountEvent value)?  streamViewerCount,TResult? Function( StreamViewerJoinedEvent value)?  streamViewerJoined,TResult? Function( StreamViewerLeftEvent value)?  streamViewerLeft,TResult? Function( StreamCommentNewEvent value)?  streamCommentNew,TResult? Function( StreamReactionBurstEvent value)?  streamReactionBurst,TResult? Function( UnknownEvent value)?  unknown,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( ConnectedEvent value)?  connected,TResult? Function( ConversationJoinedEvent value)?  conversationJoined,TResult? Function( ConversationLeftEvent value)?  conversationLeft,TResult? Function( MessageNewEvent value)?  messageNew,TResult? Function( MessageUpdatedEvent value)?  messageUpdated,TResult? Function( MessageDeletedEvent value)?  messageDeleted,TResult? Function( MessageReadEvent value)?  messageRead,TResult? Function( MessageReactionAddedEvent value)?  messageReactionAdded,TResult? Function( MessageReactionRemovedEvent value)?  messageReactionRemoved,TResult? Function( TypingUpdateEvent value)?  typingUpdate,TResult? Function( PresenceUpdateEvent value)?  presenceUpdate,TResult? Function( NotificationNewEvent value)?  notificationNew,TResult? Function( NotificationReadEvent value)?  notificationRead,TResult? Function( NotificationAllReadEvent value)?  notificationAllRead,TResult? Function( PongEvent value)?  pong,TResult? Function( ErrorEvent value)?  errorEvent,TResult? Function( StreamJoinedEvent value)?  streamJoined,TResult? Function( StreamLeftEvent value)?  streamLeft,TResult? Function( StreamStartedEvent value)?  streamStarted,TResult? Function( StreamPausedEvent value)?  streamPaused,TResult? Function( StreamEndedEvent value)?  streamEnded,TResult? Function( StreamViewerCountEvent value)?  streamViewerCount,TResult? Function( StreamViewerJoinedEvent value)?  streamViewerJoined,TResult? Function( StreamViewerLeftEvent value)?  streamViewerLeft,TResult? Function( StreamCommentNewEvent value)?  streamCommentNew,TResult? Function( StreamReactionBurstEvent value)?  streamReactionBurst,TResult? Function( CallJoinedEvent value)?  callJoined,TResult? Function( CallLeftEvent value)?  callLeft,TResult? Function( CallIncomingEvent value)?  callIncoming,TResult? Function( CallAnsweredEvent value)?  callAnswered,TResult? Function( CallConnectedEvent value)?  callConnected,TResult? Function( CallDeclinedEvent value)?  callDeclined,TResult? Function( CallEndedEvent value)?  callEnded,TResult? Function( CallParticipantJoinedEvent value)?  callParticipantJoined,TResult? Function( CallParticipantLeftEvent value)?  callParticipantLeft,TResult? Function( CallOfferReceivedEvent value)?  callOfferReceived,TResult? Function( CallAnswerReceivedEvent value)?  callAnswerReceived,TResult? Function( CallIceCandidateReceivedEvent value)?  callIceCandidateReceived,TResult? Function( CallMuteChangedEvent value)?  callMuteChanged,TResult? Function( CallVideoChangedEvent value)?  callVideoChanged,TResult? Function( CallScreenShareChangedEvent value)?  callScreenShareChanged,TResult? Function( UnknownEvent value)?  unknown,}){
 final _that = this;
 switch (_that) {
 case ConnectedEvent() when connected != null:
@@ -295,7 +385,22 @@ return streamViewerCount(_that);case StreamViewerJoinedEvent() when streamViewer
 return streamViewerJoined(_that);case StreamViewerLeftEvent() when streamViewerLeft != null:
 return streamViewerLeft(_that);case StreamCommentNewEvent() when streamCommentNew != null:
 return streamCommentNew(_that);case StreamReactionBurstEvent() when streamReactionBurst != null:
-return streamReactionBurst(_that);case UnknownEvent() when unknown != null:
+return streamReactionBurst(_that);case CallJoinedEvent() when callJoined != null:
+return callJoined(_that);case CallLeftEvent() when callLeft != null:
+return callLeft(_that);case CallIncomingEvent() when callIncoming != null:
+return callIncoming(_that);case CallAnsweredEvent() when callAnswered != null:
+return callAnswered(_that);case CallConnectedEvent() when callConnected != null:
+return callConnected(_that);case CallDeclinedEvent() when callDeclined != null:
+return callDeclined(_that);case CallEndedEvent() when callEnded != null:
+return callEnded(_that);case CallParticipantJoinedEvent() when callParticipantJoined != null:
+return callParticipantJoined(_that);case CallParticipantLeftEvent() when callParticipantLeft != null:
+return callParticipantLeft(_that);case CallOfferReceivedEvent() when callOfferReceived != null:
+return callOfferReceived(_that);case CallAnswerReceivedEvent() when callAnswerReceived != null:
+return callAnswerReceived(_that);case CallIceCandidateReceivedEvent() when callIceCandidateReceived != null:
+return callIceCandidateReceived(_that);case CallMuteChangedEvent() when callMuteChanged != null:
+return callMuteChanged(_that);case CallVideoChangedEvent() when callVideoChanged != null:
+return callVideoChanged(_that);case CallScreenShareChangedEvent() when callScreenShareChanged != null:
+return callScreenShareChanged(_that);case UnknownEvent() when unknown != null:
 return unknown(_that);case _:
   return null;
 
@@ -313,7 +418,7 @@ return unknown(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String? socketId,  Map<String, dynamic>? application,  Map<String, dynamic>? user)?  connected,TResult Function( String conversationId,  bool success)?  conversationJoined,TResult Function( String conversationId)?  conversationLeft,TResult Function( String id,  String conversationId,  String content,  String? senderId,  String? contentType,  String? createdAt,  List<String>? participants)?  messageNew,TResult Function( String id,  String conversationId,  String content,  String? senderId,  String? contentType,  String? createdAt)?  messageUpdated,TResult Function( String id,  String conversationId)?  messageDeleted,TResult Function( String conversationId,  String userId,  String lastReadMessageId,  String readAt)?  messageRead,TResult Function( String messageId,  String conversationId,  String userId,  String emoji)?  messageReactionAdded,TResult Function( String messageId,  String conversationId,  String userId,  String emoji)?  messageReactionRemoved,TResult Function( String conversationId,  List<String> userIds)?  typingUpdate,TResult Function( String userId,  String status,  String? timestamp)?  presenceUpdate,TResult Function( String id,  String title,  String body,  String? notificationType,  Map<String, dynamic>? data,  String? createdAt)?  notificationNew,TResult Function( List<String> notificationIds)?  notificationRead,TResult Function()?  notificationAllRead,TResult Function( String? timestamp)?  pong,TResult Function( String? code,  String? message)?  errorEvent,TResult Function( String streamId,  int viewerCount)?  streamJoined,TResult Function( String streamId)?  streamLeft,TResult Function( String streamId,  String title,  String? hostId,  String? hostName)?  streamStarted,TResult Function( String streamId)?  streamPaused,TResult Function( String streamId)?  streamEnded,TResult Function( String streamId,  int count)?  streamViewerCount,TResult Function( String streamId,  String userId,  String? userName)?  streamViewerJoined,TResult Function( String streamId,  String userId)?  streamViewerLeft,TResult Function( String streamId,  String commentId,  String userId,  String content,  String? userName)?  streamCommentNew,TResult Function( String streamId,  String emoji,  int count)?  streamReactionBurst,TResult Function( String type,  Map<String, dynamic> data)?  unknown,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String? socketId,  Map<String, dynamic>? application,  Map<String, dynamic>? user)?  connected,TResult Function( String conversationId,  bool success)?  conversationJoined,TResult Function( String conversationId)?  conversationLeft,TResult Function( String id,  String conversationId,  String content,  String? senderId,  String? contentType,  String? createdAt,  List<String>? participants)?  messageNew,TResult Function( String id,  String conversationId,  String content,  String? senderId,  String? contentType,  String? createdAt)?  messageUpdated,TResult Function( String id,  String conversationId)?  messageDeleted,TResult Function( String conversationId,  String userId,  String lastReadMessageId,  String readAt)?  messageRead,TResult Function( String messageId,  String conversationId,  String userId,  String emoji)?  messageReactionAdded,TResult Function( String messageId,  String conversationId,  String userId,  String emoji)?  messageReactionRemoved,TResult Function( String conversationId,  List<String> userIds)?  typingUpdate,TResult Function( String userId,  String status,  String? timestamp)?  presenceUpdate,TResult Function( String id,  String title,  String body,  String? notificationType,  Map<String, dynamic>? data,  String? createdAt)?  notificationNew,TResult Function( List<String> notificationIds)?  notificationRead,TResult Function()?  notificationAllRead,TResult Function( String? timestamp)?  pong,TResult Function( String? code,  String? message)?  errorEvent,TResult Function( String streamId,  int viewerCount)?  streamJoined,TResult Function( String streamId)?  streamLeft,TResult Function( String streamId,  String title,  String? hostId,  String? hostName)?  streamStarted,TResult Function( String streamId)?  streamPaused,TResult Function( String streamId)?  streamEnded,TResult Function( String streamId,  int count)?  streamViewerCount,TResult Function( String streamId,  String userId,  String? userName)?  streamViewerJoined,TResult Function( String streamId,  String userId)?  streamViewerLeft,TResult Function( String streamId,  String commentId,  String userId,  String content,  String? userName)?  streamCommentNew,TResult Function( String streamId,  String emoji,  int count)?  streamReactionBurst,TResult Function( String callId)?  callJoined,TResult Function( String callId)?  callLeft,TResult Function( String callId,  String callerId,  String? callerName,  String? callType)?  callIncoming,TResult Function( String callId,  String userId)?  callAnswered,TResult Function( String callId,  List<String> participantIds)?  callConnected,TResult Function( String callId,  String userId)?  callDeclined,TResult Function( String callId,  String? reason,  int? durationSeconds)?  callEnded,TResult Function( String callId,  String userId,  String? userName)?  callParticipantJoined,TResult Function( String callId,  String userId)?  callParticipantLeft,TResult Function( String callId,  String fromUserId,  String sdp)?  callOfferReceived,TResult Function( String callId,  String fromUserId,  String sdp)?  callAnswerReceived,TResult Function( String callId,  String fromUserId,  String candidate)?  callIceCandidateReceived,TResult Function( String callId,  String userId,  bool isMuted)?  callMuteChanged,TResult Function( String callId,  String userId,  bool isVideoEnabled)?  callVideoChanged,TResult Function( String callId,  String userId,  bool isScreenSharing)?  callScreenShareChanged,TResult Function( String type,  Map<String, dynamic> data)?  unknown,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case ConnectedEvent() when connected != null:
 return connected(_that.socketId,_that.application,_that.user);case ConversationJoinedEvent() when conversationJoined != null:
@@ -341,7 +446,22 @@ return streamViewerCount(_that.streamId,_that.count);case StreamViewerJoinedEven
 return streamViewerJoined(_that.streamId,_that.userId,_that.userName);case StreamViewerLeftEvent() when streamViewerLeft != null:
 return streamViewerLeft(_that.streamId,_that.userId);case StreamCommentNewEvent() when streamCommentNew != null:
 return streamCommentNew(_that.streamId,_that.commentId,_that.userId,_that.content,_that.userName);case StreamReactionBurstEvent() when streamReactionBurst != null:
-return streamReactionBurst(_that.streamId,_that.emoji,_that.count);case UnknownEvent() when unknown != null:
+return streamReactionBurst(_that.streamId,_that.emoji,_that.count);case CallJoinedEvent() when callJoined != null:
+return callJoined(_that.callId);case CallLeftEvent() when callLeft != null:
+return callLeft(_that.callId);case CallIncomingEvent() when callIncoming != null:
+return callIncoming(_that.callId,_that.callerId,_that.callerName,_that.callType);case CallAnsweredEvent() when callAnswered != null:
+return callAnswered(_that.callId,_that.userId);case CallConnectedEvent() when callConnected != null:
+return callConnected(_that.callId,_that.participantIds);case CallDeclinedEvent() when callDeclined != null:
+return callDeclined(_that.callId,_that.userId);case CallEndedEvent() when callEnded != null:
+return callEnded(_that.callId,_that.reason,_that.durationSeconds);case CallParticipantJoinedEvent() when callParticipantJoined != null:
+return callParticipantJoined(_that.callId,_that.userId,_that.userName);case CallParticipantLeftEvent() when callParticipantLeft != null:
+return callParticipantLeft(_that.callId,_that.userId);case CallOfferReceivedEvent() when callOfferReceived != null:
+return callOfferReceived(_that.callId,_that.fromUserId,_that.sdp);case CallAnswerReceivedEvent() when callAnswerReceived != null:
+return callAnswerReceived(_that.callId,_that.fromUserId,_that.sdp);case CallIceCandidateReceivedEvent() when callIceCandidateReceived != null:
+return callIceCandidateReceived(_that.callId,_that.fromUserId,_that.candidate);case CallMuteChangedEvent() when callMuteChanged != null:
+return callMuteChanged(_that.callId,_that.userId,_that.isMuted);case CallVideoChangedEvent() when callVideoChanged != null:
+return callVideoChanged(_that.callId,_that.userId,_that.isVideoEnabled);case CallScreenShareChangedEvent() when callScreenShareChanged != null:
+return callScreenShareChanged(_that.callId,_that.userId,_that.isScreenSharing);case UnknownEvent() when unknown != null:
 return unknown(_that.type,_that.data);case _:
   return orElse();
 
@@ -360,7 +480,7 @@ return unknown(_that.type,_that.data);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String? socketId,  Map<String, dynamic>? application,  Map<String, dynamic>? user)  connected,required TResult Function( String conversationId,  bool success)  conversationJoined,required TResult Function( String conversationId)  conversationLeft,required TResult Function( String id,  String conversationId,  String content,  String? senderId,  String? contentType,  String? createdAt,  List<String>? participants)  messageNew,required TResult Function( String id,  String conversationId,  String content,  String? senderId,  String? contentType,  String? createdAt)  messageUpdated,required TResult Function( String id,  String conversationId)  messageDeleted,required TResult Function( String conversationId,  String userId,  String lastReadMessageId,  String readAt)  messageRead,required TResult Function( String messageId,  String conversationId,  String userId,  String emoji)  messageReactionAdded,required TResult Function( String messageId,  String conversationId,  String userId,  String emoji)  messageReactionRemoved,required TResult Function( String conversationId,  List<String> userIds)  typingUpdate,required TResult Function( String userId,  String status,  String? timestamp)  presenceUpdate,required TResult Function( String id,  String title,  String body,  String? notificationType,  Map<String, dynamic>? data,  String? createdAt)  notificationNew,required TResult Function( List<String> notificationIds)  notificationRead,required TResult Function()  notificationAllRead,required TResult Function( String? timestamp)  pong,required TResult Function( String? code,  String? message)  errorEvent,required TResult Function( String streamId,  int viewerCount)  streamJoined,required TResult Function( String streamId)  streamLeft,required TResult Function( String streamId,  String title,  String? hostId,  String? hostName)  streamStarted,required TResult Function( String streamId)  streamPaused,required TResult Function( String streamId)  streamEnded,required TResult Function( String streamId,  int count)  streamViewerCount,required TResult Function( String streamId,  String userId,  String? userName)  streamViewerJoined,required TResult Function( String streamId,  String userId)  streamViewerLeft,required TResult Function( String streamId,  String commentId,  String userId,  String content,  String? userName)  streamCommentNew,required TResult Function( String streamId,  String emoji,  int count)  streamReactionBurst,required TResult Function( String type,  Map<String, dynamic> data)  unknown,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String? socketId,  Map<String, dynamic>? application,  Map<String, dynamic>? user)  connected,required TResult Function( String conversationId,  bool success)  conversationJoined,required TResult Function( String conversationId)  conversationLeft,required TResult Function( String id,  String conversationId,  String content,  String? senderId,  String? contentType,  String? createdAt,  List<String>? participants)  messageNew,required TResult Function( String id,  String conversationId,  String content,  String? senderId,  String? contentType,  String? createdAt)  messageUpdated,required TResult Function( String id,  String conversationId)  messageDeleted,required TResult Function( String conversationId,  String userId,  String lastReadMessageId,  String readAt)  messageRead,required TResult Function( String messageId,  String conversationId,  String userId,  String emoji)  messageReactionAdded,required TResult Function( String messageId,  String conversationId,  String userId,  String emoji)  messageReactionRemoved,required TResult Function( String conversationId,  List<String> userIds)  typingUpdate,required TResult Function( String userId,  String status,  String? timestamp)  presenceUpdate,required TResult Function( String id,  String title,  String body,  String? notificationType,  Map<String, dynamic>? data,  String? createdAt)  notificationNew,required TResult Function( List<String> notificationIds)  notificationRead,required TResult Function()  notificationAllRead,required TResult Function( String? timestamp)  pong,required TResult Function( String? code,  String? message)  errorEvent,required TResult Function( String streamId,  int viewerCount)  streamJoined,required TResult Function( String streamId)  streamLeft,required TResult Function( String streamId,  String title,  String? hostId,  String? hostName)  streamStarted,required TResult Function( String streamId)  streamPaused,required TResult Function( String streamId)  streamEnded,required TResult Function( String streamId,  int count)  streamViewerCount,required TResult Function( String streamId,  String userId,  String? userName)  streamViewerJoined,required TResult Function( String streamId,  String userId)  streamViewerLeft,required TResult Function( String streamId,  String commentId,  String userId,  String content,  String? userName)  streamCommentNew,required TResult Function( String streamId,  String emoji,  int count)  streamReactionBurst,required TResult Function( String callId)  callJoined,required TResult Function( String callId)  callLeft,required TResult Function( String callId,  String callerId,  String? callerName,  String? callType)  callIncoming,required TResult Function( String callId,  String userId)  callAnswered,required TResult Function( String callId,  List<String> participantIds)  callConnected,required TResult Function( String callId,  String userId)  callDeclined,required TResult Function( String callId,  String? reason,  int? durationSeconds)  callEnded,required TResult Function( String callId,  String userId,  String? userName)  callParticipantJoined,required TResult Function( String callId,  String userId)  callParticipantLeft,required TResult Function( String callId,  String fromUserId,  String sdp)  callOfferReceived,required TResult Function( String callId,  String fromUserId,  String sdp)  callAnswerReceived,required TResult Function( String callId,  String fromUserId,  String candidate)  callIceCandidateReceived,required TResult Function( String callId,  String userId,  bool isMuted)  callMuteChanged,required TResult Function( String callId,  String userId,  bool isVideoEnabled)  callVideoChanged,required TResult Function( String callId,  String userId,  bool isScreenSharing)  callScreenShareChanged,required TResult Function( String type,  Map<String, dynamic> data)  unknown,}) {final _that = this;
 switch (_that) {
 case ConnectedEvent():
 return connected(_that.socketId,_that.application,_that.user);case ConversationJoinedEvent():
@@ -388,7 +508,22 @@ return streamViewerCount(_that.streamId,_that.count);case StreamViewerJoinedEven
 return streamViewerJoined(_that.streamId,_that.userId,_that.userName);case StreamViewerLeftEvent():
 return streamViewerLeft(_that.streamId,_that.userId);case StreamCommentNewEvent():
 return streamCommentNew(_that.streamId,_that.commentId,_that.userId,_that.content,_that.userName);case StreamReactionBurstEvent():
-return streamReactionBurst(_that.streamId,_that.emoji,_that.count);case UnknownEvent():
+return streamReactionBurst(_that.streamId,_that.emoji,_that.count);case CallJoinedEvent():
+return callJoined(_that.callId);case CallLeftEvent():
+return callLeft(_that.callId);case CallIncomingEvent():
+return callIncoming(_that.callId,_that.callerId,_that.callerName,_that.callType);case CallAnsweredEvent():
+return callAnswered(_that.callId,_that.userId);case CallConnectedEvent():
+return callConnected(_that.callId,_that.participantIds);case CallDeclinedEvent():
+return callDeclined(_that.callId,_that.userId);case CallEndedEvent():
+return callEnded(_that.callId,_that.reason,_that.durationSeconds);case CallParticipantJoinedEvent():
+return callParticipantJoined(_that.callId,_that.userId,_that.userName);case CallParticipantLeftEvent():
+return callParticipantLeft(_that.callId,_that.userId);case CallOfferReceivedEvent():
+return callOfferReceived(_that.callId,_that.fromUserId,_that.sdp);case CallAnswerReceivedEvent():
+return callAnswerReceived(_that.callId,_that.fromUserId,_that.sdp);case CallIceCandidateReceivedEvent():
+return callIceCandidateReceived(_that.callId,_that.fromUserId,_that.candidate);case CallMuteChangedEvent():
+return callMuteChanged(_that.callId,_that.userId,_that.isMuted);case CallVideoChangedEvent():
+return callVideoChanged(_that.callId,_that.userId,_that.isVideoEnabled);case CallScreenShareChangedEvent():
+return callScreenShareChanged(_that.callId,_that.userId,_that.isScreenSharing);case UnknownEvent():
 return unknown(_that.type,_that.data);}
 }
 /// A variant of `when` that fallback to returning `null`
@@ -403,7 +538,7 @@ return unknown(_that.type,_that.data);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String? socketId,  Map<String, dynamic>? application,  Map<String, dynamic>? user)?  connected,TResult? Function( String conversationId,  bool success)?  conversationJoined,TResult? Function( String conversationId)?  conversationLeft,TResult? Function( String id,  String conversationId,  String content,  String? senderId,  String? contentType,  String? createdAt,  List<String>? participants)?  messageNew,TResult? Function( String id,  String conversationId,  String content,  String? senderId,  String? contentType,  String? createdAt)?  messageUpdated,TResult? Function( String id,  String conversationId)?  messageDeleted,TResult? Function( String conversationId,  String userId,  String lastReadMessageId,  String readAt)?  messageRead,TResult? Function( String messageId,  String conversationId,  String userId,  String emoji)?  messageReactionAdded,TResult? Function( String messageId,  String conversationId,  String userId,  String emoji)?  messageReactionRemoved,TResult? Function( String conversationId,  List<String> userIds)?  typingUpdate,TResult? Function( String userId,  String status,  String? timestamp)?  presenceUpdate,TResult? Function( String id,  String title,  String body,  String? notificationType,  Map<String, dynamic>? data,  String? createdAt)?  notificationNew,TResult? Function( List<String> notificationIds)?  notificationRead,TResult? Function()?  notificationAllRead,TResult? Function( String? timestamp)?  pong,TResult? Function( String? code,  String? message)?  errorEvent,TResult? Function( String streamId,  int viewerCount)?  streamJoined,TResult? Function( String streamId)?  streamLeft,TResult? Function( String streamId,  String title,  String? hostId,  String? hostName)?  streamStarted,TResult? Function( String streamId)?  streamPaused,TResult? Function( String streamId)?  streamEnded,TResult? Function( String streamId,  int count)?  streamViewerCount,TResult? Function( String streamId,  String userId,  String? userName)?  streamViewerJoined,TResult? Function( String streamId,  String userId)?  streamViewerLeft,TResult? Function( String streamId,  String commentId,  String userId,  String content,  String? userName)?  streamCommentNew,TResult? Function( String streamId,  String emoji,  int count)?  streamReactionBurst,TResult? Function( String type,  Map<String, dynamic> data)?  unknown,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String? socketId,  Map<String, dynamic>? application,  Map<String, dynamic>? user)?  connected,TResult? Function( String conversationId,  bool success)?  conversationJoined,TResult? Function( String conversationId)?  conversationLeft,TResult? Function( String id,  String conversationId,  String content,  String? senderId,  String? contentType,  String? createdAt,  List<String>? participants)?  messageNew,TResult? Function( String id,  String conversationId,  String content,  String? senderId,  String? contentType,  String? createdAt)?  messageUpdated,TResult? Function( String id,  String conversationId)?  messageDeleted,TResult? Function( String conversationId,  String userId,  String lastReadMessageId,  String readAt)?  messageRead,TResult? Function( String messageId,  String conversationId,  String userId,  String emoji)?  messageReactionAdded,TResult? Function( String messageId,  String conversationId,  String userId,  String emoji)?  messageReactionRemoved,TResult? Function( String conversationId,  List<String> userIds)?  typingUpdate,TResult? Function( String userId,  String status,  String? timestamp)?  presenceUpdate,TResult? Function( String id,  String title,  String body,  String? notificationType,  Map<String, dynamic>? data,  String? createdAt)?  notificationNew,TResult? Function( List<String> notificationIds)?  notificationRead,TResult? Function()?  notificationAllRead,TResult? Function( String? timestamp)?  pong,TResult? Function( String? code,  String? message)?  errorEvent,TResult? Function( String streamId,  int viewerCount)?  streamJoined,TResult? Function( String streamId)?  streamLeft,TResult? Function( String streamId,  String title,  String? hostId,  String? hostName)?  streamStarted,TResult? Function( String streamId)?  streamPaused,TResult? Function( String streamId)?  streamEnded,TResult? Function( String streamId,  int count)?  streamViewerCount,TResult? Function( String streamId,  String userId,  String? userName)?  streamViewerJoined,TResult? Function( String streamId,  String userId)?  streamViewerLeft,TResult? Function( String streamId,  String commentId,  String userId,  String content,  String? userName)?  streamCommentNew,TResult? Function( String streamId,  String emoji,  int count)?  streamReactionBurst,TResult? Function( String callId)?  callJoined,TResult? Function( String callId)?  callLeft,TResult? Function( String callId,  String callerId,  String? callerName,  String? callType)?  callIncoming,TResult? Function( String callId,  String userId)?  callAnswered,TResult? Function( String callId,  List<String> participantIds)?  callConnected,TResult? Function( String callId,  String userId)?  callDeclined,TResult? Function( String callId,  String? reason,  int? durationSeconds)?  callEnded,TResult? Function( String callId,  String userId,  String? userName)?  callParticipantJoined,TResult? Function( String callId,  String userId)?  callParticipantLeft,TResult? Function( String callId,  String fromUserId,  String sdp)?  callOfferReceived,TResult? Function( String callId,  String fromUserId,  String sdp)?  callAnswerReceived,TResult? Function( String callId,  String fromUserId,  String candidate)?  callIceCandidateReceived,TResult? Function( String callId,  String userId,  bool isMuted)?  callMuteChanged,TResult? Function( String callId,  String userId,  bool isVideoEnabled)?  callVideoChanged,TResult? Function( String callId,  String userId,  bool isScreenSharing)?  callScreenShareChanged,TResult? Function( String type,  Map<String, dynamic> data)?  unknown,}) {final _that = this;
 switch (_that) {
 case ConnectedEvent() when connected != null:
 return connected(_that.socketId,_that.application,_that.user);case ConversationJoinedEvent() when conversationJoined != null:
@@ -431,7 +566,22 @@ return streamViewerCount(_that.streamId,_that.count);case StreamViewerJoinedEven
 return streamViewerJoined(_that.streamId,_that.userId,_that.userName);case StreamViewerLeftEvent() when streamViewerLeft != null:
 return streamViewerLeft(_that.streamId,_that.userId);case StreamCommentNewEvent() when streamCommentNew != null:
 return streamCommentNew(_that.streamId,_that.commentId,_that.userId,_that.content,_that.userName);case StreamReactionBurstEvent() when streamReactionBurst != null:
-return streamReactionBurst(_that.streamId,_that.emoji,_that.count);case UnknownEvent() when unknown != null:
+return streamReactionBurst(_that.streamId,_that.emoji,_that.count);case CallJoinedEvent() when callJoined != null:
+return callJoined(_that.callId);case CallLeftEvent() when callLeft != null:
+return callLeft(_that.callId);case CallIncomingEvent() when callIncoming != null:
+return callIncoming(_that.callId,_that.callerId,_that.callerName,_that.callType);case CallAnsweredEvent() when callAnswered != null:
+return callAnswered(_that.callId,_that.userId);case CallConnectedEvent() when callConnected != null:
+return callConnected(_that.callId,_that.participantIds);case CallDeclinedEvent() when callDeclined != null:
+return callDeclined(_that.callId,_that.userId);case CallEndedEvent() when callEnded != null:
+return callEnded(_that.callId,_that.reason,_that.durationSeconds);case CallParticipantJoinedEvent() when callParticipantJoined != null:
+return callParticipantJoined(_that.callId,_that.userId,_that.userName);case CallParticipantLeftEvent() when callParticipantLeft != null:
+return callParticipantLeft(_that.callId,_that.userId);case CallOfferReceivedEvent() when callOfferReceived != null:
+return callOfferReceived(_that.callId,_that.fromUserId,_that.sdp);case CallAnswerReceivedEvent() when callAnswerReceived != null:
+return callAnswerReceived(_that.callId,_that.fromUserId,_that.sdp);case CallIceCandidateReceivedEvent() when callIceCandidateReceived != null:
+return callIceCandidateReceived(_that.callId,_that.fromUserId,_that.candidate);case CallMuteChangedEvent() when callMuteChanged != null:
+return callMuteChanged(_that.callId,_that.userId,_that.isMuted);case CallVideoChangedEvent() when callVideoChanged != null:
+return callVideoChanged(_that.callId,_that.userId,_that.isVideoEnabled);case CallScreenShareChangedEvent() when callScreenShareChanged != null:
+return callScreenShareChanged(_that.callId,_that.userId,_that.isScreenSharing);case UnknownEvent() when unknown != null:
 return unknown(_that.type,_that.data);case _:
   return null;
 
@@ -2436,6 +2586,1153 @@ streamId: null == streamId ? _self.streamId : streamId // ignore: cast_nullable_
 as String,emoji: null == emoji ? _self.emoji : emoji // ignore: cast_nullable_to_non_nullable
 as String,count: null == count ? _self.count : count // ignore: cast_nullable_to_non_nullable
 as int,
+  ));
+}
+
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class CallJoinedEvent implements RealtimeEvent {
+  const CallJoinedEvent({required this.callId, final  String? $type}): $type = $type ?? 'call_joined';
+  factory CallJoinedEvent.fromJson(Map<String, dynamic> json) => _$CallJoinedEventFromJson(json);
+
+ final  String callId;
+
+@JsonKey(name: 'type')
+final String $type;
+
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$CallJoinedEventCopyWith<CallJoinedEvent> get copyWith => _$CallJoinedEventCopyWithImpl<CallJoinedEvent>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$CallJoinedEventToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CallJoinedEvent&&(identical(other.callId, callId) || other.callId == callId));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,callId);
+
+@override
+String toString() {
+  return 'RealtimeEvent.callJoined(callId: $callId)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $CallJoinedEventCopyWith<$Res> implements $RealtimeEventCopyWith<$Res> {
+  factory $CallJoinedEventCopyWith(CallJoinedEvent value, $Res Function(CallJoinedEvent) _then) = _$CallJoinedEventCopyWithImpl;
+@useResult
+$Res call({
+ String callId
+});
+
+
+
+
+}
+/// @nodoc
+class _$CallJoinedEventCopyWithImpl<$Res>
+    implements $CallJoinedEventCopyWith<$Res> {
+  _$CallJoinedEventCopyWithImpl(this._self, this._then);
+
+  final CallJoinedEvent _self;
+  final $Res Function(CallJoinedEvent) _then;
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? callId = null,}) {
+  return _then(CallJoinedEvent(
+callId: null == callId ? _self.callId : callId // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class CallLeftEvent implements RealtimeEvent {
+  const CallLeftEvent({required this.callId, final  String? $type}): $type = $type ?? 'call_left';
+  factory CallLeftEvent.fromJson(Map<String, dynamic> json) => _$CallLeftEventFromJson(json);
+
+ final  String callId;
+
+@JsonKey(name: 'type')
+final String $type;
+
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$CallLeftEventCopyWith<CallLeftEvent> get copyWith => _$CallLeftEventCopyWithImpl<CallLeftEvent>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$CallLeftEventToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CallLeftEvent&&(identical(other.callId, callId) || other.callId == callId));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,callId);
+
+@override
+String toString() {
+  return 'RealtimeEvent.callLeft(callId: $callId)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $CallLeftEventCopyWith<$Res> implements $RealtimeEventCopyWith<$Res> {
+  factory $CallLeftEventCopyWith(CallLeftEvent value, $Res Function(CallLeftEvent) _then) = _$CallLeftEventCopyWithImpl;
+@useResult
+$Res call({
+ String callId
+});
+
+
+
+
+}
+/// @nodoc
+class _$CallLeftEventCopyWithImpl<$Res>
+    implements $CallLeftEventCopyWith<$Res> {
+  _$CallLeftEventCopyWithImpl(this._self, this._then);
+
+  final CallLeftEvent _self;
+  final $Res Function(CallLeftEvent) _then;
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? callId = null,}) {
+  return _then(CallLeftEvent(
+callId: null == callId ? _self.callId : callId // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class CallIncomingEvent implements RealtimeEvent {
+  const CallIncomingEvent({required this.callId, required this.callerId, this.callerName, this.callType, final  String? $type}): $type = $type ?? 'call_incoming';
+  factory CallIncomingEvent.fromJson(Map<String, dynamic> json) => _$CallIncomingEventFromJson(json);
+
+ final  String callId;
+ final  String callerId;
+ final  String? callerName;
+ final  String? callType;
+
+@JsonKey(name: 'type')
+final String $type;
+
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$CallIncomingEventCopyWith<CallIncomingEvent> get copyWith => _$CallIncomingEventCopyWithImpl<CallIncomingEvent>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$CallIncomingEventToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CallIncomingEvent&&(identical(other.callId, callId) || other.callId == callId)&&(identical(other.callerId, callerId) || other.callerId == callerId)&&(identical(other.callerName, callerName) || other.callerName == callerName)&&(identical(other.callType, callType) || other.callType == callType));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,callId,callerId,callerName,callType);
+
+@override
+String toString() {
+  return 'RealtimeEvent.callIncoming(callId: $callId, callerId: $callerId, callerName: $callerName, callType: $callType)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $CallIncomingEventCopyWith<$Res> implements $RealtimeEventCopyWith<$Res> {
+  factory $CallIncomingEventCopyWith(CallIncomingEvent value, $Res Function(CallIncomingEvent) _then) = _$CallIncomingEventCopyWithImpl;
+@useResult
+$Res call({
+ String callId, String callerId, String? callerName, String? callType
+});
+
+
+
+
+}
+/// @nodoc
+class _$CallIncomingEventCopyWithImpl<$Res>
+    implements $CallIncomingEventCopyWith<$Res> {
+  _$CallIncomingEventCopyWithImpl(this._self, this._then);
+
+  final CallIncomingEvent _self;
+  final $Res Function(CallIncomingEvent) _then;
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? callId = null,Object? callerId = null,Object? callerName = freezed,Object? callType = freezed,}) {
+  return _then(CallIncomingEvent(
+callId: null == callId ? _self.callId : callId // ignore: cast_nullable_to_non_nullable
+as String,callerId: null == callerId ? _self.callerId : callerId // ignore: cast_nullable_to_non_nullable
+as String,callerName: freezed == callerName ? _self.callerName : callerName // ignore: cast_nullable_to_non_nullable
+as String?,callType: freezed == callType ? _self.callType : callType // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class CallAnsweredEvent implements RealtimeEvent {
+  const CallAnsweredEvent({required this.callId, required this.userId, final  String? $type}): $type = $type ?? 'call_answered';
+  factory CallAnsweredEvent.fromJson(Map<String, dynamic> json) => _$CallAnsweredEventFromJson(json);
+
+ final  String callId;
+ final  String userId;
+
+@JsonKey(name: 'type')
+final String $type;
+
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$CallAnsweredEventCopyWith<CallAnsweredEvent> get copyWith => _$CallAnsweredEventCopyWithImpl<CallAnsweredEvent>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$CallAnsweredEventToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CallAnsweredEvent&&(identical(other.callId, callId) || other.callId == callId)&&(identical(other.userId, userId) || other.userId == userId));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,callId,userId);
+
+@override
+String toString() {
+  return 'RealtimeEvent.callAnswered(callId: $callId, userId: $userId)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $CallAnsweredEventCopyWith<$Res> implements $RealtimeEventCopyWith<$Res> {
+  factory $CallAnsweredEventCopyWith(CallAnsweredEvent value, $Res Function(CallAnsweredEvent) _then) = _$CallAnsweredEventCopyWithImpl;
+@useResult
+$Res call({
+ String callId, String userId
+});
+
+
+
+
+}
+/// @nodoc
+class _$CallAnsweredEventCopyWithImpl<$Res>
+    implements $CallAnsweredEventCopyWith<$Res> {
+  _$CallAnsweredEventCopyWithImpl(this._self, this._then);
+
+  final CallAnsweredEvent _self;
+  final $Res Function(CallAnsweredEvent) _then;
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? callId = null,Object? userId = null,}) {
+  return _then(CallAnsweredEvent(
+callId: null == callId ? _self.callId : callId // ignore: cast_nullable_to_non_nullable
+as String,userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class CallConnectedEvent implements RealtimeEvent {
+  const CallConnectedEvent({required this.callId, final  List<String> participantIds = const <String>[], final  String? $type}): _participantIds = participantIds,$type = $type ?? 'call_connected';
+  factory CallConnectedEvent.fromJson(Map<String, dynamic> json) => _$CallConnectedEventFromJson(json);
+
+ final  String callId;
+ final  List<String> _participantIds;
+@JsonKey() List<String> get participantIds {
+  if (_participantIds is EqualUnmodifiableListView) return _participantIds;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_participantIds);
+}
+
+
+@JsonKey(name: 'type')
+final String $type;
+
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$CallConnectedEventCopyWith<CallConnectedEvent> get copyWith => _$CallConnectedEventCopyWithImpl<CallConnectedEvent>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$CallConnectedEventToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CallConnectedEvent&&(identical(other.callId, callId) || other.callId == callId)&&const DeepCollectionEquality().equals(other._participantIds, _participantIds));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,callId,const DeepCollectionEquality().hash(_participantIds));
+
+@override
+String toString() {
+  return 'RealtimeEvent.callConnected(callId: $callId, participantIds: $participantIds)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $CallConnectedEventCopyWith<$Res> implements $RealtimeEventCopyWith<$Res> {
+  factory $CallConnectedEventCopyWith(CallConnectedEvent value, $Res Function(CallConnectedEvent) _then) = _$CallConnectedEventCopyWithImpl;
+@useResult
+$Res call({
+ String callId, List<String> participantIds
+});
+
+
+
+
+}
+/// @nodoc
+class _$CallConnectedEventCopyWithImpl<$Res>
+    implements $CallConnectedEventCopyWith<$Res> {
+  _$CallConnectedEventCopyWithImpl(this._self, this._then);
+
+  final CallConnectedEvent _self;
+  final $Res Function(CallConnectedEvent) _then;
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? callId = null,Object? participantIds = null,}) {
+  return _then(CallConnectedEvent(
+callId: null == callId ? _self.callId : callId // ignore: cast_nullable_to_non_nullable
+as String,participantIds: null == participantIds ? _self._participantIds : participantIds // ignore: cast_nullable_to_non_nullable
+as List<String>,
+  ));
+}
+
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class CallDeclinedEvent implements RealtimeEvent {
+  const CallDeclinedEvent({required this.callId, required this.userId, final  String? $type}): $type = $type ?? 'call_declined';
+  factory CallDeclinedEvent.fromJson(Map<String, dynamic> json) => _$CallDeclinedEventFromJson(json);
+
+ final  String callId;
+ final  String userId;
+
+@JsonKey(name: 'type')
+final String $type;
+
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$CallDeclinedEventCopyWith<CallDeclinedEvent> get copyWith => _$CallDeclinedEventCopyWithImpl<CallDeclinedEvent>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$CallDeclinedEventToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CallDeclinedEvent&&(identical(other.callId, callId) || other.callId == callId)&&(identical(other.userId, userId) || other.userId == userId));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,callId,userId);
+
+@override
+String toString() {
+  return 'RealtimeEvent.callDeclined(callId: $callId, userId: $userId)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $CallDeclinedEventCopyWith<$Res> implements $RealtimeEventCopyWith<$Res> {
+  factory $CallDeclinedEventCopyWith(CallDeclinedEvent value, $Res Function(CallDeclinedEvent) _then) = _$CallDeclinedEventCopyWithImpl;
+@useResult
+$Res call({
+ String callId, String userId
+});
+
+
+
+
+}
+/// @nodoc
+class _$CallDeclinedEventCopyWithImpl<$Res>
+    implements $CallDeclinedEventCopyWith<$Res> {
+  _$CallDeclinedEventCopyWithImpl(this._self, this._then);
+
+  final CallDeclinedEvent _self;
+  final $Res Function(CallDeclinedEvent) _then;
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? callId = null,Object? userId = null,}) {
+  return _then(CallDeclinedEvent(
+callId: null == callId ? _self.callId : callId // ignore: cast_nullable_to_non_nullable
+as String,userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class CallEndedEvent implements RealtimeEvent {
+  const CallEndedEvent({required this.callId, this.reason, this.durationSeconds, final  String? $type}): $type = $type ?? 'call_ended';
+  factory CallEndedEvent.fromJson(Map<String, dynamic> json) => _$CallEndedEventFromJson(json);
+
+ final  String callId;
+ final  String? reason;
+ final  int? durationSeconds;
+
+@JsonKey(name: 'type')
+final String $type;
+
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$CallEndedEventCopyWith<CallEndedEvent> get copyWith => _$CallEndedEventCopyWithImpl<CallEndedEvent>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$CallEndedEventToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CallEndedEvent&&(identical(other.callId, callId) || other.callId == callId)&&(identical(other.reason, reason) || other.reason == reason)&&(identical(other.durationSeconds, durationSeconds) || other.durationSeconds == durationSeconds));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,callId,reason,durationSeconds);
+
+@override
+String toString() {
+  return 'RealtimeEvent.callEnded(callId: $callId, reason: $reason, durationSeconds: $durationSeconds)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $CallEndedEventCopyWith<$Res> implements $RealtimeEventCopyWith<$Res> {
+  factory $CallEndedEventCopyWith(CallEndedEvent value, $Res Function(CallEndedEvent) _then) = _$CallEndedEventCopyWithImpl;
+@useResult
+$Res call({
+ String callId, String? reason, int? durationSeconds
+});
+
+
+
+
+}
+/// @nodoc
+class _$CallEndedEventCopyWithImpl<$Res>
+    implements $CallEndedEventCopyWith<$Res> {
+  _$CallEndedEventCopyWithImpl(this._self, this._then);
+
+  final CallEndedEvent _self;
+  final $Res Function(CallEndedEvent) _then;
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? callId = null,Object? reason = freezed,Object? durationSeconds = freezed,}) {
+  return _then(CallEndedEvent(
+callId: null == callId ? _self.callId : callId // ignore: cast_nullable_to_non_nullable
+as String,reason: freezed == reason ? _self.reason : reason // ignore: cast_nullable_to_non_nullable
+as String?,durationSeconds: freezed == durationSeconds ? _self.durationSeconds : durationSeconds // ignore: cast_nullable_to_non_nullable
+as int?,
+  ));
+}
+
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class CallParticipantJoinedEvent implements RealtimeEvent {
+  const CallParticipantJoinedEvent({required this.callId, required this.userId, this.userName, final  String? $type}): $type = $type ?? 'call_participant_joined';
+  factory CallParticipantJoinedEvent.fromJson(Map<String, dynamic> json) => _$CallParticipantJoinedEventFromJson(json);
+
+ final  String callId;
+ final  String userId;
+ final  String? userName;
+
+@JsonKey(name: 'type')
+final String $type;
+
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$CallParticipantJoinedEventCopyWith<CallParticipantJoinedEvent> get copyWith => _$CallParticipantJoinedEventCopyWithImpl<CallParticipantJoinedEvent>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$CallParticipantJoinedEventToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CallParticipantJoinedEvent&&(identical(other.callId, callId) || other.callId == callId)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.userName, userName) || other.userName == userName));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,callId,userId,userName);
+
+@override
+String toString() {
+  return 'RealtimeEvent.callParticipantJoined(callId: $callId, userId: $userId, userName: $userName)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $CallParticipantJoinedEventCopyWith<$Res> implements $RealtimeEventCopyWith<$Res> {
+  factory $CallParticipantJoinedEventCopyWith(CallParticipantJoinedEvent value, $Res Function(CallParticipantJoinedEvent) _then) = _$CallParticipantJoinedEventCopyWithImpl;
+@useResult
+$Res call({
+ String callId, String userId, String? userName
+});
+
+
+
+
+}
+/// @nodoc
+class _$CallParticipantJoinedEventCopyWithImpl<$Res>
+    implements $CallParticipantJoinedEventCopyWith<$Res> {
+  _$CallParticipantJoinedEventCopyWithImpl(this._self, this._then);
+
+  final CallParticipantJoinedEvent _self;
+  final $Res Function(CallParticipantJoinedEvent) _then;
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? callId = null,Object? userId = null,Object? userName = freezed,}) {
+  return _then(CallParticipantJoinedEvent(
+callId: null == callId ? _self.callId : callId // ignore: cast_nullable_to_non_nullable
+as String,userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
+as String,userName: freezed == userName ? _self.userName : userName // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class CallParticipantLeftEvent implements RealtimeEvent {
+  const CallParticipantLeftEvent({required this.callId, required this.userId, final  String? $type}): $type = $type ?? 'call_participant_left';
+  factory CallParticipantLeftEvent.fromJson(Map<String, dynamic> json) => _$CallParticipantLeftEventFromJson(json);
+
+ final  String callId;
+ final  String userId;
+
+@JsonKey(name: 'type')
+final String $type;
+
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$CallParticipantLeftEventCopyWith<CallParticipantLeftEvent> get copyWith => _$CallParticipantLeftEventCopyWithImpl<CallParticipantLeftEvent>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$CallParticipantLeftEventToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CallParticipantLeftEvent&&(identical(other.callId, callId) || other.callId == callId)&&(identical(other.userId, userId) || other.userId == userId));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,callId,userId);
+
+@override
+String toString() {
+  return 'RealtimeEvent.callParticipantLeft(callId: $callId, userId: $userId)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $CallParticipantLeftEventCopyWith<$Res> implements $RealtimeEventCopyWith<$Res> {
+  factory $CallParticipantLeftEventCopyWith(CallParticipantLeftEvent value, $Res Function(CallParticipantLeftEvent) _then) = _$CallParticipantLeftEventCopyWithImpl;
+@useResult
+$Res call({
+ String callId, String userId
+});
+
+
+
+
+}
+/// @nodoc
+class _$CallParticipantLeftEventCopyWithImpl<$Res>
+    implements $CallParticipantLeftEventCopyWith<$Res> {
+  _$CallParticipantLeftEventCopyWithImpl(this._self, this._then);
+
+  final CallParticipantLeftEvent _self;
+  final $Res Function(CallParticipantLeftEvent) _then;
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? callId = null,Object? userId = null,}) {
+  return _then(CallParticipantLeftEvent(
+callId: null == callId ? _self.callId : callId // ignore: cast_nullable_to_non_nullable
+as String,userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class CallOfferReceivedEvent implements RealtimeEvent {
+  const CallOfferReceivedEvent({required this.callId, required this.fromUserId, required this.sdp, final  String? $type}): $type = $type ?? 'call_offer_received';
+  factory CallOfferReceivedEvent.fromJson(Map<String, dynamic> json) => _$CallOfferReceivedEventFromJson(json);
+
+ final  String callId;
+ final  String fromUserId;
+ final  String sdp;
+
+@JsonKey(name: 'type')
+final String $type;
+
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$CallOfferReceivedEventCopyWith<CallOfferReceivedEvent> get copyWith => _$CallOfferReceivedEventCopyWithImpl<CallOfferReceivedEvent>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$CallOfferReceivedEventToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CallOfferReceivedEvent&&(identical(other.callId, callId) || other.callId == callId)&&(identical(other.fromUserId, fromUserId) || other.fromUserId == fromUserId)&&(identical(other.sdp, sdp) || other.sdp == sdp));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,callId,fromUserId,sdp);
+
+@override
+String toString() {
+  return 'RealtimeEvent.callOfferReceived(callId: $callId, fromUserId: $fromUserId, sdp: $sdp)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $CallOfferReceivedEventCopyWith<$Res> implements $RealtimeEventCopyWith<$Res> {
+  factory $CallOfferReceivedEventCopyWith(CallOfferReceivedEvent value, $Res Function(CallOfferReceivedEvent) _then) = _$CallOfferReceivedEventCopyWithImpl;
+@useResult
+$Res call({
+ String callId, String fromUserId, String sdp
+});
+
+
+
+
+}
+/// @nodoc
+class _$CallOfferReceivedEventCopyWithImpl<$Res>
+    implements $CallOfferReceivedEventCopyWith<$Res> {
+  _$CallOfferReceivedEventCopyWithImpl(this._self, this._then);
+
+  final CallOfferReceivedEvent _self;
+  final $Res Function(CallOfferReceivedEvent) _then;
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? callId = null,Object? fromUserId = null,Object? sdp = null,}) {
+  return _then(CallOfferReceivedEvent(
+callId: null == callId ? _self.callId : callId // ignore: cast_nullable_to_non_nullable
+as String,fromUserId: null == fromUserId ? _self.fromUserId : fromUserId // ignore: cast_nullable_to_non_nullable
+as String,sdp: null == sdp ? _self.sdp : sdp // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class CallAnswerReceivedEvent implements RealtimeEvent {
+  const CallAnswerReceivedEvent({required this.callId, required this.fromUserId, required this.sdp, final  String? $type}): $type = $type ?? 'call_answer_received';
+  factory CallAnswerReceivedEvent.fromJson(Map<String, dynamic> json) => _$CallAnswerReceivedEventFromJson(json);
+
+ final  String callId;
+ final  String fromUserId;
+ final  String sdp;
+
+@JsonKey(name: 'type')
+final String $type;
+
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$CallAnswerReceivedEventCopyWith<CallAnswerReceivedEvent> get copyWith => _$CallAnswerReceivedEventCopyWithImpl<CallAnswerReceivedEvent>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$CallAnswerReceivedEventToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CallAnswerReceivedEvent&&(identical(other.callId, callId) || other.callId == callId)&&(identical(other.fromUserId, fromUserId) || other.fromUserId == fromUserId)&&(identical(other.sdp, sdp) || other.sdp == sdp));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,callId,fromUserId,sdp);
+
+@override
+String toString() {
+  return 'RealtimeEvent.callAnswerReceived(callId: $callId, fromUserId: $fromUserId, sdp: $sdp)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $CallAnswerReceivedEventCopyWith<$Res> implements $RealtimeEventCopyWith<$Res> {
+  factory $CallAnswerReceivedEventCopyWith(CallAnswerReceivedEvent value, $Res Function(CallAnswerReceivedEvent) _then) = _$CallAnswerReceivedEventCopyWithImpl;
+@useResult
+$Res call({
+ String callId, String fromUserId, String sdp
+});
+
+
+
+
+}
+/// @nodoc
+class _$CallAnswerReceivedEventCopyWithImpl<$Res>
+    implements $CallAnswerReceivedEventCopyWith<$Res> {
+  _$CallAnswerReceivedEventCopyWithImpl(this._self, this._then);
+
+  final CallAnswerReceivedEvent _self;
+  final $Res Function(CallAnswerReceivedEvent) _then;
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? callId = null,Object? fromUserId = null,Object? sdp = null,}) {
+  return _then(CallAnswerReceivedEvent(
+callId: null == callId ? _self.callId : callId // ignore: cast_nullable_to_non_nullable
+as String,fromUserId: null == fromUserId ? _self.fromUserId : fromUserId // ignore: cast_nullable_to_non_nullable
+as String,sdp: null == sdp ? _self.sdp : sdp // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class CallIceCandidateReceivedEvent implements RealtimeEvent {
+  const CallIceCandidateReceivedEvent({required this.callId, required this.fromUserId, required this.candidate, final  String? $type}): $type = $type ?? 'call_ice_candidate_received';
+  factory CallIceCandidateReceivedEvent.fromJson(Map<String, dynamic> json) => _$CallIceCandidateReceivedEventFromJson(json);
+
+ final  String callId;
+ final  String fromUserId;
+ final  String candidate;
+
+@JsonKey(name: 'type')
+final String $type;
+
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$CallIceCandidateReceivedEventCopyWith<CallIceCandidateReceivedEvent> get copyWith => _$CallIceCandidateReceivedEventCopyWithImpl<CallIceCandidateReceivedEvent>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$CallIceCandidateReceivedEventToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CallIceCandidateReceivedEvent&&(identical(other.callId, callId) || other.callId == callId)&&(identical(other.fromUserId, fromUserId) || other.fromUserId == fromUserId)&&(identical(other.candidate, candidate) || other.candidate == candidate));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,callId,fromUserId,candidate);
+
+@override
+String toString() {
+  return 'RealtimeEvent.callIceCandidateReceived(callId: $callId, fromUserId: $fromUserId, candidate: $candidate)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $CallIceCandidateReceivedEventCopyWith<$Res> implements $RealtimeEventCopyWith<$Res> {
+  factory $CallIceCandidateReceivedEventCopyWith(CallIceCandidateReceivedEvent value, $Res Function(CallIceCandidateReceivedEvent) _then) = _$CallIceCandidateReceivedEventCopyWithImpl;
+@useResult
+$Res call({
+ String callId, String fromUserId, String candidate
+});
+
+
+
+
+}
+/// @nodoc
+class _$CallIceCandidateReceivedEventCopyWithImpl<$Res>
+    implements $CallIceCandidateReceivedEventCopyWith<$Res> {
+  _$CallIceCandidateReceivedEventCopyWithImpl(this._self, this._then);
+
+  final CallIceCandidateReceivedEvent _self;
+  final $Res Function(CallIceCandidateReceivedEvent) _then;
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? callId = null,Object? fromUserId = null,Object? candidate = null,}) {
+  return _then(CallIceCandidateReceivedEvent(
+callId: null == callId ? _self.callId : callId // ignore: cast_nullable_to_non_nullable
+as String,fromUserId: null == fromUserId ? _self.fromUserId : fromUserId // ignore: cast_nullable_to_non_nullable
+as String,candidate: null == candidate ? _self.candidate : candidate // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class CallMuteChangedEvent implements RealtimeEvent {
+  const CallMuteChangedEvent({required this.callId, required this.userId, this.isMuted = false, final  String? $type}): $type = $type ?? 'call_mute_changed';
+  factory CallMuteChangedEvent.fromJson(Map<String, dynamic> json) => _$CallMuteChangedEventFromJson(json);
+
+ final  String callId;
+ final  String userId;
+@JsonKey() final  bool isMuted;
+
+@JsonKey(name: 'type')
+final String $type;
+
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$CallMuteChangedEventCopyWith<CallMuteChangedEvent> get copyWith => _$CallMuteChangedEventCopyWithImpl<CallMuteChangedEvent>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$CallMuteChangedEventToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CallMuteChangedEvent&&(identical(other.callId, callId) || other.callId == callId)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.isMuted, isMuted) || other.isMuted == isMuted));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,callId,userId,isMuted);
+
+@override
+String toString() {
+  return 'RealtimeEvent.callMuteChanged(callId: $callId, userId: $userId, isMuted: $isMuted)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $CallMuteChangedEventCopyWith<$Res> implements $RealtimeEventCopyWith<$Res> {
+  factory $CallMuteChangedEventCopyWith(CallMuteChangedEvent value, $Res Function(CallMuteChangedEvent) _then) = _$CallMuteChangedEventCopyWithImpl;
+@useResult
+$Res call({
+ String callId, String userId, bool isMuted
+});
+
+
+
+
+}
+/// @nodoc
+class _$CallMuteChangedEventCopyWithImpl<$Res>
+    implements $CallMuteChangedEventCopyWith<$Res> {
+  _$CallMuteChangedEventCopyWithImpl(this._self, this._then);
+
+  final CallMuteChangedEvent _self;
+  final $Res Function(CallMuteChangedEvent) _then;
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? callId = null,Object? userId = null,Object? isMuted = null,}) {
+  return _then(CallMuteChangedEvent(
+callId: null == callId ? _self.callId : callId // ignore: cast_nullable_to_non_nullable
+as String,userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
+as String,isMuted: null == isMuted ? _self.isMuted : isMuted // ignore: cast_nullable_to_non_nullable
+as bool,
+  ));
+}
+
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class CallVideoChangedEvent implements RealtimeEvent {
+  const CallVideoChangedEvent({required this.callId, required this.userId, this.isVideoEnabled = false, final  String? $type}): $type = $type ?? 'call_video_changed';
+  factory CallVideoChangedEvent.fromJson(Map<String, dynamic> json) => _$CallVideoChangedEventFromJson(json);
+
+ final  String callId;
+ final  String userId;
+@JsonKey() final  bool isVideoEnabled;
+
+@JsonKey(name: 'type')
+final String $type;
+
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$CallVideoChangedEventCopyWith<CallVideoChangedEvent> get copyWith => _$CallVideoChangedEventCopyWithImpl<CallVideoChangedEvent>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$CallVideoChangedEventToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CallVideoChangedEvent&&(identical(other.callId, callId) || other.callId == callId)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.isVideoEnabled, isVideoEnabled) || other.isVideoEnabled == isVideoEnabled));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,callId,userId,isVideoEnabled);
+
+@override
+String toString() {
+  return 'RealtimeEvent.callVideoChanged(callId: $callId, userId: $userId, isVideoEnabled: $isVideoEnabled)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $CallVideoChangedEventCopyWith<$Res> implements $RealtimeEventCopyWith<$Res> {
+  factory $CallVideoChangedEventCopyWith(CallVideoChangedEvent value, $Res Function(CallVideoChangedEvent) _then) = _$CallVideoChangedEventCopyWithImpl;
+@useResult
+$Res call({
+ String callId, String userId, bool isVideoEnabled
+});
+
+
+
+
+}
+/// @nodoc
+class _$CallVideoChangedEventCopyWithImpl<$Res>
+    implements $CallVideoChangedEventCopyWith<$Res> {
+  _$CallVideoChangedEventCopyWithImpl(this._self, this._then);
+
+  final CallVideoChangedEvent _self;
+  final $Res Function(CallVideoChangedEvent) _then;
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? callId = null,Object? userId = null,Object? isVideoEnabled = null,}) {
+  return _then(CallVideoChangedEvent(
+callId: null == callId ? _self.callId : callId // ignore: cast_nullable_to_non_nullable
+as String,userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
+as String,isVideoEnabled: null == isVideoEnabled ? _self.isVideoEnabled : isVideoEnabled // ignore: cast_nullable_to_non_nullable
+as bool,
+  ));
+}
+
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class CallScreenShareChangedEvent implements RealtimeEvent {
+  const CallScreenShareChangedEvent({required this.callId, required this.userId, this.isScreenSharing = false, final  String? $type}): $type = $type ?? 'call_screen_share_changed';
+  factory CallScreenShareChangedEvent.fromJson(Map<String, dynamic> json) => _$CallScreenShareChangedEventFromJson(json);
+
+ final  String callId;
+ final  String userId;
+@JsonKey() final  bool isScreenSharing;
+
+@JsonKey(name: 'type')
+final String $type;
+
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$CallScreenShareChangedEventCopyWith<CallScreenShareChangedEvent> get copyWith => _$CallScreenShareChangedEventCopyWithImpl<CallScreenShareChangedEvent>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$CallScreenShareChangedEventToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CallScreenShareChangedEvent&&(identical(other.callId, callId) || other.callId == callId)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.isScreenSharing, isScreenSharing) || other.isScreenSharing == isScreenSharing));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,callId,userId,isScreenSharing);
+
+@override
+String toString() {
+  return 'RealtimeEvent.callScreenShareChanged(callId: $callId, userId: $userId, isScreenSharing: $isScreenSharing)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $CallScreenShareChangedEventCopyWith<$Res> implements $RealtimeEventCopyWith<$Res> {
+  factory $CallScreenShareChangedEventCopyWith(CallScreenShareChangedEvent value, $Res Function(CallScreenShareChangedEvent) _then) = _$CallScreenShareChangedEventCopyWithImpl;
+@useResult
+$Res call({
+ String callId, String userId, bool isScreenSharing
+});
+
+
+
+
+}
+/// @nodoc
+class _$CallScreenShareChangedEventCopyWithImpl<$Res>
+    implements $CallScreenShareChangedEventCopyWith<$Res> {
+  _$CallScreenShareChangedEventCopyWithImpl(this._self, this._then);
+
+  final CallScreenShareChangedEvent _self;
+  final $Res Function(CallScreenShareChangedEvent) _then;
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? callId = null,Object? userId = null,Object? isScreenSharing = null,}) {
+  return _then(CallScreenShareChangedEvent(
+callId: null == callId ? _self.callId : callId // ignore: cast_nullable_to_non_nullable
+as String,userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
+as String,isScreenSharing: null == isScreenSharing ? _self.isScreenSharing : isScreenSharing // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 

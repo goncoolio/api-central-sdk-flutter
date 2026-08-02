@@ -31,6 +31,21 @@ const _typesConnus = <String>{
   'stream_viewer_left',
   'stream_comment_new',
   'stream_reaction_burst',
+  'call_joined',
+  'call_left',
+  'call_incoming',
+  'call_answered',
+  'call_connected',
+  'call_declined',
+  'call_ended',
+  'call_participant_joined',
+  'call_participant_left',
+  'call_offer_received',
+  'call_answer_received',
+  'call_ice_candidate_received',
+  'call_mute_changed',
+  'call_video_changed',
+  'call_screen_share_changed',
 };
 
 /// Convertit un message brut du WebSocket en [RealtimeEvent].
@@ -230,6 +245,106 @@ sealed class RealtimeEvent with _$RealtimeEvent {
     required String emoji,
     @Default(0) int count,
   }) = StreamReactionBurstEvent;
+
+  // --- Appels --------------------------------------------------------------
+
+  @FreezedUnionValue('call_joined')
+  const factory RealtimeEvent.callJoined({required String callId}) =
+      CallJoinedEvent;
+
+  @FreezedUnionValue('call_left')
+  const factory RealtimeEvent.callLeft({required String callId}) =
+      CallLeftEvent;
+
+  /// Appel entrant : c'est cet événement qui déclenche l'écran de sonnerie.
+  @FreezedUnionValue('call_incoming')
+  const factory RealtimeEvent.callIncoming({
+    required String callId,
+    required String callerId,
+    String? callerName,
+    String? callType,
+  }) = CallIncomingEvent;
+
+  @FreezedUnionValue('call_answered')
+  const factory RealtimeEvent.callAnswered({
+    required String callId,
+    required String userId,
+  }) = CallAnsweredEvent;
+
+  @FreezedUnionValue('call_connected')
+  const factory RealtimeEvent.callConnected({
+    required String callId,
+    @Default(<String>[]) List<String> participantIds,
+  }) = CallConnectedEvent;
+
+  @FreezedUnionValue('call_declined')
+  const factory RealtimeEvent.callDeclined({
+    required String callId,
+    required String userId,
+  }) = CallDeclinedEvent;
+
+  @FreezedUnionValue('call_ended')
+  const factory RealtimeEvent.callEnded({
+    required String callId,
+    String? reason,
+    int? durationSeconds,
+  }) = CallEndedEvent;
+
+  @FreezedUnionValue('call_participant_joined')
+  const factory RealtimeEvent.callParticipantJoined({
+    required String callId,
+    required String userId,
+    String? userName,
+  }) = CallParticipantJoinedEvent;
+
+  @FreezedUnionValue('call_participant_left')
+  const factory RealtimeEvent.callParticipantLeft({
+    required String callId,
+    required String userId,
+  }) = CallParticipantLeftEvent;
+
+  /// Offre SDP reçue : à passer à `setRemoteDescription`.
+  @FreezedUnionValue('call_offer_received')
+  const factory RealtimeEvent.callOfferReceived({
+    required String callId,
+    required String fromUserId,
+    required String sdp,
+  }) = CallOfferReceivedEvent;
+
+  @FreezedUnionValue('call_answer_received')
+  const factory RealtimeEvent.callAnswerReceived({
+    required String callId,
+    required String fromUserId,
+    required String sdp,
+  }) = CallAnswerReceivedEvent;
+
+  @FreezedUnionValue('call_ice_candidate_received')
+  const factory RealtimeEvent.callIceCandidateReceived({
+    required String callId,
+    required String fromUserId,
+    required String candidate,
+  }) = CallIceCandidateReceivedEvent;
+
+  @FreezedUnionValue('call_mute_changed')
+  const factory RealtimeEvent.callMuteChanged({
+    required String callId,
+    required String userId,
+    @Default(false) bool isMuted,
+  }) = CallMuteChangedEvent;
+
+  @FreezedUnionValue('call_video_changed')
+  const factory RealtimeEvent.callVideoChanged({
+    required String callId,
+    required String userId,
+    @Default(false) bool isVideoEnabled,
+  }) = CallVideoChangedEvent;
+
+  @FreezedUnionValue('call_screen_share_changed')
+  const factory RealtimeEvent.callScreenShareChanged({
+    required String callId,
+    required String userId,
+    @Default(false) bool isScreenSharing,
+  }) = CallScreenShareChangedEvent;
 
   /// Événement non typé par cette version du SDK.
   @FreezedUnionValue('unknown')
