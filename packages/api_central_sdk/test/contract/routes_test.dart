@@ -80,6 +80,22 @@ const _routesUtilisees = <String>{
   'POST /live/streams/{id}/reactions',
   'GET /live/streams/{id}/reactions',
   'GET /live/streams/{id}/stats',
+  'POST /calls',
+  'GET /calls/{id}',
+  'POST /calls/{id}/answer',
+  'POST /calls/{id}/decline',
+  'POST /calls/{id}/end',
+  'POST /calls/{id}/leave',
+  'POST /calls/{id}/participants',
+  'DELETE /calls/{id}/participants/{userId}',
+  'PUT /calls/{id}/participants/{userId}/mute',
+  'PUT /calls/{id}/participants/{userId}/video',
+  'PUT /calls/{id}/participants/{userId}/screen',
+  'GET /calls/history',
+  'GET /calls/{id}/ice-servers',
+  'POST /calls/{id}/offer',
+  'POST /calls/{id}/answer-sdp',
+  'POST /calls/{id}/ice-candidate',
 };
 
 /// Routes réelles de l'API que le spec OpenAPI ne documente pas.
@@ -89,6 +105,7 @@ const _routesUtilisees = <String>{
 /// qui incriminerait le SDK alors que c'est le spec qui est incomplet.
 const _absentesDuSpec = <String>{
   'POST /notifications/broadcast',
+  'GET /calls/{id}/ice-servers',
 };
 
 const _specUrl = 'http://localhost:3004/api-docs/openapi.json';
