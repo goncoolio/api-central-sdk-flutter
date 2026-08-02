@@ -1,5 +1,6 @@
 import 'config.dart';
 import 'http/api_client.dart';
+import 'modules/users_module.dart';
 import 'token_provider.dart';
 
 /// Point d'entrée du SDK côté application.
@@ -12,6 +13,7 @@ class ApiCentral {
     required TokenProvider tokenProvider,
   }) : _tokenProvider = CachedTokenProvider(inner: tokenProvider) {
     client = ApiClient(config: config, tokenProvider: _tokenProvider);
+    users = UsersModule(client);
   }
 
   final ApiCentralConfig config;
@@ -19,6 +21,9 @@ class ApiCentral {
 
   /// Client HTTP partagé par tous les modules.
   late final ApiClient client;
+
+  /// Utilisateurs, appareils et présence.
+  late final UsersModule users;
 
   /// Oublie le token courant. Utile après une déconnexion applicative.
   void invalidateToken() => _tokenProvider.invalidate();

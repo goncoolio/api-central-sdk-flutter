@@ -9,4 +9,5 @@ export 'src/models/pagination.dart';
 export 'src/models/presence.dart';
 export 'src/models/user.dart';
 export 'src/models/user_device.dart';
+export 'src/modules/users_module.dart';
 export 'src/token_provider.dart';
