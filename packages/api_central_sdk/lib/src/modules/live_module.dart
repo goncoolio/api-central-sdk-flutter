@@ -83,6 +83,12 @@ class LiveModule {
     return LiveStream.fromJson(json);
   }
 
+  /// Reprend un direct en pause.
+  ///
+  /// Il n'existe pas de route dédiée : l'endpoint `start` de l'API accepte les
+  /// statuts `scheduled` et `paused`, reprendre revient donc à redémarrer.
+  Future<LiveStream> resumeStream(String streamId) => startStream(streamId);
+
   Future<LiveStream> endStream(String streamId) async {
     final json =
         await _client.post<Map<String, dynamic>>('/live/streams/$streamId/end');

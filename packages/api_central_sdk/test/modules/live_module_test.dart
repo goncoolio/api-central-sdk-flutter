@@ -70,6 +70,16 @@ void main() {
       expect(stream.status, equals(StreamStatus.archived));
     });
 
+    test('resumeStream passe par la route start', () async {
+      final adapter =
+          FakeAdapter((options, callIndex) => const FakeReply(200, _stream));
+
+      await _sdk(adapter).live.resumeStream('s1');
+
+      expect(adapter.requests.single.path, equals('/live/streams/s1/start'),
+          reason: "l'API n'a pas de route resume : start accepte un stream en pause");
+    });
+
     test('rejoint un stream', () async {
       final adapter = FakeAdapter(
         (options, callIndex) =>
