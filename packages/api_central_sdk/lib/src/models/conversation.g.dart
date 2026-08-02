@@ -6,20 +6,6 @@ part of 'conversation.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_UserInfo _$UserInfoFromJson(Map<String, dynamic> json) => _UserInfo(
-  id: json['id'] as String,
-  externalUserId: json['externalUserId'] as String,
-  displayName: json['displayName'] as String?,
-  avatarUrl: json['avatarUrl'] as String?,
-);
-
-Map<String, dynamic> _$UserInfoToJson(_UserInfo instance) => <String, dynamic>{
-  'id': instance.id,
-  'externalUserId': instance.externalUserId,
-  'displayName': instance.displayName,
-  'avatarUrl': instance.avatarUrl,
-};
-
 _Participant _$ParticipantFromJson(Map<String, dynamic> json) => _Participant(
   id: json['id'] as String,
   user: UserInfo.fromJson(json['user'] as Map<String, dynamic>),

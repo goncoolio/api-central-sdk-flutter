@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'conversation.dart';
+import 'user_info.dart';
 
 part 'message.freezed.dart';
 part 'message.g.dart';

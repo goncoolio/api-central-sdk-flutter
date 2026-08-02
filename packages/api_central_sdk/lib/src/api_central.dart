@@ -2,6 +2,7 @@ import 'config.dart';
 import 'http/api_client.dart';
 import 'modules/messaging_module.dart';
 import 'modules/notifications_module.dart';
+import 'modules/support_module.dart';
 import 'modules/users_module.dart';
 import 'realtime/realtime_module.dart';
 import 'realtime/websocket_client.dart';
@@ -20,6 +21,7 @@ class ApiCentral {
     users = UsersModule(client);
     messaging = MessagingModule(client);
     notifications = NotificationsModule(client);
+    support = SupportModule(client);
   }
 
   final ApiCentralConfig config;
@@ -36,6 +38,9 @@ class ApiCentral {
 
   /// Notifications push et in-app.
   late final NotificationsModule notifications;
+
+  /// Tickets de support et base de connaissances.
+  late final SupportModule support;
 
   RealtimeModule? _realtime;
 

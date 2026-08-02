@@ -1,6 +1,11 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'message.dart';
+import 'user_info.dart';
+
+// Ré-exporté pour que les imports existants de conversation.dart continuent
+// de voir UserInfo, extrait dans son propre fichier.
+export 'user_info.dart';
 
 part 'conversation.freezed.dart';
 part 'conversation.g.dart';
@@ -23,20 +28,6 @@ enum ParticipantRole {
   member,
   @JsonValue('readonly')
   readonly,
-}
-
-/// Forme compacte d'un utilisateur, telle qu'imbriquée dans les réponses.
-@freezed
-abstract class UserInfo with _$UserInfo {
-  const factory UserInfo({
-    required String id,
-    required String externalUserId,
-    String? displayName,
-    String? avatarUrl,
-  }) = _UserInfo;
-
-  factory UserInfo.fromJson(Map<String, dynamic> json) =>
-      _$UserInfoFromJson(json);
 }
 
 /// Participant d'une conversation.
