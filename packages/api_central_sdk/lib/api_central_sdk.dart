@@ -15,4 +15,5 @@ export 'src/models/user_device.dart';
 export 'src/modules/messaging_module.dart';
 export 'src/modules/notifications_module.dart';
 export 'src/modules/users_module.dart';
+export 'src/realtime/realtime_event.dart';
 export 'src/token_provider.dart';
