@@ -1,0 +1,3 @@
+tags:
+  integration:
+    description: Tests nécessitant l'API sur localhost:3004
