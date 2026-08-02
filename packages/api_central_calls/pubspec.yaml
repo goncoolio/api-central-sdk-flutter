@@ -1,0 +1,20 @@
+name: api_central_calls
+description: Appels audio et vidéo WebRTC pour l'API Central S2S.
+version: 0.1.0
+publish_to: none
+
+environment:
+  sdk: ^3.11.0
+  flutter: ">=3.24.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  api_central_sdk:
+    path: ../api_central_sdk
+  flutter_webrtc: ^1.5.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  lints: ^6.0.0

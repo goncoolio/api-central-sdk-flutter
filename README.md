@@ -11,6 +11,38 @@ SDK Dart/Flutter pour l'API Central S2S.
 | `api_central_encryption` | Chiffrement E2E (phase 6) |
 | `api_central_provider` | ChangeNotifier prêts à brancher (phase 7) |
 
+## Appels audio/vidéo
+
+`api_central_calls` ajoute la couche média WebRTC :
+
+```yaml
+dependencies:
+  api_central_calls:
+    path: ../api-central-sdk-flutter/packages/api_central_calls
+```
+
+Les permissions caméra et micro sont à la charge de l'application, et doivent
+être accordées **avant** de démarrer un appel :
+
+- **iOS** — `NSCameraUsageDescription` et `NSMicrophoneUsageDescription` dans `Info.plist`
+- **Android** — `CAMERA` et `RECORD_AUDIO` dans `AndroidManifest.xml`
+
+```dart
+final manager = CallManager(sdk: sdk, userId: monId);
+
+await sdk.connectRealtime();          // la signalisation passe par le WebSocket
+final call = await sdk.calls.initiate(
+  participantIds: [autreUtilisateur],
+  callType: CallType.video,
+);
+await manager.start(call.id, callType: CallType.video);
+
+manager.remoteStreams.listen((flux) => renderer.srcObject = flux);
+```
+
+La connexion temps réel doit être ouverte **avant** l'appel : sans elle, les
+offres SDP et les candidats ICE n'arrivent jamais.
+
 ## Authentification
 
 Les credentials de l'API Central S2S (`api_key`, `api_secret`) restent sur le backend
