@@ -25,7 +25,8 @@ const _corps401 = {
 void main() {
   group('AuthInterceptor', () {
     test('ajoute le Bearer token et X-Application-Id', () async {
-      final adapter = FakeAdapter((_, __) => const FakeReply(200, {'ok': true}));
+      final adapter =
+          FakeAdapter((options, callIndex) => const FakeReply(200, {'ok': true}));
       final dio = _dioAvecAuth(
         CachedTokenProvider(inner: () async => 'jwt-1'),
         adapter,
@@ -65,7 +66,8 @@ void main() {
     });
 
     test('ne rejoue pas deux fois sur 401 répété', () async {
-      final adapter = FakeAdapter((_, __) => const FakeReply(401, _corps401));
+      final adapter =
+          FakeAdapter((options, callIndex) => const FakeReply(401, _corps401));
       final dio = _dioAvecAuth(
         CachedTokenProvider(inner: () async => 'jwt-mort'),
         adapter,
