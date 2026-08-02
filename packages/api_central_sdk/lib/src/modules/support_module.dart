@@ -122,18 +122,20 @@ class SupportModule {
     );
   }
 
+  /// Ajoute une réponse à un ticket.
+  ///
+  /// `senderType` n'est pas un paramètre : l'API le déduit du contexte et ne
+  /// l'accepte qu'en sortie. `content` fait 1 à 10000 caractères.
   Future<TicketReply> addReply(
     String ticketId, {
     required String senderId,
     required String content,
-    SenderType? senderType,
   }) async {
     final json = await _client.post<Map<String, dynamic>>(
       '/support/tickets/$ticketId/replies',
       body: {
         'senderId': senderId,
         'content': content,
-        'senderType': ?senderType?.name,
       },
     );
     return TicketReply.fromJson(json);

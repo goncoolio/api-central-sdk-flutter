@@ -120,9 +120,14 @@ void main() {
             content: 'Merci',
           );
 
-      expect(reply.senderType, equals(SenderType.user));
+      expect(reply.senderType, equals(SenderType.user),
+          reason: 'senderType est renvoyé par l API, jamais envoyé');
       expect(
           adapter.requests.single.path, equals('/support/tickets/t1/replies'));
+      final envoye =
+          (adapter.requests.single.data! as Map).cast<String, dynamic>();
+      expect(envoye.keys.toSet(), equals({'sender_id', 'content'}),
+          reason: "l'API n'accepte que ces deux champs");
     });
   });
 }
