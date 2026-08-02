@@ -3,3 +3,4 @@ library;
 
 export 'src/config.dart';
 export 'src/exceptions.dart';
+export 'src/token_provider.dart';
