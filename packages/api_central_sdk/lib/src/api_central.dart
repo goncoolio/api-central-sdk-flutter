@@ -1,5 +1,6 @@
 import 'config.dart';
 import 'http/api_client.dart';
+import 'modules/live_module.dart';
 import 'modules/messaging_module.dart';
 import 'modules/notifications_module.dart';
 import 'modules/support_module.dart';
@@ -22,6 +23,7 @@ class ApiCentral {
     messaging = MessagingModule(client);
     notifications = NotificationsModule(client);
     support = SupportModule(client);
+    live = LiveModule(client);
   }
 
   final ApiCentralConfig config;
@@ -41,6 +43,9 @@ class ApiCentral {
 
   /// Tickets de support et base de connaissances.
   late final SupportModule support;
+
+  /// Directs : diffusion, spectateurs, commentaires.
+  late final LiveModule live;
 
   RealtimeModule? _realtime;
 

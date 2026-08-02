@@ -1,0 +1,199 @@
+import '../http/api_client.dart';
+import '../models/pagination.dart';
+import '../models/stream.dart';
+
+/// Directs : diffusion, spectateurs, commentaires et réactions.
+///
+/// `POST /live/rtmp/auth` n'est pas exposé : c'est un endpoint appelé par le
+/// serveur RTMP, pas par une application.
+class LiveModule {
+  const LiveModule(this._client);
+
+  final ApiClient _client;
+
+  // --- Cycle de vie --------------------------------------------------------
+
+  Future<LiveStream> createStream({
+    required String hostId,
+    required String title,
+    String? description,
+    String? thumbnailUrl,
+    DateTime? scheduledAt,
+  }) async {
+    final json =
+        await _client.post<Map<String, dynamic>>('/live/streams', body: {
+      'hostId': hostId,
+      'title': title,
+      'description': ?description,
+      'thumbnailUrl': ?thumbnailUrl,
+      'scheduledAt': ?scheduledAt?.toIso8601String(),
+    });
+    return LiveStream.fromJson(json);
+  }
+
+  Future<PaginatedResponse<LiveStream>> listStreams({
+    StreamStatus? status,
+    String? hostId,
+    int? page,
+    int? limit,
+  }) async {
+    final json =
+        await _client.get<Map<String, dynamic>>('/live/streams', query: {
+      'status': ?status?.name,
+      'hostId': ?hostId,
+      'page': ?page,
+      'limit': ?limit,
+    });
+    return PaginatedResponse<LiveStream>.fromJson(
+      json,
+      (item) => LiveStream.fromJson(item! as Map<String, dynamic>),
+    );
+  }
+
+  Future<LiveStream> getStream(String streamId) async {
+    final json =
+        await _client.get<Map<String, dynamic>>('/live/streams/$streamId');
+    return LiveStream.fromJson(json);
+  }
+
+  Future<LiveStream> updateStream(
+    String streamId, {
+    String? title,
+    String? description,
+    String? thumbnailUrl,
+  }) async {
+    final json = await _client
+        .put<Map<String, dynamic>>('/live/streams/$streamId', body: {
+      'title': ?title,
+      'description': ?description,
+      'thumbnailUrl': ?thumbnailUrl,
+    });
+    return LiveStream.fromJson(json);
+  }
+
+  Future<LiveStream> startStream(String streamId) async {
+    final json = await _client
+        .post<Map<String, dynamic>>('/live/streams/$streamId/start');
+    return LiveStream.fromJson(json);
+  }
+
+  Future<LiveStream> pauseStream(String streamId) async {
+    final json = await _client
+        .post<Map<String, dynamic>>('/live/streams/$streamId/pause');
+    return LiveStream.fromJson(json);
+  }
+
+  Future<LiveStream> endStream(String streamId) async {
+    final json =
+        await _client.post<Map<String, dynamic>>('/live/streams/$streamId/end');
+    return LiveStream.fromJson(json);
+  }
+
+  // --- Spectateurs ---------------------------------------------------------
+
+  Future<StreamViewers> getViewers(
+    String streamId, {
+    int? page,
+    int? limit,
+  }) async {
+    final json = await _client.get<Map<String, dynamic>>(
+      '/live/streams/$streamId/viewers',
+      query: {'page': ?page, 'limit': ?limit},
+    );
+    return StreamViewers.fromJson(json);
+  }
+
+  Future<StreamViewerCount> joinStream(
+    String streamId, {
+    required String userId,
+  }) async {
+    final json = await _client.post<Map<String, dynamic>>(
+      '/live/streams/$streamId/join',
+      body: {'userId': userId},
+    );
+    return StreamViewerCount.fromJson(json);
+  }
+
+  Future<StreamViewerCount> leaveStream(
+    String streamId, {
+    required String userId,
+  }) async {
+    final json = await _client.post<Map<String, dynamic>>(
+      '/live/streams/$streamId/leave',
+      body: {'userId': userId},
+    );
+    return StreamViewerCount.fromJson(json);
+  }
+
+  // --- Commentaires --------------------------------------------------------
+
+  Future<List<StreamComment>> listComments(
+    String streamId, {
+    int? limit,
+  }) async {
+    final json = await _client.get<List<dynamic>>(
+      '/live/streams/$streamId/comments',
+      query: {'limit': ?limit},
+    );
+    return json
+        .map((e) => StreamComment.fromJson((e! as Map).cast<String, dynamic>()))
+        .toList();
+  }
+
+  /// `content` fait 1 à 500 caractères.
+  Future<StreamComment> postComment(
+    String streamId, {
+    required String userId,
+    required String content,
+  }) async {
+    final json = await _client.post<Map<String, dynamic>>(
+      '/live/streams/$streamId/comments',
+      body: {'userId': userId, 'content': content},
+    );
+    return StreamComment.fromJson(json);
+  }
+
+  Future<void> deleteComment(String streamId, String commentId) =>
+      _client.delete<Map<String, dynamic>>(
+          '/live/streams/$streamId/comments/$commentId');
+
+  Future<void> pinComment(String streamId, String commentId) =>
+      _client.post<Map<String, dynamic>>(
+          '/live/streams/$streamId/comments/$commentId/pin');
+
+  Future<void> unpinComment(String streamId, String commentId) =>
+      _client.post<Map<String, dynamic>>(
+          '/live/streams/$streamId/comments/$commentId/unpin');
+
+  // --- Réactions -----------------------------------------------------------
+
+  /// Envoie une réaction.
+  ///
+  /// Vérifiez [ReactionResult.accepted] : l'API limite chaque utilisateur à une
+  /// réaction toutes les 200 ms et rejette silencieusement les suivantes.
+  Future<ReactionResult> sendReaction(
+    String streamId, {
+    required String userId,
+    required String emoji,
+  }) async {
+    final json = await _client.post<Map<String, dynamic>>(
+      '/live/streams/$streamId/reactions',
+      body: {'userId': userId, 'emoji': emoji},
+    );
+    return ReactionResult.fromJson(json);
+  }
+
+  Future<List<ReactionCount>> getReactionCounts(String streamId) async {
+    final json =
+        await _client.get<List<dynamic>>('/live/streams/$streamId/reactions');
+    return json
+        .map((e) => ReactionCount.fromJson((e! as Map).cast<String, dynamic>()))
+        .toList();
+  }
+
+  Future<StreamStats> getStats(String streamId) async {
+    final json = await _client
+        .get<Map<String, dynamic>>('/live/streams/$streamId/stats');
+    return StreamStats.fromJson(json);
+  }
+}
