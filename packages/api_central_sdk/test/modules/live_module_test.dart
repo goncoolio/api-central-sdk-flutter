@@ -70,6 +70,24 @@ void main() {
       expect(stream.status, equals(StreamStatus.archived));
     });
 
+    test('listStreams lit un tableau nu, sans enveloppe de pagination', () async {
+      final adapter =
+          FakeAdapter((options, callIndex) => const FakeReply(200, [_stream]));
+
+      final streams = await _sdk(adapter).live.listStreams(status: StreamStatus.live);
+
+      expect(streams.single.id, equals('s1'),
+          reason: "l'API renvoie un tableau nu ici, contrairement aux autres listes");
+      expect(adapter.requests.single.queryParameters, equals({'status': 'live'}));
+    });
+
+    test('listStreams accepte une liste vide', () async {
+      final adapter =
+          FakeAdapter((options, callIndex) => const FakeReply(200, <dynamic>[]));
+
+      expect(await _sdk(adapter).live.listStreams(), isEmpty);
+    });
+
     test('resumeStream passe par la route start', () async {
       final adapter =
           FakeAdapter((options, callIndex) => const FakeReply(200, _stream));

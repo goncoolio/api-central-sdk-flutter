@@ -1,5 +1,4 @@
 import '../http/api_client.dart';
-import '../models/pagination.dart';
 import '../models/stream.dart';
 
 /// Directs : diffusion, spectateurs, commentaires et réactions.
@@ -31,23 +30,26 @@ class LiveModule {
     return LiveStream.fromJson(json);
   }
 
-  Future<PaginatedResponse<LiveStream>> listStreams({
+  /// Liste les directs.
+  ///
+  /// L'API renvoie ici un tableau nu, sans enveloppe de pagination —
+  /// contrairement aux autres listes du SDK. `page` et `limit` restent
+  /// transmis et honorés côté serveur.
+  Future<List<LiveStream>> listStreams({
     StreamStatus? status,
     String? hostId,
     int? page,
     int? limit,
   }) async {
-    final json =
-        await _client.get<Map<String, dynamic>>('/live/streams', query: {
+    final json = await _client.get<List<dynamic>>('/live/streams', query: {
       'status': ?status?.name,
       'hostId': ?hostId,
       'page': ?page,
       'limit': ?limit,
     });
-    return PaginatedResponse<LiveStream>.fromJson(
-      json,
-      (item) => LiveStream.fromJson(item! as Map<String, dynamic>),
-    );
+    return json
+        .map((e) => LiveStream.fromJson((e! as Map).cast<String, dynamic>()))
+        .toList();
   }
 
   Future<LiveStream> getStream(String streamId) async {
