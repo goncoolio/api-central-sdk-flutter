@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$User {
 
- String get id; String get externalUserId; String? get displayName; String? get avatarUrl; String? get email; Map<String, dynamic>? get metadata; DateTime? get createdAt;
+ String get id; String get externalUserId; String? get applicationId; String? get displayName; String? get email; String? get avatarUrl; Map<String, dynamic>? get metadata; DateTime? get lastSeenAt; DateTime? get createdAt; DateTime? get updatedAt;
 /// Create a copy of User
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $UserCopyWith<User> get copyWith => _$UserCopyWithImpl<User>(this as User, _$ide
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is User&&(identical(other.id, id) || other.id == id)&&(identical(other.externalUserId, externalUserId) || other.externalUserId == externalUserId)&&(identical(other.displayName, displayName) || other.displayName == displayName)&&(identical(other.avatarUrl, avatarUrl) || other.avatarUrl == avatarUrl)&&(identical(other.email, email) || other.email == email)&&const DeepCollectionEquality().equals(other.metadata, metadata)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is User&&(identical(other.id, id) || other.id == id)&&(identical(other.externalUserId, externalUserId) || other.externalUserId == externalUserId)&&(identical(other.applicationId, applicationId) || other.applicationId == applicationId)&&(identical(other.displayName, displayName) || other.displayName == displayName)&&(identical(other.email, email) || other.email == email)&&(identical(other.avatarUrl, avatarUrl) || other.avatarUrl == avatarUrl)&&const DeepCollectionEquality().equals(other.metadata, metadata)&&(identical(other.lastSeenAt, lastSeenAt) || other.lastSeenAt == lastSeenAt)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,externalUserId,displayName,avatarUrl,email,const DeepCollectionEquality().hash(metadata),createdAt);
+int get hashCode => Object.hash(runtimeType,id,externalUserId,applicationId,displayName,email,avatarUrl,const DeepCollectionEquality().hash(metadata),lastSeenAt,createdAt,updatedAt);
 
 @override
 String toString() {
-  return 'User(id: $id, externalUserId: $externalUserId, displayName: $displayName, avatarUrl: $avatarUrl, email: $email, metadata: $metadata, createdAt: $createdAt)';
+  return 'User(id: $id, externalUserId: $externalUserId, applicationId: $applicationId, displayName: $displayName, email: $email, avatarUrl: $avatarUrl, metadata: $metadata, lastSeenAt: $lastSeenAt, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $UserCopyWith<$Res>  {
   factory $UserCopyWith(User value, $Res Function(User) _then) = _$UserCopyWithImpl;
 @useResult
 $Res call({
- String id, String externalUserId, String? displayName, String? avatarUrl, String? email, Map<String, dynamic>? metadata, DateTime? createdAt
+ String id, String externalUserId, String? applicationId, String? displayName, String? email, String? avatarUrl, Map<String, dynamic>? metadata, DateTime? lastSeenAt, DateTime? createdAt, DateTime? updatedAt
 });
 
 
@@ -65,15 +65,18 @@ class _$UserCopyWithImpl<$Res>
 
 /// Create a copy of User
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? externalUserId = null,Object? displayName = freezed,Object? avatarUrl = freezed,Object? email = freezed,Object? metadata = freezed,Object? createdAt = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? externalUserId = null,Object? applicationId = freezed,Object? displayName = freezed,Object? email = freezed,Object? avatarUrl = freezed,Object? metadata = freezed,Object? lastSeenAt = freezed,Object? createdAt = freezed,Object? updatedAt = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,externalUserId: null == externalUserId ? _self.externalUserId : externalUserId // ignore: cast_nullable_to_non_nullable
-as String,displayName: freezed == displayName ? _self.displayName : displayName // ignore: cast_nullable_to_non_nullable
-as String?,avatarUrl: freezed == avatarUrl ? _self.avatarUrl : avatarUrl // ignore: cast_nullable_to_non_nullable
+as String,applicationId: freezed == applicationId ? _self.applicationId : applicationId // ignore: cast_nullable_to_non_nullable
+as String?,displayName: freezed == displayName ? _self.displayName : displayName // ignore: cast_nullable_to_non_nullable
 as String?,email: freezed == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
+as String?,avatarUrl: freezed == avatarUrl ? _self.avatarUrl : avatarUrl // ignore: cast_nullable_to_non_nullable
 as String?,metadata: freezed == metadata ? _self.metadata : metadata // ignore: cast_nullable_to_non_nullable
-as Map<String, dynamic>?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as Map<String, dynamic>?,lastSeenAt: freezed == lastSeenAt ? _self.lastSeenAt : lastSeenAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,updatedAt: freezed == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,
   ));
 }
@@ -159,10 +162,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String externalUserId,  String? displayName,  String? avatarUrl,  String? email,  Map<String, dynamic>? metadata,  DateTime? createdAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String externalUserId,  String? applicationId,  String? displayName,  String? email,  String? avatarUrl,  Map<String, dynamic>? metadata,  DateTime? lastSeenAt,  DateTime? createdAt,  DateTime? updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _User() when $default != null:
-return $default(_that.id,_that.externalUserId,_that.displayName,_that.avatarUrl,_that.email,_that.metadata,_that.createdAt);case _:
+return $default(_that.id,_that.externalUserId,_that.applicationId,_that.displayName,_that.email,_that.avatarUrl,_that.metadata,_that.lastSeenAt,_that.createdAt,_that.updatedAt);case _:
   return orElse();
 
 }
@@ -180,10 +183,10 @@ return $default(_that.id,_that.externalUserId,_that.displayName,_that.avatarUrl,
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String externalUserId,  String? displayName,  String? avatarUrl,  String? email,  Map<String, dynamic>? metadata,  DateTime? createdAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String externalUserId,  String? applicationId,  String? displayName,  String? email,  String? avatarUrl,  Map<String, dynamic>? metadata,  DateTime? lastSeenAt,  DateTime? createdAt,  DateTime? updatedAt)  $default,) {final _that = this;
 switch (_that) {
 case _User():
-return $default(_that.id,_that.externalUserId,_that.displayName,_that.avatarUrl,_that.email,_that.metadata,_that.createdAt);case _:
+return $default(_that.id,_that.externalUserId,_that.applicationId,_that.displayName,_that.email,_that.avatarUrl,_that.metadata,_that.lastSeenAt,_that.createdAt,_that.updatedAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -200,10 +203,10 @@ return $default(_that.id,_that.externalUserId,_that.displayName,_that.avatarUrl,
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String externalUserId,  String? displayName,  String? avatarUrl,  String? email,  Map<String, dynamic>? metadata,  DateTime? createdAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String externalUserId,  String? applicationId,  String? displayName,  String? email,  String? avatarUrl,  Map<String, dynamic>? metadata,  DateTime? lastSeenAt,  DateTime? createdAt,  DateTime? updatedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _User() when $default != null:
-return $default(_that.id,_that.externalUserId,_that.displayName,_that.avatarUrl,_that.email,_that.metadata,_that.createdAt);case _:
+return $default(_that.id,_that.externalUserId,_that.applicationId,_that.displayName,_that.email,_that.avatarUrl,_that.metadata,_that.lastSeenAt,_that.createdAt,_that.updatedAt);case _:
   return null;
 
 }
@@ -215,14 +218,15 @@ return $default(_that.id,_that.externalUserId,_that.displayName,_that.avatarUrl,
 @JsonSerializable()
 
 class _User implements User {
-  const _User({required this.id, required this.externalUserId, this.displayName, this.avatarUrl, this.email, final  Map<String, dynamic>? metadata, this.createdAt}): _metadata = metadata;
+  const _User({required this.id, required this.externalUserId, this.applicationId, this.displayName, this.email, this.avatarUrl, final  Map<String, dynamic>? metadata, this.lastSeenAt, this.createdAt, this.updatedAt}): _metadata = metadata;
   factory _User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
 @override final  String id;
 @override final  String externalUserId;
+@override final  String? applicationId;
 @override final  String? displayName;
-@override final  String? avatarUrl;
 @override final  String? email;
+@override final  String? avatarUrl;
  final  Map<String, dynamic>? _metadata;
 @override Map<String, dynamic>? get metadata {
   final value = _metadata;
@@ -232,7 +236,9 @@ class _User implements User {
   return EqualUnmodifiableMapView(value);
 }
 
+@override final  DateTime? lastSeenAt;
 @override final  DateTime? createdAt;
+@override final  DateTime? updatedAt;
 
 /// Create a copy of User
 /// with the given fields replaced by the non-null parameter values.
@@ -247,16 +253,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _User&&(identical(other.id, id) || other.id == id)&&(identical(other.externalUserId, externalUserId) || other.externalUserId == externalUserId)&&(identical(other.displayName, displayName) || other.displayName == displayName)&&(identical(other.avatarUrl, avatarUrl) || other.avatarUrl == avatarUrl)&&(identical(other.email, email) || other.email == email)&&const DeepCollectionEquality().equals(other._metadata, _metadata)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _User&&(identical(other.id, id) || other.id == id)&&(identical(other.externalUserId, externalUserId) || other.externalUserId == externalUserId)&&(identical(other.applicationId, applicationId) || other.applicationId == applicationId)&&(identical(other.displayName, displayName) || other.displayName == displayName)&&(identical(other.email, email) || other.email == email)&&(identical(other.avatarUrl, avatarUrl) || other.avatarUrl == avatarUrl)&&const DeepCollectionEquality().equals(other._metadata, _metadata)&&(identical(other.lastSeenAt, lastSeenAt) || other.lastSeenAt == lastSeenAt)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,externalUserId,displayName,avatarUrl,email,const DeepCollectionEquality().hash(_metadata),createdAt);
+int get hashCode => Object.hash(runtimeType,id,externalUserId,applicationId,displayName,email,avatarUrl,const DeepCollectionEquality().hash(_metadata),lastSeenAt,createdAt,updatedAt);
 
 @override
 String toString() {
-  return 'User(id: $id, externalUserId: $externalUserId, displayName: $displayName, avatarUrl: $avatarUrl, email: $email, metadata: $metadata, createdAt: $createdAt)';
+  return 'User(id: $id, externalUserId: $externalUserId, applicationId: $applicationId, displayName: $displayName, email: $email, avatarUrl: $avatarUrl, metadata: $metadata, lastSeenAt: $lastSeenAt, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
@@ -267,7 +273,7 @@ abstract mixin class _$UserCopyWith<$Res> implements $UserCopyWith<$Res> {
   factory _$UserCopyWith(_User value, $Res Function(_User) _then) = __$UserCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String externalUserId, String? displayName, String? avatarUrl, String? email, Map<String, dynamic>? metadata, DateTime? createdAt
+ String id, String externalUserId, String? applicationId, String? displayName, String? email, String? avatarUrl, Map<String, dynamic>? metadata, DateTime? lastSeenAt, DateTime? createdAt, DateTime? updatedAt
 });
 
 
@@ -284,15 +290,18 @@ class __$UserCopyWithImpl<$Res>
 
 /// Create a copy of User
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? externalUserId = null,Object? displayName = freezed,Object? avatarUrl = freezed,Object? email = freezed,Object? metadata = freezed,Object? createdAt = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? externalUserId = null,Object? applicationId = freezed,Object? displayName = freezed,Object? email = freezed,Object? avatarUrl = freezed,Object? metadata = freezed,Object? lastSeenAt = freezed,Object? createdAt = freezed,Object? updatedAt = freezed,}) {
   return _then(_User(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,externalUserId: null == externalUserId ? _self.externalUserId : externalUserId // ignore: cast_nullable_to_non_nullable
-as String,displayName: freezed == displayName ? _self.displayName : displayName // ignore: cast_nullable_to_non_nullable
-as String?,avatarUrl: freezed == avatarUrl ? _self.avatarUrl : avatarUrl // ignore: cast_nullable_to_non_nullable
+as String,applicationId: freezed == applicationId ? _self.applicationId : applicationId // ignore: cast_nullable_to_non_nullable
+as String?,displayName: freezed == displayName ? _self.displayName : displayName // ignore: cast_nullable_to_non_nullable
 as String?,email: freezed == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
+as String?,avatarUrl: freezed == avatarUrl ? _self.avatarUrl : avatarUrl // ignore: cast_nullable_to_non_nullable
 as String?,metadata: freezed == metadata ? _self._metadata : metadata // ignore: cast_nullable_to_non_nullable
-as Map<String, dynamic>?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as Map<String, dynamic>?,lastSeenAt: freezed == lastSeenAt ? _self.lastSeenAt : lastSeenAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,updatedAt: freezed == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,
   ));
 }

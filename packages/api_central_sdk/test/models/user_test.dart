@@ -26,6 +26,25 @@ void main() {
       expect(a, equals(b));
     });
 
+    test('désérialise les champs complets', () {
+      final user = User.fromJson(const {
+        'id': 'u1',
+        'applicationId': 'app-42',
+        'externalUserId': 'ext-1',
+        'displayName': 'Alice',
+        'email': 'alice@example.com',
+        'metadata': {'role': 'admin'},
+        'lastSeenAt': '2026-08-02T09:00:00Z',
+        'createdAt': '2026-08-01T10:00:00Z',
+        'updatedAt': '2026-08-02T09:00:00Z',
+      });
+
+      expect(user.applicationId, equals('app-42'));
+      expect(user.email, equals('alice@example.com'));
+      expect(user.metadata, equals({'role': 'admin'}));
+      expect(user.lastSeenAt, equals(DateTime.parse('2026-08-02T09:00:00Z')));
+    });
+
     test('copyWith remplace un champ sans toucher aux autres', () {
       const a = User(id: 'u1', externalUserId: 'ext-1', displayName: 'Alice');
       final b = a.copyWith(displayName: 'Bob');

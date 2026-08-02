@@ -11,11 +11,14 @@ abstract class User with _$User {
   const factory User({
     required String id,
     required String externalUserId,
+    String? applicationId,
     String? displayName,
-    String? avatarUrl,
     String? email,
+    String? avatarUrl,
     Map<String, dynamic>? metadata,
+    DateTime? lastSeenAt,
     DateTime? createdAt,
+    DateTime? updatedAt,
   }) = _User;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
