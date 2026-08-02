@@ -11,6 +11,7 @@ const _typesConnus = <String>{
   'message_new',
   'message_updated',
   'message_deleted',
+  'message_delivered',
   'message_read',
   'message_reaction_added',
   'message_reaction_removed',
@@ -117,6 +118,18 @@ sealed class RealtimeEvent with _$RealtimeEvent {
     required String id,
     required String conversationId,
   }) = MessageDeletedEvent;
+
+  /// Accusé de remise : le client du destinataire a reçu ces messages.
+  ///
+  /// C'est la simple coche, que [MessageReadEvent] fait passer en double.
+  /// L'application le déclenche en appelant `acknowledgeDelivery` à réception.
+  @FreezedUnionValue('message_delivered')
+  const factory RealtimeEvent.messageDelivered({
+    required String conversationId,
+    required String userId,
+    required String deliveredAt,
+    @Default(<String>[]) List<String> messageIds,
+  }) = MessageDeliveredEvent;
 
   /// Accusé de lecture : permet de passer la simple coche en double.
   @FreezedUnionValue('message_read')

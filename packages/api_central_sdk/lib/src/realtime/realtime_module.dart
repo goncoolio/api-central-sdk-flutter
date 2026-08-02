@@ -107,6 +107,17 @@ class RealtimeModule {
     _client.send('stream_leave', {'streamId': streamId});
   }
 
+  /// Signale que ces messages ont été reçus par ce client.
+  ///
+  /// Déclenche un `message_delivered` vers les expéditeurs, qui affichent
+  /// alors la simple coche. À appeler dès qu'un `message_new` est traité :
+  /// le serveur ne peut pas deviner qu'un client a bien reçu un message.
+  void acknowledgeDelivery(String conversationId, List<String> messageIds) =>
+      _client.send('message_delivered', {
+        'conversationId': conversationId,
+        'messageIds': messageIds,
+      });
+
   /// Poste un commentaire par le WebSocket, sans passer par REST.
   void sendStreamComment(String streamId, String content) => _client
       .send('stream_comment', {'streamId': streamId, 'content': content});
@@ -144,6 +155,10 @@ class RealtimeModule {
   Stream<MessageNewEvent> get onMessageNew => on<MessageNewEvent>();
   Stream<MessageUpdatedEvent> get onMessageUpdated => on<MessageUpdatedEvent>();
   Stream<MessageDeletedEvent> get onMessageDeleted => on<MessageDeletedEvent>();
+
+  /// Accusés de remise : affiche la simple coche.
+  Stream<MessageDeliveredEvent> get onMessageDelivered =>
+      on<MessageDeliveredEvent>();
 
   /// Accusés de lecture : bascule la simple coche en double.
   Stream<MessageReadEvent> get onMessageRead => on<MessageReadEvent>();

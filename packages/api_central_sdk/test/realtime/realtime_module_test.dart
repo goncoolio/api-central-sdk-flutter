@@ -87,6 +87,35 @@ void main() {
           reason: 'sans re-join, l application cesse de recevoir ses messages');
     });
 
+    test('acknowledgeDelivery signale les messages reçus', () async {
+      await realtime.connect();
+      await Future<void>.delayed(Duration.zero);
+      canal.envoyes.clear();
+
+      realtime.acknowledgeDelivery('c1', ['m1', 'm2']);
+
+      final envoye = jsonDecode(canal.envoyes.single) as Map<String, dynamic>;
+      expect(envoye['type'], equals('message_delivered'));
+      expect(envoye['conversation_id'], equals('c1'));
+      expect(envoye['message_ids'], equals(['m1', 'm2']));
+    });
+
+    test('onMessageDelivered filtre les accusés de remise', () async {
+      await realtime.connect();
+
+      final recu = realtime.onMessageDelivered.first;
+      canal.recevoir({
+        'type': 'message_delivered',
+        'conversation_id': 'c1',
+        'user_id': 'u2',
+        'message_ids': ['m1'],
+        'delivered_at': '2026-08-02T10:00:00Z',
+      });
+
+      final event = await recu;
+      expect(event.messageIds, equals(['m1']));
+    });
+
     test('on<T>() filtre sur un type arbitraire', () async {
       await realtime.connect();
 

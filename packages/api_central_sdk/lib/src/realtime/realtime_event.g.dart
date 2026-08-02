@@ -116,6 +116,30 @@ Map<String, dynamic> _$MessageDeletedEventToJson(
   'type': instance.$type,
 };
 
+MessageDeliveredEvent _$MessageDeliveredEventFromJson(
+  Map<String, dynamic> json,
+) => MessageDeliveredEvent(
+  conversationId: json['conversationId'] as String,
+  userId: json['userId'] as String,
+  deliveredAt: json['deliveredAt'] as String,
+  messageIds:
+      (json['messageIds'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList() ??
+      const <String>[],
+  $type: json['type'] as String?,
+);
+
+Map<String, dynamic> _$MessageDeliveredEventToJson(
+  MessageDeliveredEvent instance,
+) => <String, dynamic>{
+  'conversationId': instance.conversationId,
+  'userId': instance.userId,
+  'deliveredAt': instance.deliveredAt,
+  'messageIds': instance.messageIds,
+  'type': instance.$type,
+};
+
 MessageReadEvent _$MessageReadEventFromJson(Map<String, dynamic> json) =>
     MessageReadEvent(
       conversationId: json['conversationId'] as String,

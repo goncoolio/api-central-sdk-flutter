@@ -45,6 +45,22 @@ void main() {
       expect(lu.lastReadMessageId, equals('m1'));
     });
 
+    test('reconnaît message_delivered', () {
+      final event = RealtimeEvent.fromJson(const {
+        'type': 'message_delivered',
+        'conversationId': 'c1',
+        'userId': 'u2',
+        'messageIds': ['m1', 'm2'],
+        'deliveredAt': '2026-08-02T10:00:00Z',
+      });
+
+      expect(event, isA<MessageDeliveredEvent>());
+      final remis = event as MessageDeliveredEvent;
+      expect(remis.userId, equals('u2'));
+      expect(remis.messageIds, equals(['m1', 'm2']));
+      expect(remis.deliveredAt, equals('2026-08-02T10:00:00Z'));
+    });
+
     test('reconnaît typing_update', () {
       final event = RealtimeEvent.fromJson(const {
         'type': 'typing_update',
