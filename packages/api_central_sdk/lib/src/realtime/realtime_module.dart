@@ -17,10 +17,14 @@ class RealtimeModule {
 
   final WebSocketClient _client;
   final Set<String> _conversations = {};
+  final Set<String> _streams = {};
   StreamSubscription<ConnectionState>? _abonnementEtat;
 
   /// Conversations actuellement rejointes.
   Set<String> get joinedConversations => Set.unmodifiable(_conversations);
+
+  /// Directs actuellement rejoints.
+  Set<String> get joinedStreams => Set.unmodifiable(_streams);
 
   Stream<RealtimeEvent> get events => _client.events;
   Stream<ConnectionState> get states => _client.states;
@@ -51,7 +55,33 @@ class RealtimeModule {
     for (final id in _conversations) {
       _client.send('conversation_join', {'conversationId': id});
     }
+    for (final id in _streams) {
+      _client.send('stream_join', {'streamId': id});
+    }
   }
+
+  // --- Directs -------------------------------------------------------------
+
+  void joinStream(String streamId) {
+    _streams.add(streamId);
+    _client.send('stream_join', {'streamId': streamId});
+  }
+
+  void leaveStream(String streamId) {
+    _streams.remove(streamId);
+    _client.send('stream_leave', {'streamId': streamId});
+  }
+
+  /// Poste un commentaire par le WebSocket, sans passer par REST.
+  void sendStreamComment(String streamId, String content) => _client
+      .send('stream_comment', {'streamId': streamId, 'content': content});
+
+  /// Envoie une réaction par le WebSocket.
+  ///
+  /// Contrairement à `live.sendReaction`, aucun accusé n'est renvoyé : le
+  /// rate limit de 200 ms par utilisateur s'applique tout de même.
+  void sendStreamReaction(String streamId, String emoji) =>
+      _client.send('stream_reaction', {'streamId': streamId, 'emoji': emoji});
 
   // --- Indicateurs ---------------------------------------------------------
 
@@ -92,6 +122,14 @@ class RealtimeModule {
   Stream<NotificationNewEvent> get onNotificationNew =>
       on<NotificationNewEvent>();
   Stream<ErrorEvent> get onError => on<ErrorEvent>();
+
+  Stream<StreamCommentNewEvent> get onStreamCommentNew =>
+      on<StreamCommentNewEvent>();
+  Stream<StreamViewerCountEvent> get onStreamViewerCount =>
+      on<StreamViewerCountEvent>();
+  Stream<StreamEndedEvent> get onStreamEnded => on<StreamEndedEvent>();
+  Stream<StreamReactionBurstEvent> get onStreamReactionBurst =>
+      on<StreamReactionBurstEvent>();
 
   /// Réémet les `conversation_join` mémorisés. Réservé aux tests.
   void debugSimulerReconnexion() => _rejoindreRooms();

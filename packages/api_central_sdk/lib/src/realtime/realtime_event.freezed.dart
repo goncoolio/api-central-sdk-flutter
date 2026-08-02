@@ -79,6 +79,46 @@ RealtimeEvent _$RealtimeEventFromJson(
           return ErrorEvent.fromJson(
             json
           );
+                case 'stream_joined':
+          return StreamJoinedEvent.fromJson(
+            json
+          );
+                case 'stream_left':
+          return StreamLeftEvent.fromJson(
+            json
+          );
+                case 'stream_started':
+          return StreamStartedEvent.fromJson(
+            json
+          );
+                case 'stream_paused':
+          return StreamPausedEvent.fromJson(
+            json
+          );
+                case 'stream_ended':
+          return StreamEndedEvent.fromJson(
+            json
+          );
+                case 'stream_viewer_count':
+          return StreamViewerCountEvent.fromJson(
+            json
+          );
+                case 'stream_viewer_joined':
+          return StreamViewerJoinedEvent.fromJson(
+            json
+          );
+                case 'stream_viewer_left':
+          return StreamViewerLeftEvent.fromJson(
+            json
+          );
+                case 'stream_comment_new':
+          return StreamCommentNewEvent.fromJson(
+            json
+          );
+                case 'stream_reaction_burst':
+          return StreamReactionBurstEvent.fromJson(
+            json
+          );
         
           default:
             return UnknownEvent.fromJson(
@@ -134,7 +174,7 @@ extension RealtimeEventPatterns on RealtimeEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( ConnectedEvent value)?  connected,TResult Function( ConversationJoinedEvent value)?  conversationJoined,TResult Function( ConversationLeftEvent value)?  conversationLeft,TResult Function( MessageNewEvent value)?  messageNew,TResult Function( MessageUpdatedEvent value)?  messageUpdated,TResult Function( MessageDeletedEvent value)?  messageDeleted,TResult Function( MessageReadEvent value)?  messageRead,TResult Function( MessageReactionAddedEvent value)?  messageReactionAdded,TResult Function( MessageReactionRemovedEvent value)?  messageReactionRemoved,TResult Function( TypingUpdateEvent value)?  typingUpdate,TResult Function( PresenceUpdateEvent value)?  presenceUpdate,TResult Function( NotificationNewEvent value)?  notificationNew,TResult Function( NotificationReadEvent value)?  notificationRead,TResult Function( NotificationAllReadEvent value)?  notificationAllRead,TResult Function( PongEvent value)?  pong,TResult Function( ErrorEvent value)?  errorEvent,TResult Function( UnknownEvent value)?  unknown,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( ConnectedEvent value)?  connected,TResult Function( ConversationJoinedEvent value)?  conversationJoined,TResult Function( ConversationLeftEvent value)?  conversationLeft,TResult Function( MessageNewEvent value)?  messageNew,TResult Function( MessageUpdatedEvent value)?  messageUpdated,TResult Function( MessageDeletedEvent value)?  messageDeleted,TResult Function( MessageReadEvent value)?  messageRead,TResult Function( MessageReactionAddedEvent value)?  messageReactionAdded,TResult Function( MessageReactionRemovedEvent value)?  messageReactionRemoved,TResult Function( TypingUpdateEvent value)?  typingUpdate,TResult Function( PresenceUpdateEvent value)?  presenceUpdate,TResult Function( NotificationNewEvent value)?  notificationNew,TResult Function( NotificationReadEvent value)?  notificationRead,TResult Function( NotificationAllReadEvent value)?  notificationAllRead,TResult Function( PongEvent value)?  pong,TResult Function( ErrorEvent value)?  errorEvent,TResult Function( StreamJoinedEvent value)?  streamJoined,TResult Function( StreamLeftEvent value)?  streamLeft,TResult Function( StreamStartedEvent value)?  streamStarted,TResult Function( StreamPausedEvent value)?  streamPaused,TResult Function( StreamEndedEvent value)?  streamEnded,TResult Function( StreamViewerCountEvent value)?  streamViewerCount,TResult Function( StreamViewerJoinedEvent value)?  streamViewerJoined,TResult Function( StreamViewerLeftEvent value)?  streamViewerLeft,TResult Function( StreamCommentNewEvent value)?  streamCommentNew,TResult Function( StreamReactionBurstEvent value)?  streamReactionBurst,TResult Function( UnknownEvent value)?  unknown,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case ConnectedEvent() when connected != null:
@@ -153,7 +193,17 @@ return notificationNew(_that);case NotificationReadEvent() when notificationRead
 return notificationRead(_that);case NotificationAllReadEvent() when notificationAllRead != null:
 return notificationAllRead(_that);case PongEvent() when pong != null:
 return pong(_that);case ErrorEvent() when errorEvent != null:
-return errorEvent(_that);case UnknownEvent() when unknown != null:
+return errorEvent(_that);case StreamJoinedEvent() when streamJoined != null:
+return streamJoined(_that);case StreamLeftEvent() when streamLeft != null:
+return streamLeft(_that);case StreamStartedEvent() when streamStarted != null:
+return streamStarted(_that);case StreamPausedEvent() when streamPaused != null:
+return streamPaused(_that);case StreamEndedEvent() when streamEnded != null:
+return streamEnded(_that);case StreamViewerCountEvent() when streamViewerCount != null:
+return streamViewerCount(_that);case StreamViewerJoinedEvent() when streamViewerJoined != null:
+return streamViewerJoined(_that);case StreamViewerLeftEvent() when streamViewerLeft != null:
+return streamViewerLeft(_that);case StreamCommentNewEvent() when streamCommentNew != null:
+return streamCommentNew(_that);case StreamReactionBurstEvent() when streamReactionBurst != null:
+return streamReactionBurst(_that);case UnknownEvent() when unknown != null:
 return unknown(_that);case _:
   return orElse();
 
@@ -172,7 +222,7 @@ return unknown(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( ConnectedEvent value)  connected,required TResult Function( ConversationJoinedEvent value)  conversationJoined,required TResult Function( ConversationLeftEvent value)  conversationLeft,required TResult Function( MessageNewEvent value)  messageNew,required TResult Function( MessageUpdatedEvent value)  messageUpdated,required TResult Function( MessageDeletedEvent value)  messageDeleted,required TResult Function( MessageReadEvent value)  messageRead,required TResult Function( MessageReactionAddedEvent value)  messageReactionAdded,required TResult Function( MessageReactionRemovedEvent value)  messageReactionRemoved,required TResult Function( TypingUpdateEvent value)  typingUpdate,required TResult Function( PresenceUpdateEvent value)  presenceUpdate,required TResult Function( NotificationNewEvent value)  notificationNew,required TResult Function( NotificationReadEvent value)  notificationRead,required TResult Function( NotificationAllReadEvent value)  notificationAllRead,required TResult Function( PongEvent value)  pong,required TResult Function( ErrorEvent value)  errorEvent,required TResult Function( UnknownEvent value)  unknown,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( ConnectedEvent value)  connected,required TResult Function( ConversationJoinedEvent value)  conversationJoined,required TResult Function( ConversationLeftEvent value)  conversationLeft,required TResult Function( MessageNewEvent value)  messageNew,required TResult Function( MessageUpdatedEvent value)  messageUpdated,required TResult Function( MessageDeletedEvent value)  messageDeleted,required TResult Function( MessageReadEvent value)  messageRead,required TResult Function( MessageReactionAddedEvent value)  messageReactionAdded,required TResult Function( MessageReactionRemovedEvent value)  messageReactionRemoved,required TResult Function( TypingUpdateEvent value)  typingUpdate,required TResult Function( PresenceUpdateEvent value)  presenceUpdate,required TResult Function( NotificationNewEvent value)  notificationNew,required TResult Function( NotificationReadEvent value)  notificationRead,required TResult Function( NotificationAllReadEvent value)  notificationAllRead,required TResult Function( PongEvent value)  pong,required TResult Function( ErrorEvent value)  errorEvent,required TResult Function( StreamJoinedEvent value)  streamJoined,required TResult Function( StreamLeftEvent value)  streamLeft,required TResult Function( StreamStartedEvent value)  streamStarted,required TResult Function( StreamPausedEvent value)  streamPaused,required TResult Function( StreamEndedEvent value)  streamEnded,required TResult Function( StreamViewerCountEvent value)  streamViewerCount,required TResult Function( StreamViewerJoinedEvent value)  streamViewerJoined,required TResult Function( StreamViewerLeftEvent value)  streamViewerLeft,required TResult Function( StreamCommentNewEvent value)  streamCommentNew,required TResult Function( StreamReactionBurstEvent value)  streamReactionBurst,required TResult Function( UnknownEvent value)  unknown,}){
 final _that = this;
 switch (_that) {
 case ConnectedEvent():
@@ -191,7 +241,17 @@ return notificationNew(_that);case NotificationReadEvent():
 return notificationRead(_that);case NotificationAllReadEvent():
 return notificationAllRead(_that);case PongEvent():
 return pong(_that);case ErrorEvent():
-return errorEvent(_that);case UnknownEvent():
+return errorEvent(_that);case StreamJoinedEvent():
+return streamJoined(_that);case StreamLeftEvent():
+return streamLeft(_that);case StreamStartedEvent():
+return streamStarted(_that);case StreamPausedEvent():
+return streamPaused(_that);case StreamEndedEvent():
+return streamEnded(_that);case StreamViewerCountEvent():
+return streamViewerCount(_that);case StreamViewerJoinedEvent():
+return streamViewerJoined(_that);case StreamViewerLeftEvent():
+return streamViewerLeft(_that);case StreamCommentNewEvent():
+return streamCommentNew(_that);case StreamReactionBurstEvent():
+return streamReactionBurst(_that);case UnknownEvent():
 return unknown(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
@@ -206,7 +266,7 @@ return unknown(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( ConnectedEvent value)?  connected,TResult? Function( ConversationJoinedEvent value)?  conversationJoined,TResult? Function( ConversationLeftEvent value)?  conversationLeft,TResult? Function( MessageNewEvent value)?  messageNew,TResult? Function( MessageUpdatedEvent value)?  messageUpdated,TResult? Function( MessageDeletedEvent value)?  messageDeleted,TResult? Function( MessageReadEvent value)?  messageRead,TResult? Function( MessageReactionAddedEvent value)?  messageReactionAdded,TResult? Function( MessageReactionRemovedEvent value)?  messageReactionRemoved,TResult? Function( TypingUpdateEvent value)?  typingUpdate,TResult? Function( PresenceUpdateEvent value)?  presenceUpdate,TResult? Function( NotificationNewEvent value)?  notificationNew,TResult? Function( NotificationReadEvent value)?  notificationRead,TResult? Function( NotificationAllReadEvent value)?  notificationAllRead,TResult? Function( PongEvent value)?  pong,TResult? Function( ErrorEvent value)?  errorEvent,TResult? Function( UnknownEvent value)?  unknown,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( ConnectedEvent value)?  connected,TResult? Function( ConversationJoinedEvent value)?  conversationJoined,TResult? Function( ConversationLeftEvent value)?  conversationLeft,TResult? Function( MessageNewEvent value)?  messageNew,TResult? Function( MessageUpdatedEvent value)?  messageUpdated,TResult? Function( MessageDeletedEvent value)?  messageDeleted,TResult? Function( MessageReadEvent value)?  messageRead,TResult? Function( MessageReactionAddedEvent value)?  messageReactionAdded,TResult? Function( MessageReactionRemovedEvent value)?  messageReactionRemoved,TResult? Function( TypingUpdateEvent value)?  typingUpdate,TResult? Function( PresenceUpdateEvent value)?  presenceUpdate,TResult? Function( NotificationNewEvent value)?  notificationNew,TResult? Function( NotificationReadEvent value)?  notificationRead,TResult? Function( NotificationAllReadEvent value)?  notificationAllRead,TResult? Function( PongEvent value)?  pong,TResult? Function( ErrorEvent value)?  errorEvent,TResult? Function( StreamJoinedEvent value)?  streamJoined,TResult? Function( StreamLeftEvent value)?  streamLeft,TResult? Function( StreamStartedEvent value)?  streamStarted,TResult? Function( StreamPausedEvent value)?  streamPaused,TResult? Function( StreamEndedEvent value)?  streamEnded,TResult? Function( StreamViewerCountEvent value)?  streamViewerCount,TResult? Function( StreamViewerJoinedEvent value)?  streamViewerJoined,TResult? Function( StreamViewerLeftEvent value)?  streamViewerLeft,TResult? Function( StreamCommentNewEvent value)?  streamCommentNew,TResult? Function( StreamReactionBurstEvent value)?  streamReactionBurst,TResult? Function( UnknownEvent value)?  unknown,}){
 final _that = this;
 switch (_that) {
 case ConnectedEvent() when connected != null:
@@ -225,7 +285,17 @@ return notificationNew(_that);case NotificationReadEvent() when notificationRead
 return notificationRead(_that);case NotificationAllReadEvent() when notificationAllRead != null:
 return notificationAllRead(_that);case PongEvent() when pong != null:
 return pong(_that);case ErrorEvent() when errorEvent != null:
-return errorEvent(_that);case UnknownEvent() when unknown != null:
+return errorEvent(_that);case StreamJoinedEvent() when streamJoined != null:
+return streamJoined(_that);case StreamLeftEvent() when streamLeft != null:
+return streamLeft(_that);case StreamStartedEvent() when streamStarted != null:
+return streamStarted(_that);case StreamPausedEvent() when streamPaused != null:
+return streamPaused(_that);case StreamEndedEvent() when streamEnded != null:
+return streamEnded(_that);case StreamViewerCountEvent() when streamViewerCount != null:
+return streamViewerCount(_that);case StreamViewerJoinedEvent() when streamViewerJoined != null:
+return streamViewerJoined(_that);case StreamViewerLeftEvent() when streamViewerLeft != null:
+return streamViewerLeft(_that);case StreamCommentNewEvent() when streamCommentNew != null:
+return streamCommentNew(_that);case StreamReactionBurstEvent() when streamReactionBurst != null:
+return streamReactionBurst(_that);case UnknownEvent() when unknown != null:
 return unknown(_that);case _:
   return null;
 
@@ -243,7 +313,7 @@ return unknown(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String? socketId,  Map<String, dynamic>? application,  Map<String, dynamic>? user)?  connected,TResult Function( String conversationId,  bool success)?  conversationJoined,TResult Function( String conversationId)?  conversationLeft,TResult Function( String id,  String conversationId,  String content,  String? senderId,  String? contentType,  String? createdAt,  List<String>? participants)?  messageNew,TResult Function( String id,  String conversationId,  String content,  String? senderId,  String? contentType,  String? createdAt)?  messageUpdated,TResult Function( String id,  String conversationId)?  messageDeleted,TResult Function( String conversationId,  String userId,  String lastReadMessageId,  String readAt)?  messageRead,TResult Function( String messageId,  String conversationId,  String userId,  String emoji)?  messageReactionAdded,TResult Function( String messageId,  String conversationId,  String userId,  String emoji)?  messageReactionRemoved,TResult Function( String conversationId,  List<String> userIds)?  typingUpdate,TResult Function( String userId,  String status,  String? timestamp)?  presenceUpdate,TResult Function( String id,  String title,  String body,  String? notificationType,  Map<String, dynamic>? data,  String? createdAt)?  notificationNew,TResult Function( List<String> notificationIds)?  notificationRead,TResult Function()?  notificationAllRead,TResult Function( String? timestamp)?  pong,TResult Function( String? code,  String? message)?  errorEvent,TResult Function( String type,  Map<String, dynamic> data)?  unknown,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String? socketId,  Map<String, dynamic>? application,  Map<String, dynamic>? user)?  connected,TResult Function( String conversationId,  bool success)?  conversationJoined,TResult Function( String conversationId)?  conversationLeft,TResult Function( String id,  String conversationId,  String content,  String? senderId,  String? contentType,  String? createdAt,  List<String>? participants)?  messageNew,TResult Function( String id,  String conversationId,  String content,  String? senderId,  String? contentType,  String? createdAt)?  messageUpdated,TResult Function( String id,  String conversationId)?  messageDeleted,TResult Function( String conversationId,  String userId,  String lastReadMessageId,  String readAt)?  messageRead,TResult Function( String messageId,  String conversationId,  String userId,  String emoji)?  messageReactionAdded,TResult Function( String messageId,  String conversationId,  String userId,  String emoji)?  messageReactionRemoved,TResult Function( String conversationId,  List<String> userIds)?  typingUpdate,TResult Function( String userId,  String status,  String? timestamp)?  presenceUpdate,TResult Function( String id,  String title,  String body,  String? notificationType,  Map<String, dynamic>? data,  String? createdAt)?  notificationNew,TResult Function( List<String> notificationIds)?  notificationRead,TResult Function()?  notificationAllRead,TResult Function( String? timestamp)?  pong,TResult Function( String? code,  String? message)?  errorEvent,TResult Function( String streamId,  int viewerCount)?  streamJoined,TResult Function( String streamId)?  streamLeft,TResult Function( String streamId,  String title,  String? hostId,  String? hostName)?  streamStarted,TResult Function( String streamId)?  streamPaused,TResult Function( String streamId)?  streamEnded,TResult Function( String streamId,  int count)?  streamViewerCount,TResult Function( String streamId,  String userId,  String? userName)?  streamViewerJoined,TResult Function( String streamId,  String userId)?  streamViewerLeft,TResult Function( String streamId,  String commentId,  String userId,  String content,  String? userName)?  streamCommentNew,TResult Function( String streamId,  String emoji,  int count)?  streamReactionBurst,TResult Function( String type,  Map<String, dynamic> data)?  unknown,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case ConnectedEvent() when connected != null:
 return connected(_that.socketId,_that.application,_that.user);case ConversationJoinedEvent() when conversationJoined != null:
@@ -261,7 +331,17 @@ return notificationNew(_that.id,_that.title,_that.body,_that.notificationType,_t
 return notificationRead(_that.notificationIds);case NotificationAllReadEvent() when notificationAllRead != null:
 return notificationAllRead();case PongEvent() when pong != null:
 return pong(_that.timestamp);case ErrorEvent() when errorEvent != null:
-return errorEvent(_that.code,_that.message);case UnknownEvent() when unknown != null:
+return errorEvent(_that.code,_that.message);case StreamJoinedEvent() when streamJoined != null:
+return streamJoined(_that.streamId,_that.viewerCount);case StreamLeftEvent() when streamLeft != null:
+return streamLeft(_that.streamId);case StreamStartedEvent() when streamStarted != null:
+return streamStarted(_that.streamId,_that.title,_that.hostId,_that.hostName);case StreamPausedEvent() when streamPaused != null:
+return streamPaused(_that.streamId);case StreamEndedEvent() when streamEnded != null:
+return streamEnded(_that.streamId);case StreamViewerCountEvent() when streamViewerCount != null:
+return streamViewerCount(_that.streamId,_that.count);case StreamViewerJoinedEvent() when streamViewerJoined != null:
+return streamViewerJoined(_that.streamId,_that.userId,_that.userName);case StreamViewerLeftEvent() when streamViewerLeft != null:
+return streamViewerLeft(_that.streamId,_that.userId);case StreamCommentNewEvent() when streamCommentNew != null:
+return streamCommentNew(_that.streamId,_that.commentId,_that.userId,_that.content,_that.userName);case StreamReactionBurstEvent() when streamReactionBurst != null:
+return streamReactionBurst(_that.streamId,_that.emoji,_that.count);case UnknownEvent() when unknown != null:
 return unknown(_that.type,_that.data);case _:
   return orElse();
 
@@ -280,7 +360,7 @@ return unknown(_that.type,_that.data);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String? socketId,  Map<String, dynamic>? application,  Map<String, dynamic>? user)  connected,required TResult Function( String conversationId,  bool success)  conversationJoined,required TResult Function( String conversationId)  conversationLeft,required TResult Function( String id,  String conversationId,  String content,  String? senderId,  String? contentType,  String? createdAt,  List<String>? participants)  messageNew,required TResult Function( String id,  String conversationId,  String content,  String? senderId,  String? contentType,  String? createdAt)  messageUpdated,required TResult Function( String id,  String conversationId)  messageDeleted,required TResult Function( String conversationId,  String userId,  String lastReadMessageId,  String readAt)  messageRead,required TResult Function( String messageId,  String conversationId,  String userId,  String emoji)  messageReactionAdded,required TResult Function( String messageId,  String conversationId,  String userId,  String emoji)  messageReactionRemoved,required TResult Function( String conversationId,  List<String> userIds)  typingUpdate,required TResult Function( String userId,  String status,  String? timestamp)  presenceUpdate,required TResult Function( String id,  String title,  String body,  String? notificationType,  Map<String, dynamic>? data,  String? createdAt)  notificationNew,required TResult Function( List<String> notificationIds)  notificationRead,required TResult Function()  notificationAllRead,required TResult Function( String? timestamp)  pong,required TResult Function( String? code,  String? message)  errorEvent,required TResult Function( String type,  Map<String, dynamic> data)  unknown,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String? socketId,  Map<String, dynamic>? application,  Map<String, dynamic>? user)  connected,required TResult Function( String conversationId,  bool success)  conversationJoined,required TResult Function( String conversationId)  conversationLeft,required TResult Function( String id,  String conversationId,  String content,  String? senderId,  String? contentType,  String? createdAt,  List<String>? participants)  messageNew,required TResult Function( String id,  String conversationId,  String content,  String? senderId,  String? contentType,  String? createdAt)  messageUpdated,required TResult Function( String id,  String conversationId)  messageDeleted,required TResult Function( String conversationId,  String userId,  String lastReadMessageId,  String readAt)  messageRead,required TResult Function( String messageId,  String conversationId,  String userId,  String emoji)  messageReactionAdded,required TResult Function( String messageId,  String conversationId,  String userId,  String emoji)  messageReactionRemoved,required TResult Function( String conversationId,  List<String> userIds)  typingUpdate,required TResult Function( String userId,  String status,  String? timestamp)  presenceUpdate,required TResult Function( String id,  String title,  String body,  String? notificationType,  Map<String, dynamic>? data,  String? createdAt)  notificationNew,required TResult Function( List<String> notificationIds)  notificationRead,required TResult Function()  notificationAllRead,required TResult Function( String? timestamp)  pong,required TResult Function( String? code,  String? message)  errorEvent,required TResult Function( String streamId,  int viewerCount)  streamJoined,required TResult Function( String streamId)  streamLeft,required TResult Function( String streamId,  String title,  String? hostId,  String? hostName)  streamStarted,required TResult Function( String streamId)  streamPaused,required TResult Function( String streamId)  streamEnded,required TResult Function( String streamId,  int count)  streamViewerCount,required TResult Function( String streamId,  String userId,  String? userName)  streamViewerJoined,required TResult Function( String streamId,  String userId)  streamViewerLeft,required TResult Function( String streamId,  String commentId,  String userId,  String content,  String? userName)  streamCommentNew,required TResult Function( String streamId,  String emoji,  int count)  streamReactionBurst,required TResult Function( String type,  Map<String, dynamic> data)  unknown,}) {final _that = this;
 switch (_that) {
 case ConnectedEvent():
 return connected(_that.socketId,_that.application,_that.user);case ConversationJoinedEvent():
@@ -298,7 +378,17 @@ return notificationNew(_that.id,_that.title,_that.body,_that.notificationType,_t
 return notificationRead(_that.notificationIds);case NotificationAllReadEvent():
 return notificationAllRead();case PongEvent():
 return pong(_that.timestamp);case ErrorEvent():
-return errorEvent(_that.code,_that.message);case UnknownEvent():
+return errorEvent(_that.code,_that.message);case StreamJoinedEvent():
+return streamJoined(_that.streamId,_that.viewerCount);case StreamLeftEvent():
+return streamLeft(_that.streamId);case StreamStartedEvent():
+return streamStarted(_that.streamId,_that.title,_that.hostId,_that.hostName);case StreamPausedEvent():
+return streamPaused(_that.streamId);case StreamEndedEvent():
+return streamEnded(_that.streamId);case StreamViewerCountEvent():
+return streamViewerCount(_that.streamId,_that.count);case StreamViewerJoinedEvent():
+return streamViewerJoined(_that.streamId,_that.userId,_that.userName);case StreamViewerLeftEvent():
+return streamViewerLeft(_that.streamId,_that.userId);case StreamCommentNewEvent():
+return streamCommentNew(_that.streamId,_that.commentId,_that.userId,_that.content,_that.userName);case StreamReactionBurstEvent():
+return streamReactionBurst(_that.streamId,_that.emoji,_that.count);case UnknownEvent():
 return unknown(_that.type,_that.data);}
 }
 /// A variant of `when` that fallback to returning `null`
@@ -313,7 +403,7 @@ return unknown(_that.type,_that.data);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String? socketId,  Map<String, dynamic>? application,  Map<String, dynamic>? user)?  connected,TResult? Function( String conversationId,  bool success)?  conversationJoined,TResult? Function( String conversationId)?  conversationLeft,TResult? Function( String id,  String conversationId,  String content,  String? senderId,  String? contentType,  String? createdAt,  List<String>? participants)?  messageNew,TResult? Function( String id,  String conversationId,  String content,  String? senderId,  String? contentType,  String? createdAt)?  messageUpdated,TResult? Function( String id,  String conversationId)?  messageDeleted,TResult? Function( String conversationId,  String userId,  String lastReadMessageId,  String readAt)?  messageRead,TResult? Function( String messageId,  String conversationId,  String userId,  String emoji)?  messageReactionAdded,TResult? Function( String messageId,  String conversationId,  String userId,  String emoji)?  messageReactionRemoved,TResult? Function( String conversationId,  List<String> userIds)?  typingUpdate,TResult? Function( String userId,  String status,  String? timestamp)?  presenceUpdate,TResult? Function( String id,  String title,  String body,  String? notificationType,  Map<String, dynamic>? data,  String? createdAt)?  notificationNew,TResult? Function( List<String> notificationIds)?  notificationRead,TResult? Function()?  notificationAllRead,TResult? Function( String? timestamp)?  pong,TResult? Function( String? code,  String? message)?  errorEvent,TResult? Function( String type,  Map<String, dynamic> data)?  unknown,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String? socketId,  Map<String, dynamic>? application,  Map<String, dynamic>? user)?  connected,TResult? Function( String conversationId,  bool success)?  conversationJoined,TResult? Function( String conversationId)?  conversationLeft,TResult? Function( String id,  String conversationId,  String content,  String? senderId,  String? contentType,  String? createdAt,  List<String>? participants)?  messageNew,TResult? Function( String id,  String conversationId,  String content,  String? senderId,  String? contentType,  String? createdAt)?  messageUpdated,TResult? Function( String id,  String conversationId)?  messageDeleted,TResult? Function( String conversationId,  String userId,  String lastReadMessageId,  String readAt)?  messageRead,TResult? Function( String messageId,  String conversationId,  String userId,  String emoji)?  messageReactionAdded,TResult? Function( String messageId,  String conversationId,  String userId,  String emoji)?  messageReactionRemoved,TResult? Function( String conversationId,  List<String> userIds)?  typingUpdate,TResult? Function( String userId,  String status,  String? timestamp)?  presenceUpdate,TResult? Function( String id,  String title,  String body,  String? notificationType,  Map<String, dynamic>? data,  String? createdAt)?  notificationNew,TResult? Function( List<String> notificationIds)?  notificationRead,TResult? Function()?  notificationAllRead,TResult? Function( String? timestamp)?  pong,TResult? Function( String? code,  String? message)?  errorEvent,TResult? Function( String streamId,  int viewerCount)?  streamJoined,TResult? Function( String streamId)?  streamLeft,TResult? Function( String streamId,  String title,  String? hostId,  String? hostName)?  streamStarted,TResult? Function( String streamId)?  streamPaused,TResult? Function( String streamId)?  streamEnded,TResult? Function( String streamId,  int count)?  streamViewerCount,TResult? Function( String streamId,  String userId,  String? userName)?  streamViewerJoined,TResult? Function( String streamId,  String userId)?  streamViewerLeft,TResult? Function( String streamId,  String commentId,  String userId,  String content,  String? userName)?  streamCommentNew,TResult? Function( String streamId,  String emoji,  int count)?  streamReactionBurst,TResult? Function( String type,  Map<String, dynamic> data)?  unknown,}) {final _that = this;
 switch (_that) {
 case ConnectedEvent() when connected != null:
 return connected(_that.socketId,_that.application,_that.user);case ConversationJoinedEvent() when conversationJoined != null:
@@ -331,7 +421,17 @@ return notificationNew(_that.id,_that.title,_that.body,_that.notificationType,_t
 return notificationRead(_that.notificationIds);case NotificationAllReadEvent() when notificationAllRead != null:
 return notificationAllRead();case PongEvent() when pong != null:
 return pong(_that.timestamp);case ErrorEvent() when errorEvent != null:
-return errorEvent(_that.code,_that.message);case UnknownEvent() when unknown != null:
+return errorEvent(_that.code,_that.message);case StreamJoinedEvent() when streamJoined != null:
+return streamJoined(_that.streamId,_that.viewerCount);case StreamLeftEvent() when streamLeft != null:
+return streamLeft(_that.streamId);case StreamStartedEvent() when streamStarted != null:
+return streamStarted(_that.streamId,_that.title,_that.hostId,_that.hostName);case StreamPausedEvent() when streamPaused != null:
+return streamPaused(_that.streamId);case StreamEndedEvent() when streamEnded != null:
+return streamEnded(_that.streamId);case StreamViewerCountEvent() when streamViewerCount != null:
+return streamViewerCount(_that.streamId,_that.count);case StreamViewerJoinedEvent() when streamViewerJoined != null:
+return streamViewerJoined(_that.streamId,_that.userId,_that.userName);case StreamViewerLeftEvent() when streamViewerLeft != null:
+return streamViewerLeft(_that.streamId,_that.userId);case StreamCommentNewEvent() when streamCommentNew != null:
+return streamCommentNew(_that.streamId,_that.commentId,_that.userId,_that.content,_that.userName);case StreamReactionBurstEvent() when streamReactionBurst != null:
+return streamReactionBurst(_that.streamId,_that.emoji,_that.count);case UnknownEvent() when unknown != null:
 return unknown(_that.type,_that.data);case _:
   return null;
 
@@ -1578,6 +1678,764 @@ class _$ErrorEventCopyWithImpl<$Res>
 code: freezed == code ? _self.code : code // ignore: cast_nullable_to_non_nullable
 as String?,message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String?,
+  ));
+}
+
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class StreamJoinedEvent implements RealtimeEvent {
+  const StreamJoinedEvent({required this.streamId, this.viewerCount = 0, final  String? $type}): $type = $type ?? 'stream_joined';
+  factory StreamJoinedEvent.fromJson(Map<String, dynamic> json) => _$StreamJoinedEventFromJson(json);
+
+ final  String streamId;
+@JsonKey() final  int viewerCount;
+
+@JsonKey(name: 'type')
+final String $type;
+
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$StreamJoinedEventCopyWith<StreamJoinedEvent> get copyWith => _$StreamJoinedEventCopyWithImpl<StreamJoinedEvent>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$StreamJoinedEventToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is StreamJoinedEvent&&(identical(other.streamId, streamId) || other.streamId == streamId)&&(identical(other.viewerCount, viewerCount) || other.viewerCount == viewerCount));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,streamId,viewerCount);
+
+@override
+String toString() {
+  return 'RealtimeEvent.streamJoined(streamId: $streamId, viewerCount: $viewerCount)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $StreamJoinedEventCopyWith<$Res> implements $RealtimeEventCopyWith<$Res> {
+  factory $StreamJoinedEventCopyWith(StreamJoinedEvent value, $Res Function(StreamJoinedEvent) _then) = _$StreamJoinedEventCopyWithImpl;
+@useResult
+$Res call({
+ String streamId, int viewerCount
+});
+
+
+
+
+}
+/// @nodoc
+class _$StreamJoinedEventCopyWithImpl<$Res>
+    implements $StreamJoinedEventCopyWith<$Res> {
+  _$StreamJoinedEventCopyWithImpl(this._self, this._then);
+
+  final StreamJoinedEvent _self;
+  final $Res Function(StreamJoinedEvent) _then;
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? streamId = null,Object? viewerCount = null,}) {
+  return _then(StreamJoinedEvent(
+streamId: null == streamId ? _self.streamId : streamId // ignore: cast_nullable_to_non_nullable
+as String,viewerCount: null == viewerCount ? _self.viewerCount : viewerCount // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
+}
+
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class StreamLeftEvent implements RealtimeEvent {
+  const StreamLeftEvent({required this.streamId, final  String? $type}): $type = $type ?? 'stream_left';
+  factory StreamLeftEvent.fromJson(Map<String, dynamic> json) => _$StreamLeftEventFromJson(json);
+
+ final  String streamId;
+
+@JsonKey(name: 'type')
+final String $type;
+
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$StreamLeftEventCopyWith<StreamLeftEvent> get copyWith => _$StreamLeftEventCopyWithImpl<StreamLeftEvent>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$StreamLeftEventToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is StreamLeftEvent&&(identical(other.streamId, streamId) || other.streamId == streamId));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,streamId);
+
+@override
+String toString() {
+  return 'RealtimeEvent.streamLeft(streamId: $streamId)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $StreamLeftEventCopyWith<$Res> implements $RealtimeEventCopyWith<$Res> {
+  factory $StreamLeftEventCopyWith(StreamLeftEvent value, $Res Function(StreamLeftEvent) _then) = _$StreamLeftEventCopyWithImpl;
+@useResult
+$Res call({
+ String streamId
+});
+
+
+
+
+}
+/// @nodoc
+class _$StreamLeftEventCopyWithImpl<$Res>
+    implements $StreamLeftEventCopyWith<$Res> {
+  _$StreamLeftEventCopyWithImpl(this._self, this._then);
+
+  final StreamLeftEvent _self;
+  final $Res Function(StreamLeftEvent) _then;
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? streamId = null,}) {
+  return _then(StreamLeftEvent(
+streamId: null == streamId ? _self.streamId : streamId // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class StreamStartedEvent implements RealtimeEvent {
+  const StreamStartedEvent({required this.streamId, required this.title, this.hostId, this.hostName, final  String? $type}): $type = $type ?? 'stream_started';
+  factory StreamStartedEvent.fromJson(Map<String, dynamic> json) => _$StreamStartedEventFromJson(json);
+
+ final  String streamId;
+ final  String title;
+ final  String? hostId;
+ final  String? hostName;
+
+@JsonKey(name: 'type')
+final String $type;
+
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$StreamStartedEventCopyWith<StreamStartedEvent> get copyWith => _$StreamStartedEventCopyWithImpl<StreamStartedEvent>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$StreamStartedEventToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is StreamStartedEvent&&(identical(other.streamId, streamId) || other.streamId == streamId)&&(identical(other.title, title) || other.title == title)&&(identical(other.hostId, hostId) || other.hostId == hostId)&&(identical(other.hostName, hostName) || other.hostName == hostName));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,streamId,title,hostId,hostName);
+
+@override
+String toString() {
+  return 'RealtimeEvent.streamStarted(streamId: $streamId, title: $title, hostId: $hostId, hostName: $hostName)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $StreamStartedEventCopyWith<$Res> implements $RealtimeEventCopyWith<$Res> {
+  factory $StreamStartedEventCopyWith(StreamStartedEvent value, $Res Function(StreamStartedEvent) _then) = _$StreamStartedEventCopyWithImpl;
+@useResult
+$Res call({
+ String streamId, String title, String? hostId, String? hostName
+});
+
+
+
+
+}
+/// @nodoc
+class _$StreamStartedEventCopyWithImpl<$Res>
+    implements $StreamStartedEventCopyWith<$Res> {
+  _$StreamStartedEventCopyWithImpl(this._self, this._then);
+
+  final StreamStartedEvent _self;
+  final $Res Function(StreamStartedEvent) _then;
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? streamId = null,Object? title = null,Object? hostId = freezed,Object? hostName = freezed,}) {
+  return _then(StreamStartedEvent(
+streamId: null == streamId ? _self.streamId : streamId // ignore: cast_nullable_to_non_nullable
+as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
+as String,hostId: freezed == hostId ? _self.hostId : hostId // ignore: cast_nullable_to_non_nullable
+as String?,hostName: freezed == hostName ? _self.hostName : hostName // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class StreamPausedEvent implements RealtimeEvent {
+  const StreamPausedEvent({required this.streamId, final  String? $type}): $type = $type ?? 'stream_paused';
+  factory StreamPausedEvent.fromJson(Map<String, dynamic> json) => _$StreamPausedEventFromJson(json);
+
+ final  String streamId;
+
+@JsonKey(name: 'type')
+final String $type;
+
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$StreamPausedEventCopyWith<StreamPausedEvent> get copyWith => _$StreamPausedEventCopyWithImpl<StreamPausedEvent>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$StreamPausedEventToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is StreamPausedEvent&&(identical(other.streamId, streamId) || other.streamId == streamId));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,streamId);
+
+@override
+String toString() {
+  return 'RealtimeEvent.streamPaused(streamId: $streamId)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $StreamPausedEventCopyWith<$Res> implements $RealtimeEventCopyWith<$Res> {
+  factory $StreamPausedEventCopyWith(StreamPausedEvent value, $Res Function(StreamPausedEvent) _then) = _$StreamPausedEventCopyWithImpl;
+@useResult
+$Res call({
+ String streamId
+});
+
+
+
+
+}
+/// @nodoc
+class _$StreamPausedEventCopyWithImpl<$Res>
+    implements $StreamPausedEventCopyWith<$Res> {
+  _$StreamPausedEventCopyWithImpl(this._self, this._then);
+
+  final StreamPausedEvent _self;
+  final $Res Function(StreamPausedEvent) _then;
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? streamId = null,}) {
+  return _then(StreamPausedEvent(
+streamId: null == streamId ? _self.streamId : streamId // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class StreamEndedEvent implements RealtimeEvent {
+  const StreamEndedEvent({required this.streamId, final  String? $type}): $type = $type ?? 'stream_ended';
+  factory StreamEndedEvent.fromJson(Map<String, dynamic> json) => _$StreamEndedEventFromJson(json);
+
+ final  String streamId;
+
+@JsonKey(name: 'type')
+final String $type;
+
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$StreamEndedEventCopyWith<StreamEndedEvent> get copyWith => _$StreamEndedEventCopyWithImpl<StreamEndedEvent>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$StreamEndedEventToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is StreamEndedEvent&&(identical(other.streamId, streamId) || other.streamId == streamId));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,streamId);
+
+@override
+String toString() {
+  return 'RealtimeEvent.streamEnded(streamId: $streamId)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $StreamEndedEventCopyWith<$Res> implements $RealtimeEventCopyWith<$Res> {
+  factory $StreamEndedEventCopyWith(StreamEndedEvent value, $Res Function(StreamEndedEvent) _then) = _$StreamEndedEventCopyWithImpl;
+@useResult
+$Res call({
+ String streamId
+});
+
+
+
+
+}
+/// @nodoc
+class _$StreamEndedEventCopyWithImpl<$Res>
+    implements $StreamEndedEventCopyWith<$Res> {
+  _$StreamEndedEventCopyWithImpl(this._self, this._then);
+
+  final StreamEndedEvent _self;
+  final $Res Function(StreamEndedEvent) _then;
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? streamId = null,}) {
+  return _then(StreamEndedEvent(
+streamId: null == streamId ? _self.streamId : streamId // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class StreamViewerCountEvent implements RealtimeEvent {
+  const StreamViewerCountEvent({required this.streamId, this.count = 0, final  String? $type}): $type = $type ?? 'stream_viewer_count';
+  factory StreamViewerCountEvent.fromJson(Map<String, dynamic> json) => _$StreamViewerCountEventFromJson(json);
+
+ final  String streamId;
+@JsonKey() final  int count;
+
+@JsonKey(name: 'type')
+final String $type;
+
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$StreamViewerCountEventCopyWith<StreamViewerCountEvent> get copyWith => _$StreamViewerCountEventCopyWithImpl<StreamViewerCountEvent>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$StreamViewerCountEventToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is StreamViewerCountEvent&&(identical(other.streamId, streamId) || other.streamId == streamId)&&(identical(other.count, count) || other.count == count));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,streamId,count);
+
+@override
+String toString() {
+  return 'RealtimeEvent.streamViewerCount(streamId: $streamId, count: $count)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $StreamViewerCountEventCopyWith<$Res> implements $RealtimeEventCopyWith<$Res> {
+  factory $StreamViewerCountEventCopyWith(StreamViewerCountEvent value, $Res Function(StreamViewerCountEvent) _then) = _$StreamViewerCountEventCopyWithImpl;
+@useResult
+$Res call({
+ String streamId, int count
+});
+
+
+
+
+}
+/// @nodoc
+class _$StreamViewerCountEventCopyWithImpl<$Res>
+    implements $StreamViewerCountEventCopyWith<$Res> {
+  _$StreamViewerCountEventCopyWithImpl(this._self, this._then);
+
+  final StreamViewerCountEvent _self;
+  final $Res Function(StreamViewerCountEvent) _then;
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? streamId = null,Object? count = null,}) {
+  return _then(StreamViewerCountEvent(
+streamId: null == streamId ? _self.streamId : streamId // ignore: cast_nullable_to_non_nullable
+as String,count: null == count ? _self.count : count // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
+}
+
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class StreamViewerJoinedEvent implements RealtimeEvent {
+  const StreamViewerJoinedEvent({required this.streamId, required this.userId, this.userName, final  String? $type}): $type = $type ?? 'stream_viewer_joined';
+  factory StreamViewerJoinedEvent.fromJson(Map<String, dynamic> json) => _$StreamViewerJoinedEventFromJson(json);
+
+ final  String streamId;
+ final  String userId;
+ final  String? userName;
+
+@JsonKey(name: 'type')
+final String $type;
+
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$StreamViewerJoinedEventCopyWith<StreamViewerJoinedEvent> get copyWith => _$StreamViewerJoinedEventCopyWithImpl<StreamViewerJoinedEvent>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$StreamViewerJoinedEventToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is StreamViewerJoinedEvent&&(identical(other.streamId, streamId) || other.streamId == streamId)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.userName, userName) || other.userName == userName));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,streamId,userId,userName);
+
+@override
+String toString() {
+  return 'RealtimeEvent.streamViewerJoined(streamId: $streamId, userId: $userId, userName: $userName)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $StreamViewerJoinedEventCopyWith<$Res> implements $RealtimeEventCopyWith<$Res> {
+  factory $StreamViewerJoinedEventCopyWith(StreamViewerJoinedEvent value, $Res Function(StreamViewerJoinedEvent) _then) = _$StreamViewerJoinedEventCopyWithImpl;
+@useResult
+$Res call({
+ String streamId, String userId, String? userName
+});
+
+
+
+
+}
+/// @nodoc
+class _$StreamViewerJoinedEventCopyWithImpl<$Res>
+    implements $StreamViewerJoinedEventCopyWith<$Res> {
+  _$StreamViewerJoinedEventCopyWithImpl(this._self, this._then);
+
+  final StreamViewerJoinedEvent _self;
+  final $Res Function(StreamViewerJoinedEvent) _then;
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? streamId = null,Object? userId = null,Object? userName = freezed,}) {
+  return _then(StreamViewerJoinedEvent(
+streamId: null == streamId ? _self.streamId : streamId // ignore: cast_nullable_to_non_nullable
+as String,userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
+as String,userName: freezed == userName ? _self.userName : userName // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class StreamViewerLeftEvent implements RealtimeEvent {
+  const StreamViewerLeftEvent({required this.streamId, required this.userId, final  String? $type}): $type = $type ?? 'stream_viewer_left';
+  factory StreamViewerLeftEvent.fromJson(Map<String, dynamic> json) => _$StreamViewerLeftEventFromJson(json);
+
+ final  String streamId;
+ final  String userId;
+
+@JsonKey(name: 'type')
+final String $type;
+
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$StreamViewerLeftEventCopyWith<StreamViewerLeftEvent> get copyWith => _$StreamViewerLeftEventCopyWithImpl<StreamViewerLeftEvent>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$StreamViewerLeftEventToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is StreamViewerLeftEvent&&(identical(other.streamId, streamId) || other.streamId == streamId)&&(identical(other.userId, userId) || other.userId == userId));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,streamId,userId);
+
+@override
+String toString() {
+  return 'RealtimeEvent.streamViewerLeft(streamId: $streamId, userId: $userId)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $StreamViewerLeftEventCopyWith<$Res> implements $RealtimeEventCopyWith<$Res> {
+  factory $StreamViewerLeftEventCopyWith(StreamViewerLeftEvent value, $Res Function(StreamViewerLeftEvent) _then) = _$StreamViewerLeftEventCopyWithImpl;
+@useResult
+$Res call({
+ String streamId, String userId
+});
+
+
+
+
+}
+/// @nodoc
+class _$StreamViewerLeftEventCopyWithImpl<$Res>
+    implements $StreamViewerLeftEventCopyWith<$Res> {
+  _$StreamViewerLeftEventCopyWithImpl(this._self, this._then);
+
+  final StreamViewerLeftEvent _self;
+  final $Res Function(StreamViewerLeftEvent) _then;
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? streamId = null,Object? userId = null,}) {
+  return _then(StreamViewerLeftEvent(
+streamId: null == streamId ? _self.streamId : streamId // ignore: cast_nullable_to_non_nullable
+as String,userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class StreamCommentNewEvent implements RealtimeEvent {
+  const StreamCommentNewEvent({required this.streamId, required this.commentId, required this.userId, required this.content, this.userName, final  String? $type}): $type = $type ?? 'stream_comment_new';
+  factory StreamCommentNewEvent.fromJson(Map<String, dynamic> json) => _$StreamCommentNewEventFromJson(json);
+
+ final  String streamId;
+ final  String commentId;
+ final  String userId;
+ final  String content;
+ final  String? userName;
+
+@JsonKey(name: 'type')
+final String $type;
+
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$StreamCommentNewEventCopyWith<StreamCommentNewEvent> get copyWith => _$StreamCommentNewEventCopyWithImpl<StreamCommentNewEvent>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$StreamCommentNewEventToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is StreamCommentNewEvent&&(identical(other.streamId, streamId) || other.streamId == streamId)&&(identical(other.commentId, commentId) || other.commentId == commentId)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.content, content) || other.content == content)&&(identical(other.userName, userName) || other.userName == userName));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,streamId,commentId,userId,content,userName);
+
+@override
+String toString() {
+  return 'RealtimeEvent.streamCommentNew(streamId: $streamId, commentId: $commentId, userId: $userId, content: $content, userName: $userName)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $StreamCommentNewEventCopyWith<$Res> implements $RealtimeEventCopyWith<$Res> {
+  factory $StreamCommentNewEventCopyWith(StreamCommentNewEvent value, $Res Function(StreamCommentNewEvent) _then) = _$StreamCommentNewEventCopyWithImpl;
+@useResult
+$Res call({
+ String streamId, String commentId, String userId, String content, String? userName
+});
+
+
+
+
+}
+/// @nodoc
+class _$StreamCommentNewEventCopyWithImpl<$Res>
+    implements $StreamCommentNewEventCopyWith<$Res> {
+  _$StreamCommentNewEventCopyWithImpl(this._self, this._then);
+
+  final StreamCommentNewEvent _self;
+  final $Res Function(StreamCommentNewEvent) _then;
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? streamId = null,Object? commentId = null,Object? userId = null,Object? content = null,Object? userName = freezed,}) {
+  return _then(StreamCommentNewEvent(
+streamId: null == streamId ? _self.streamId : streamId // ignore: cast_nullable_to_non_nullable
+as String,commentId: null == commentId ? _self.commentId : commentId // ignore: cast_nullable_to_non_nullable
+as String,userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
+as String,content: null == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
+as String,userName: freezed == userName ? _self.userName : userName // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class StreamReactionBurstEvent implements RealtimeEvent {
+  const StreamReactionBurstEvent({required this.streamId, required this.emoji, this.count = 0, final  String? $type}): $type = $type ?? 'stream_reaction_burst';
+  factory StreamReactionBurstEvent.fromJson(Map<String, dynamic> json) => _$StreamReactionBurstEventFromJson(json);
+
+ final  String streamId;
+ final  String emoji;
+@JsonKey() final  int count;
+
+@JsonKey(name: 'type')
+final String $type;
+
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$StreamReactionBurstEventCopyWith<StreamReactionBurstEvent> get copyWith => _$StreamReactionBurstEventCopyWithImpl<StreamReactionBurstEvent>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$StreamReactionBurstEventToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is StreamReactionBurstEvent&&(identical(other.streamId, streamId) || other.streamId == streamId)&&(identical(other.emoji, emoji) || other.emoji == emoji)&&(identical(other.count, count) || other.count == count));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,streamId,emoji,count);
+
+@override
+String toString() {
+  return 'RealtimeEvent.streamReactionBurst(streamId: $streamId, emoji: $emoji, count: $count)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $StreamReactionBurstEventCopyWith<$Res> implements $RealtimeEventCopyWith<$Res> {
+  factory $StreamReactionBurstEventCopyWith(StreamReactionBurstEvent value, $Res Function(StreamReactionBurstEvent) _then) = _$StreamReactionBurstEventCopyWithImpl;
+@useResult
+$Res call({
+ String streamId, String emoji, int count
+});
+
+
+
+
+}
+/// @nodoc
+class _$StreamReactionBurstEventCopyWithImpl<$Res>
+    implements $StreamReactionBurstEventCopyWith<$Res> {
+  _$StreamReactionBurstEventCopyWithImpl(this._self, this._then);
+
+  final StreamReactionBurstEvent _self;
+  final $Res Function(StreamReactionBurstEvent) _then;
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? streamId = null,Object? emoji = null,Object? count = null,}) {
+  return _then(StreamReactionBurstEvent(
+streamId: null == streamId ? _self.streamId : streamId // ignore: cast_nullable_to_non_nullable
+as String,emoji: null == emoji ? _self.emoji : emoji // ignore: cast_nullable_to_non_nullable
+as String,count: null == count ? _self.count : count // ignore: cast_nullable_to_non_nullable
+as int,
   ));
 }
 

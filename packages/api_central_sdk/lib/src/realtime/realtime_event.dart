@@ -21,6 +21,16 @@ const _typesConnus = <String>{
   'notification_all_read',
   'pong',
   'error',
+  'stream_joined',
+  'stream_left',
+  'stream_started',
+  'stream_paused',
+  'stream_ended',
+  'stream_viewer_count',
+  'stream_viewer_joined',
+  'stream_viewer_left',
+  'stream_comment_new',
+  'stream_reaction_burst',
 };
 
 /// Convertit un message brut du WebSocket en [RealtimeEvent].
@@ -157,6 +167,69 @@ sealed class RealtimeEvent with _$RealtimeEvent {
     String? code,
     String? message,
   }) = ErrorEvent;
+
+  // --- Directs -------------------------------------------------------------
+
+  @FreezedUnionValue('stream_joined')
+  const factory RealtimeEvent.streamJoined({
+    required String streamId,
+    @Default(0) int viewerCount,
+  }) = StreamJoinedEvent;
+
+  @FreezedUnionValue('stream_left')
+  const factory RealtimeEvent.streamLeft({required String streamId}) =
+      StreamLeftEvent;
+
+  @FreezedUnionValue('stream_started')
+  const factory RealtimeEvent.streamStarted({
+    required String streamId,
+    required String title,
+    String? hostId,
+    String? hostName,
+  }) = StreamStartedEvent;
+
+  @FreezedUnionValue('stream_paused')
+  const factory RealtimeEvent.streamPaused({required String streamId}) =
+      StreamPausedEvent;
+
+  @FreezedUnionValue('stream_ended')
+  const factory RealtimeEvent.streamEnded({required String streamId}) =
+      StreamEndedEvent;
+
+  @FreezedUnionValue('stream_viewer_count')
+  const factory RealtimeEvent.streamViewerCount({
+    required String streamId,
+    @Default(0) int count,
+  }) = StreamViewerCountEvent;
+
+  @FreezedUnionValue('stream_viewer_joined')
+  const factory RealtimeEvent.streamViewerJoined({
+    required String streamId,
+    required String userId,
+    String? userName,
+  }) = StreamViewerJoinedEvent;
+
+  @FreezedUnionValue('stream_viewer_left')
+  const factory RealtimeEvent.streamViewerLeft({
+    required String streamId,
+    required String userId,
+  }) = StreamViewerLeftEvent;
+
+  @FreezedUnionValue('stream_comment_new')
+  const factory RealtimeEvent.streamCommentNew({
+    required String streamId,
+    required String commentId,
+    required String userId,
+    required String content,
+    String? userName,
+  }) = StreamCommentNewEvent;
+
+  @FreezedUnionValue('stream_reaction_burst')
+  const factory RealtimeEvent.streamReactionBurst({
+    required String streamId,
+    required String emoji,
+    @Default(0) int count,
+  }) = StreamReactionBurstEvent;
 
   /// Événement non typé par cette version du SDK.
   @FreezedUnionValue('unknown')

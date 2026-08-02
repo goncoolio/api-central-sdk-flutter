@@ -91,10 +91,12 @@ void main() {
     });
 
     test('permet un pattern matching exhaustif', () {
+      // `call_incoming` sera typé en phase 5 ; il sert ici de représentant des
+      // événements que le SDK ne connaît pas encore.
       const messages = <Map<String, dynamic>>[
         {'type': 'pong', 'timestamp': '2026-08-02T10:00:00Z'},
         {'type': 'notification_all_read'},
-        {'type': 'stream_started', 'streamId': 's1'},
+        {'type': 'call_incoming', 'callId': 'c1'},
       ];
 
       final libelles = messages.map(parseRealtimeEvent).map((event) =>
@@ -105,7 +107,7 @@ void main() {
             _ => 'autre',
           });
 
-      expect(libelles, equals(['pong', 'tout lu', 'inconnu:stream_started']));
+      expect(libelles, equals(['pong', 'tout lu', 'inconnu:call_incoming']));
     });
   });
 }
