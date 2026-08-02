@@ -1,6 +1,9 @@
 .dart_tool/
 .packages
 build/
+# Modèles issus du spec OpenAPI, en transit avant relecture — reproductibles
+# via tool/generate_models.dart
+.generated/
 pubspec.lock
 *.iml
 .idea/

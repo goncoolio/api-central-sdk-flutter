@@ -9,7 +9,8 @@ environment:
 dependencies:
   dio: ^5.11.0
   freezed_annotation: ^3.1.0
-  json_annotation: ^4.9.0
+  # json_serializable 6.14 exige json_annotation >=4.12.0.
+  json_annotation: ^4.12.0
   web_socket_channel: ^3.0.3
 
 dev_dependencies:
