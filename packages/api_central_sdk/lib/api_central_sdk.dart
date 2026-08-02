@@ -16,5 +16,6 @@ export 'src/modules/messaging_module.dart';
 export 'src/modules/notifications_module.dart';
 export 'src/modules/users_module.dart';
 export 'src/realtime/realtime_event.dart';
+export 'src/realtime/realtime_module.dart';
 export 'src/realtime/websocket_client.dart' show ConnectionState, WebSocketClient;
 export 'src/token_provider.dart';
