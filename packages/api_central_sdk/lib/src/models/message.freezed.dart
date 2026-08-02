@@ -556,7 +556,7 @@ as String?,
 /// @nodoc
 mixin _$Message {
 
- String get id; String get conversationId; String get content; ContentType get contentType; String? get clientMessageId; UserInfo? get sender; Map<String, dynamic>? get attachments; List<Reaction> get reactions; bool get isEdited; DateTime? get editedAt; bool get isDeleted; DateTime? get createdAt;
+ String get id; String get conversationId; String get content; ContentType get contentType; String? get clientMessageId; UserInfo? get sender; Map<String, dynamic>? get attachments; Message? get replyTo; List<Reaction> get reactions; bool get isEdited; DateTime? get editedAt; bool get isDeleted; DateTime? get createdAt;
 /// Create a copy of Message
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -569,16 +569,16 @@ $MessageCopyWith<Message> get copyWith => _$MessageCopyWithImpl<Message>(this as
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Message&&(identical(other.id, id) || other.id == id)&&(identical(other.conversationId, conversationId) || other.conversationId == conversationId)&&(identical(other.content, content) || other.content == content)&&(identical(other.contentType, contentType) || other.contentType == contentType)&&(identical(other.clientMessageId, clientMessageId) || other.clientMessageId == clientMessageId)&&(identical(other.sender, sender) || other.sender == sender)&&const DeepCollectionEquality().equals(other.attachments, attachments)&&const DeepCollectionEquality().equals(other.reactions, reactions)&&(identical(other.isEdited, isEdited) || other.isEdited == isEdited)&&(identical(other.editedAt, editedAt) || other.editedAt == editedAt)&&(identical(other.isDeleted, isDeleted) || other.isDeleted == isDeleted)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Message&&(identical(other.id, id) || other.id == id)&&(identical(other.conversationId, conversationId) || other.conversationId == conversationId)&&(identical(other.content, content) || other.content == content)&&(identical(other.contentType, contentType) || other.contentType == contentType)&&(identical(other.clientMessageId, clientMessageId) || other.clientMessageId == clientMessageId)&&(identical(other.sender, sender) || other.sender == sender)&&const DeepCollectionEquality().equals(other.attachments, attachments)&&(identical(other.replyTo, replyTo) || other.replyTo == replyTo)&&const DeepCollectionEquality().equals(other.reactions, reactions)&&(identical(other.isEdited, isEdited) || other.isEdited == isEdited)&&(identical(other.editedAt, editedAt) || other.editedAt == editedAt)&&(identical(other.isDeleted, isDeleted) || other.isDeleted == isDeleted)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,conversationId,content,contentType,clientMessageId,sender,const DeepCollectionEquality().hash(attachments),const DeepCollectionEquality().hash(reactions),isEdited,editedAt,isDeleted,createdAt);
+int get hashCode => Object.hash(runtimeType,id,conversationId,content,contentType,clientMessageId,sender,const DeepCollectionEquality().hash(attachments),replyTo,const DeepCollectionEquality().hash(reactions),isEdited,editedAt,isDeleted,createdAt);
 
 @override
 String toString() {
-  return 'Message(id: $id, conversationId: $conversationId, content: $content, contentType: $contentType, clientMessageId: $clientMessageId, sender: $sender, attachments: $attachments, reactions: $reactions, isEdited: $isEdited, editedAt: $editedAt, isDeleted: $isDeleted, createdAt: $createdAt)';
+  return 'Message(id: $id, conversationId: $conversationId, content: $content, contentType: $contentType, clientMessageId: $clientMessageId, sender: $sender, attachments: $attachments, replyTo: $replyTo, reactions: $reactions, isEdited: $isEdited, editedAt: $editedAt, isDeleted: $isDeleted, createdAt: $createdAt)';
 }
 
 
@@ -589,11 +589,11 @@ abstract mixin class $MessageCopyWith<$Res>  {
   factory $MessageCopyWith(Message value, $Res Function(Message) _then) = _$MessageCopyWithImpl;
 @useResult
 $Res call({
- String id, String conversationId, String content, ContentType contentType, String? clientMessageId, UserInfo? sender, Map<String, dynamic>? attachments, List<Reaction> reactions, bool isEdited, DateTime? editedAt, bool isDeleted, DateTime? createdAt
+ String id, String conversationId, String content, ContentType contentType, String? clientMessageId, UserInfo? sender, Map<String, dynamic>? attachments, Message? replyTo, List<Reaction> reactions, bool isEdited, DateTime? editedAt, bool isDeleted, DateTime? createdAt
 });
 
 
-$UserInfoCopyWith<$Res>? get sender;
+$UserInfoCopyWith<$Res>? get sender;$MessageCopyWith<$Res>? get replyTo;
 
 }
 /// @nodoc
@@ -606,7 +606,7 @@ class _$MessageCopyWithImpl<$Res>
 
 /// Create a copy of Message
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? conversationId = null,Object? content = null,Object? contentType = null,Object? clientMessageId = freezed,Object? sender = freezed,Object? attachments = freezed,Object? reactions = null,Object? isEdited = null,Object? editedAt = freezed,Object? isDeleted = null,Object? createdAt = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? conversationId = null,Object? content = null,Object? contentType = null,Object? clientMessageId = freezed,Object? sender = freezed,Object? attachments = freezed,Object? replyTo = freezed,Object? reactions = null,Object? isEdited = null,Object? editedAt = freezed,Object? isDeleted = null,Object? createdAt = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,conversationId: null == conversationId ? _self.conversationId : conversationId // ignore: cast_nullable_to_non_nullable
@@ -615,7 +615,8 @@ as String,contentType: null == contentType ? _self.contentType : contentType // 
 as ContentType,clientMessageId: freezed == clientMessageId ? _self.clientMessageId : clientMessageId // ignore: cast_nullable_to_non_nullable
 as String?,sender: freezed == sender ? _self.sender : sender // ignore: cast_nullable_to_non_nullable
 as UserInfo?,attachments: freezed == attachments ? _self.attachments : attachments // ignore: cast_nullable_to_non_nullable
-as Map<String, dynamic>?,reactions: null == reactions ? _self.reactions : reactions // ignore: cast_nullable_to_non_nullable
+as Map<String, dynamic>?,replyTo: freezed == replyTo ? _self.replyTo : replyTo // ignore: cast_nullable_to_non_nullable
+as Message?,reactions: null == reactions ? _self.reactions : reactions // ignore: cast_nullable_to_non_nullable
 as List<Reaction>,isEdited: null == isEdited ? _self.isEdited : isEdited // ignore: cast_nullable_to_non_nullable
 as bool,editedAt: freezed == editedAt ? _self.editedAt : editedAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,isDeleted: null == isDeleted ? _self.isDeleted : isDeleted // ignore: cast_nullable_to_non_nullable
@@ -634,6 +635,18 @@ $UserInfoCopyWith<$Res>? get sender {
 
   return $UserInfoCopyWith<$Res>(_self.sender!, (value) {
     return _then(_self.copyWith(sender: value));
+  });
+}/// Create a copy of Message
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$MessageCopyWith<$Res>? get replyTo {
+    if (_self.replyTo == null) {
+    return null;
+  }
+
+  return $MessageCopyWith<$Res>(_self.replyTo!, (value) {
+    return _then(_self.copyWith(replyTo: value));
   });
 }
 }
@@ -717,10 +730,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String conversationId,  String content,  ContentType contentType,  String? clientMessageId,  UserInfo? sender,  Map<String, dynamic>? attachments,  List<Reaction> reactions,  bool isEdited,  DateTime? editedAt,  bool isDeleted,  DateTime? createdAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String conversationId,  String content,  ContentType contentType,  String? clientMessageId,  UserInfo? sender,  Map<String, dynamic>? attachments,  Message? replyTo,  List<Reaction> reactions,  bool isEdited,  DateTime? editedAt,  bool isDeleted,  DateTime? createdAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Message() when $default != null:
-return $default(_that.id,_that.conversationId,_that.content,_that.contentType,_that.clientMessageId,_that.sender,_that.attachments,_that.reactions,_that.isEdited,_that.editedAt,_that.isDeleted,_that.createdAt);case _:
+return $default(_that.id,_that.conversationId,_that.content,_that.contentType,_that.clientMessageId,_that.sender,_that.attachments,_that.replyTo,_that.reactions,_that.isEdited,_that.editedAt,_that.isDeleted,_that.createdAt);case _:
   return orElse();
 
 }
@@ -738,10 +751,10 @@ return $default(_that.id,_that.conversationId,_that.content,_that.contentType,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String conversationId,  String content,  ContentType contentType,  String? clientMessageId,  UserInfo? sender,  Map<String, dynamic>? attachments,  List<Reaction> reactions,  bool isEdited,  DateTime? editedAt,  bool isDeleted,  DateTime? createdAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String conversationId,  String content,  ContentType contentType,  String? clientMessageId,  UserInfo? sender,  Map<String, dynamic>? attachments,  Message? replyTo,  List<Reaction> reactions,  bool isEdited,  DateTime? editedAt,  bool isDeleted,  DateTime? createdAt)  $default,) {final _that = this;
 switch (_that) {
 case _Message():
-return $default(_that.id,_that.conversationId,_that.content,_that.contentType,_that.clientMessageId,_that.sender,_that.attachments,_that.reactions,_that.isEdited,_that.editedAt,_that.isDeleted,_that.createdAt);case _:
+return $default(_that.id,_that.conversationId,_that.content,_that.contentType,_that.clientMessageId,_that.sender,_that.attachments,_that.replyTo,_that.reactions,_that.isEdited,_that.editedAt,_that.isDeleted,_that.createdAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -758,10 +771,10 @@ return $default(_that.id,_that.conversationId,_that.content,_that.contentType,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String conversationId,  String content,  ContentType contentType,  String? clientMessageId,  UserInfo? sender,  Map<String, dynamic>? attachments,  List<Reaction> reactions,  bool isEdited,  DateTime? editedAt,  bool isDeleted,  DateTime? createdAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String conversationId,  String content,  ContentType contentType,  String? clientMessageId,  UserInfo? sender,  Map<String, dynamic>? attachments,  Message? replyTo,  List<Reaction> reactions,  bool isEdited,  DateTime? editedAt,  bool isDeleted,  DateTime? createdAt)?  $default,) {final _that = this;
 switch (_that) {
 case _Message() when $default != null:
-return $default(_that.id,_that.conversationId,_that.content,_that.contentType,_that.clientMessageId,_that.sender,_that.attachments,_that.reactions,_that.isEdited,_that.editedAt,_that.isDeleted,_that.createdAt);case _:
+return $default(_that.id,_that.conversationId,_that.content,_that.contentType,_that.clientMessageId,_that.sender,_that.attachments,_that.replyTo,_that.reactions,_that.isEdited,_that.editedAt,_that.isDeleted,_that.createdAt);case _:
   return null;
 
 }
@@ -773,7 +786,7 @@ return $default(_that.id,_that.conversationId,_that.content,_that.contentType,_t
 @JsonSerializable()
 
 class _Message implements Message {
-  const _Message({required this.id, required this.conversationId, required this.content, required this.contentType, this.clientMessageId, this.sender, final  Map<String, dynamic>? attachments, final  List<Reaction> reactions = const <Reaction>[], this.isEdited = false, this.editedAt, this.isDeleted = false, this.createdAt}): _attachments = attachments,_reactions = reactions;
+  const _Message({required this.id, required this.conversationId, required this.content, required this.contentType, this.clientMessageId, this.sender, final  Map<String, dynamic>? attachments, this.replyTo, final  List<Reaction> reactions = const <Reaction>[], this.isEdited = false, this.editedAt, this.isDeleted = false, this.createdAt}): _attachments = attachments,_reactions = reactions;
   factory _Message.fromJson(Map<String, dynamic> json) => _$MessageFromJson(json);
 
 @override final  String id;
@@ -791,6 +804,7 @@ class _Message implements Message {
   return EqualUnmodifiableMapView(value);
 }
 
+@override final  Message? replyTo;
  final  List<Reaction> _reactions;
 @override@JsonKey() List<Reaction> get reactions {
   if (_reactions is EqualUnmodifiableListView) return _reactions;
@@ -816,16 +830,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Message&&(identical(other.id, id) || other.id == id)&&(identical(other.conversationId, conversationId) || other.conversationId == conversationId)&&(identical(other.content, content) || other.content == content)&&(identical(other.contentType, contentType) || other.contentType == contentType)&&(identical(other.clientMessageId, clientMessageId) || other.clientMessageId == clientMessageId)&&(identical(other.sender, sender) || other.sender == sender)&&const DeepCollectionEquality().equals(other._attachments, _attachments)&&const DeepCollectionEquality().equals(other._reactions, _reactions)&&(identical(other.isEdited, isEdited) || other.isEdited == isEdited)&&(identical(other.editedAt, editedAt) || other.editedAt == editedAt)&&(identical(other.isDeleted, isDeleted) || other.isDeleted == isDeleted)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Message&&(identical(other.id, id) || other.id == id)&&(identical(other.conversationId, conversationId) || other.conversationId == conversationId)&&(identical(other.content, content) || other.content == content)&&(identical(other.contentType, contentType) || other.contentType == contentType)&&(identical(other.clientMessageId, clientMessageId) || other.clientMessageId == clientMessageId)&&(identical(other.sender, sender) || other.sender == sender)&&const DeepCollectionEquality().equals(other._attachments, _attachments)&&(identical(other.replyTo, replyTo) || other.replyTo == replyTo)&&const DeepCollectionEquality().equals(other._reactions, _reactions)&&(identical(other.isEdited, isEdited) || other.isEdited == isEdited)&&(identical(other.editedAt, editedAt) || other.editedAt == editedAt)&&(identical(other.isDeleted, isDeleted) || other.isDeleted == isDeleted)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,conversationId,content,contentType,clientMessageId,sender,const DeepCollectionEquality().hash(_attachments),const DeepCollectionEquality().hash(_reactions),isEdited,editedAt,isDeleted,createdAt);
+int get hashCode => Object.hash(runtimeType,id,conversationId,content,contentType,clientMessageId,sender,const DeepCollectionEquality().hash(_attachments),replyTo,const DeepCollectionEquality().hash(_reactions),isEdited,editedAt,isDeleted,createdAt);
 
 @override
 String toString() {
-  return 'Message(id: $id, conversationId: $conversationId, content: $content, contentType: $contentType, clientMessageId: $clientMessageId, sender: $sender, attachments: $attachments, reactions: $reactions, isEdited: $isEdited, editedAt: $editedAt, isDeleted: $isDeleted, createdAt: $createdAt)';
+  return 'Message(id: $id, conversationId: $conversationId, content: $content, contentType: $contentType, clientMessageId: $clientMessageId, sender: $sender, attachments: $attachments, replyTo: $replyTo, reactions: $reactions, isEdited: $isEdited, editedAt: $editedAt, isDeleted: $isDeleted, createdAt: $createdAt)';
 }
 
 
@@ -836,11 +850,11 @@ abstract mixin class _$MessageCopyWith<$Res> implements $MessageCopyWith<$Res> {
   factory _$MessageCopyWith(_Message value, $Res Function(_Message) _then) = __$MessageCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String conversationId, String content, ContentType contentType, String? clientMessageId, UserInfo? sender, Map<String, dynamic>? attachments, List<Reaction> reactions, bool isEdited, DateTime? editedAt, bool isDeleted, DateTime? createdAt
+ String id, String conversationId, String content, ContentType contentType, String? clientMessageId, UserInfo? sender, Map<String, dynamic>? attachments, Message? replyTo, List<Reaction> reactions, bool isEdited, DateTime? editedAt, bool isDeleted, DateTime? createdAt
 });
 
 
-@override $UserInfoCopyWith<$Res>? get sender;
+@override $UserInfoCopyWith<$Res>? get sender;@override $MessageCopyWith<$Res>? get replyTo;
 
 }
 /// @nodoc
@@ -853,7 +867,7 @@ class __$MessageCopyWithImpl<$Res>
 
 /// Create a copy of Message
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? conversationId = null,Object? content = null,Object? contentType = null,Object? clientMessageId = freezed,Object? sender = freezed,Object? attachments = freezed,Object? reactions = null,Object? isEdited = null,Object? editedAt = freezed,Object? isDeleted = null,Object? createdAt = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? conversationId = null,Object? content = null,Object? contentType = null,Object? clientMessageId = freezed,Object? sender = freezed,Object? attachments = freezed,Object? replyTo = freezed,Object? reactions = null,Object? isEdited = null,Object? editedAt = freezed,Object? isDeleted = null,Object? createdAt = freezed,}) {
   return _then(_Message(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,conversationId: null == conversationId ? _self.conversationId : conversationId // ignore: cast_nullable_to_non_nullable
@@ -862,7 +876,8 @@ as String,contentType: null == contentType ? _self.contentType : contentType // 
 as ContentType,clientMessageId: freezed == clientMessageId ? _self.clientMessageId : clientMessageId // ignore: cast_nullable_to_non_nullable
 as String?,sender: freezed == sender ? _self.sender : sender // ignore: cast_nullable_to_non_nullable
 as UserInfo?,attachments: freezed == attachments ? _self._attachments : attachments // ignore: cast_nullable_to_non_nullable
-as Map<String, dynamic>?,reactions: null == reactions ? _self._reactions : reactions // ignore: cast_nullable_to_non_nullable
+as Map<String, dynamic>?,replyTo: freezed == replyTo ? _self.replyTo : replyTo // ignore: cast_nullable_to_non_nullable
+as Message?,reactions: null == reactions ? _self._reactions : reactions // ignore: cast_nullable_to_non_nullable
 as List<Reaction>,isEdited: null == isEdited ? _self.isEdited : isEdited // ignore: cast_nullable_to_non_nullable
 as bool,editedAt: freezed == editedAt ? _self.editedAt : editedAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,isDeleted: null == isDeleted ? _self.isDeleted : isDeleted // ignore: cast_nullable_to_non_nullable
@@ -882,6 +897,18 @@ $UserInfoCopyWith<$Res>? get sender {
 
   return $UserInfoCopyWith<$Res>(_self.sender!, (value) {
     return _then(_self.copyWith(sender: value));
+  });
+}/// Create a copy of Message
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$MessageCopyWith<$Res>? get replyTo {
+    if (_self.replyTo == null) {
+    return null;
+  }
+
+  return $MessageCopyWith<$Res>(_self.replyTo!, (value) {
+    return _then(_self.copyWith(replyTo: value));
   });
 }
 }

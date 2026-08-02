@@ -37,7 +37,7 @@ Map<String, dynamic> _$PaginatedResponseToJson<T>(
   Object? Function(T value) toJsonT,
 ) => <String, dynamic>{
   'data': instance.data.map(toJsonT).toList(),
-  'pagination': instance.pagination,
+  'pagination': instance.pagination.toJson(),
 };
 
 _CursorMeta _$CursorMetaFromJson(Map<String, dynamic> json) => _CursorMeta(
@@ -64,5 +64,5 @@ Map<String, dynamic> _$CursorResponseToJson<T>(
   Object? Function(T value) toJsonT,
 ) => <String, dynamic>{
   'data': instance.data.map(toJsonT).toList(),
-  'pagination': instance.pagination,
+  'pagination': instance.pagination.toJson(),
 };

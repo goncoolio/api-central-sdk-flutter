@@ -1,0 +1,10 @@
+targets:
+  $default:
+    builders:
+      json_serializable:
+        options:
+          # Sans cette option, toJson() laisse les objets imbriqués tels quels
+          # au lieu d'appeler leur propre toJson() : conversation.toJson()
+          # renvoie des _Participant plutôt que des Map, ce qui casse
+          # jsonEncode et toute persistance locale.
+          explicit_to_json: true

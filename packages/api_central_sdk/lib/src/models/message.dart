@@ -52,8 +52,11 @@ abstract class Reaction with _$Reaction {
 
 /// Message d'une conversation.
 ///
-/// `replyTo` est volontairement absent : l'API le renvoie sous forme récursive,
-/// que la génération freezed gère mal. À traiter si le besoin se confirme.
+/// La profondeur de [Message.replyTo] dépend de la route appelée :
+/// `getMessage` et `sendMessage` remontent la chaîne complète des réponses,
+/// tandis que `listMessages` s'arrête au premier niveau — le `replyTo` d'un
+/// `replyTo` y vaut toujours `null`. Une application qui affiche un fil de
+/// discussion complet doit donc recharger le message par son identifiant.
 @freezed
 abstract class Message with _$Message {
   const factory Message({
@@ -64,6 +67,7 @@ abstract class Message with _$Message {
     String? clientMessageId,
     UserInfo? sender,
     Map<String, dynamic>? attachments,
+    Message? replyTo,
     @Default(<Reaction>[]) List<Reaction> reactions,
     @Default(false) bool isEdited,
     DateTime? editedAt,

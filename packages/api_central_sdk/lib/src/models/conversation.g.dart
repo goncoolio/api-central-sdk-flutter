@@ -33,7 +33,7 @@ _Participant _$ParticipantFromJson(Map<String, dynamic> json) => _Participant(
 Map<String, dynamic> _$ParticipantToJson(_Participant instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'user': instance.user,
+      'user': instance.user.toJson(),
       'role': _$ParticipantRoleEnumMap[instance.role]!,
       'joinedAt': instance.joinedAt?.toIso8601String(),
       'isMuted': instance.isMuted,
@@ -63,7 +63,7 @@ Map<String, dynamic> _$LastMessagePreviewToJson(_LastMessagePreview instance) =>
       'id': instance.id,
       'content': instance.content,
       'contentType': _$ContentTypeEnumMap[instance.contentType]!,
-      'sender': instance.sender,
+      'sender': instance.sender?.toJson(),
       'createdAt': instance.createdAt?.toIso8601String(),
     };
 
@@ -113,8 +113,8 @@ Map<String, dynamic> _$ConversationToJson(_Conversation instance) =>
       'avatarUrl': instance.avatarUrl,
       'metadata': instance.metadata,
       'lastMessageAt': instance.lastMessageAt?.toIso8601String(),
-      'lastMessage': instance.lastMessage,
-      'participants': instance.participants,
+      'lastMessage': instance.lastMessage?.toJson(),
+      'participants': instance.participants.map((e) => e.toJson()).toList(),
       'unreadCount': instance.unreadCount,
       'createdAt': instance.createdAt?.toIso8601String(),
     };

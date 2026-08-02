@@ -43,6 +43,9 @@ _Message _$MessageFromJson(Map<String, dynamic> json) => _Message(
       ? null
       : UserInfo.fromJson(json['sender'] as Map<String, dynamic>),
   attachments: json['attachments'] as Map<String, dynamic>?,
+  replyTo: json['replyTo'] == null
+      ? null
+      : Message.fromJson(json['replyTo'] as Map<String, dynamic>),
   reactions:
       (json['reactions'] as List<dynamic>?)
           ?.map((e) => Reaction.fromJson(e as Map<String, dynamic>))
@@ -64,9 +67,10 @@ Map<String, dynamic> _$MessageToJson(_Message instance) => <String, dynamic>{
   'content': instance.content,
   'contentType': _$ContentTypeEnumMap[instance.contentType]!,
   'clientMessageId': instance.clientMessageId,
-  'sender': instance.sender,
+  'sender': instance.sender?.toJson(),
   'attachments': instance.attachments,
-  'reactions': instance.reactions,
+  'replyTo': instance.replyTo?.toJson(),
+  'reactions': instance.reactions.map((e) => e.toJson()).toList(),
   'isEdited': instance.isEdited,
   'editedAt': instance.editedAt?.toIso8601String(),
   'isDeleted': instance.isDeleted,
