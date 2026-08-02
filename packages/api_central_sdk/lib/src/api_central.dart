@@ -1,6 +1,7 @@
 import 'config.dart';
 import 'http/api_client.dart';
 import 'modules/messaging_module.dart';
+import 'modules/notifications_module.dart';
 import 'modules/users_module.dart';
 import 'token_provider.dart';
 
@@ -16,6 +17,7 @@ class ApiCentral {
     client = ApiClient(config: config, tokenProvider: _tokenProvider);
     users = UsersModule(client);
     messaging = MessagingModule(client);
+    notifications = NotificationsModule(client);
   }
 
   final ApiCentralConfig config;
@@ -29,6 +31,9 @@ class ApiCentral {
 
   /// Conversations, messages et réactions.
   late final MessagingModule messaging;
+
+  /// Notifications push et in-app.
+  late final NotificationsModule notifications;
 
   /// Oublie le token courant. Utile après une déconnexion applicative.
   void invalidateToken() => _tokenProvider.invalidate();
