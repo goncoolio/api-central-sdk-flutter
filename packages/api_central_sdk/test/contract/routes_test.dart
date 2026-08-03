@@ -96,6 +96,11 @@ const _routesUtilisees = <String>{
   'POST /calls/{id}/offer',
   'POST /calls/{id}/answer-sdp',
   'POST /calls/{id}/ice-candidate',
+  'POST /encryption/keys/register',
+  'GET /encryption/keys/{userId}',
+  'POST /encryption/keys/prekeys',
+  'POST /encryption/keys/rotate',
+  'GET /encryption/keys/prekeys/count',
 };
 
 /// Routes réelles de l'API que le spec OpenAPI ne documente pas.
