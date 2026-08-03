@@ -140,6 +140,17 @@ void main() {
       expect(envoye['sdp_type'], equals('offer'));
     });
 
+    test('decline et leave ne désérialisent pas de Call', () async {
+      // L'API accuse réception par {success: true} : tenter d'en faire un Call
+      // lèverait une exception de type.
+      final adapter = FakeAdapter(
+          (options, callIndex) => const FakeReply(200, {'success': true}));
+      final sdk = _sdk(adapter);
+
+      await expectLater(sdk.calls.decline('call-1', userId: 'u1'), completes);
+      await expectLater(sdk.calls.leave('call-1', userId: 'u1'), completes);
+    });
+
     test('coupe le micro d un participant', () async {
       final adapter = FakeAdapter(
           (options, callIndex) => const FakeReply(200, {'success': true}));

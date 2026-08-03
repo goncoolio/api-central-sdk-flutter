@@ -41,13 +41,15 @@ class CallsModule {
     return Call.fromJson(json);
   }
 
-  Future<Call> decline(String callId, {required String userId}) async {
-    final json = await _client.post<Map<String, dynamic>>(
-      '/calls/$callId/decline',
-      body: {'userId': userId},
-    );
-    return Call.fromJson(json);
-  }
+  /// Refuse un appel entrant.
+  ///
+  /// L'API accuse réception par `{success: true}` : elle ne renvoie pas
+  /// l'appel. Rechargez-le avec [get] si son état vous intéresse.
+  Future<void> decline(String callId, {required String userId}) =>
+      _client.post<Map<String, dynamic>>(
+        '/calls/$callId/decline',
+        body: {'userId': userId},
+      );
 
   Future<Call> end(String callId, {required String userId}) async {
     final json = await _client.post<Map<String, dynamic>>(
@@ -58,13 +60,14 @@ class CallsModule {
   }
 
   /// Quitte l'appel, qui continue pour les autres participants.
-  Future<Call> leave(String callId, {required String userId}) async {
-    final json = await _client.post<Map<String, dynamic>>(
-      '/calls/$callId/leave',
-      body: {'userId': userId},
-    );
-    return Call.fromJson(json);
-  }
+  ///
+  /// L'API accuse réception par `{success: true}` : elle ne renvoie pas
+  /// l'appel.
+  Future<void> leave(String callId, {required String userId}) =>
+      _client.post<Map<String, dynamic>>(
+        '/calls/$callId/leave',
+        body: {'userId': userId},
+      );
 
   // --- Participants --------------------------------------------------------
 
