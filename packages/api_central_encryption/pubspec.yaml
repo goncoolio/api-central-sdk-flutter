@@ -1,0 +1,16 @@
+name: api_central_encryption
+description: Chiffrement de bout en bout pour l'API Central S2S — X25519 et AES-GCM.
+version: 0.1.0
+publish_to: none
+
+environment:
+  sdk: ^3.11.0
+
+dependencies:
+  api_central_sdk:
+    path: ../api_central_sdk
+  cryptography: ^2.9.0
+
+dev_dependencies:
+  lints: ^6.0.0
+  test: ^1.25.0
