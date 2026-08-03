@@ -1,6 +1,7 @@
 import 'config.dart';
 import 'http/api_client.dart';
 import 'modules/calls_module.dart';
+import 'modules/encryption_module.dart';
 import 'modules/live_module.dart';
 import 'modules/messaging_module.dart';
 import 'modules/notifications_module.dart';
@@ -26,6 +27,7 @@ class ApiCentral {
     support = SupportModule(client);
     live = LiveModule(client);
     calls = CallsModule(client);
+    encryption = EncryptionModule(client);
   }
 
   final ApiCentralConfig config;
@@ -51,6 +53,9 @@ class ApiCentral {
 
   /// Appels : signalisation. Le média vit dans api_central_calls.
   late final CallsModule calls;
+
+  /// Clés publiques pour le chiffrement de bout en bout.
+  late final EncryptionModule encryption;
 
   RealtimeModule? _realtime;
 
