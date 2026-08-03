@@ -9,7 +9,7 @@ SDK Dart/Flutter pour l'API Central S2S.
 | `api_central_sdk` | Core Dart pur : auth, users, messaging, notifications, support, live, realtime |
 | `api_central_calls` | Appels audio/vidéo WebRTC (phase 5) |
 | `api_central_encryption` | Chiffrement E2E : X25519 et AES-GCM (Dart pur) |
-| `api_central_provider` | ChangeNotifier prêts à brancher (phase 7) |
+| `api_central_provider` | ChangeNotifier prêts à brancher (Flutter) |
 
 ## Appels audio/vidéo
 
@@ -83,6 +83,38 @@ Trois points à connaître :
   secret de session, sans renouvellement par message : la compromission d'une
   clé expose l'historique de la session. Cela empêche le serveur de lire les
   messages, mais n'offre pas de confidentialité persistante complète.
+
+## État prêt à brancher
+
+`api_central_provider` fournit des `ChangeNotifier` pour les usages courants :
+
+```dart
+final conversations = ConversationsNotifier(sdk: sdk, userId: monId);
+await sdk.connectRealtime();
+await conversations.load();
+conversations.bindRealtime();   // après connectRealtime, pas avant
+
+ChangeNotifierProvider.value(value: conversations, child: MonEcran());
+```
+
+| Notifier | Ce qu'il tient à jour |
+|---|---|
+| `ConversationsNotifier` | liste triée, non-lus, remontée sur message entrant |
+| `MessagesNotifier` | messages d'une conversation, pagination, envoi |
+| `NotificationsNotifier` | liste et compteur pour un badge |
+| `ConnectionNotifier` | état du WebSocket |
+
+Trois comportements à connaître :
+
+- **Un échec réseau ne vide pas l'état.** `errorMessage` est renseigné, les
+  données déjà chargées restent affichées.
+- **`bindRealtime()` s'appelle après `connectRealtime()`** : sans WebSocket
+  ouvert, il ne s'abonne à rien et reste silencieux.
+- **Aucune notification après `dispose()`.** Une requête qui se termine sur un
+  écran déjà fermé ne fait pas planter l'application.
+
+Les directs et les appels n'ont pas de notifier : leur état dépend trop de
+chaque application (lecteur vidéo, écran d'appel) pour qu'un générique aide.
 
 ## Authentification
 

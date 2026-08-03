@@ -1,0 +1,19 @@
+name: api_central_provider
+description: ChangeNotifier prêts à brancher pour l'API Central S2S.
+version: 0.1.0
+publish_to: none
+
+environment:
+  sdk: ^3.11.0
+  flutter: ">=3.24.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  api_central_sdk:
+    path: ../api_central_sdk
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  lints: ^6.0.0
