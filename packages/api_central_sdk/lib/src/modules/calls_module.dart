@@ -170,9 +170,10 @@ class CallsModule {
 
   /// Jeton pour rejoindre la room LiveKit (SFU) de l'appel.
   ///
-  /// Requiert un token utilisateur, et que cet utilisateur participe à
-  /// l'appel : sinon l'API répond 403 (`ForbiddenException`). Un appel inconnu
-  /// donne 404, un serveur sans LiveKit configuré 400 (`ValidationException`).
+  /// Requiert un token utilisateur : avec un token d'application, l'API répond
+  /// 400 (`ValidationException`). Un utilisateur qui ne participe pas à
+  /// l'appel reçoit 403 (`ForbiddenException`), un appel inconnu donne 404, et
+  /// un serveur sans LiveKit configuré 400 (`ValidationException`).
   ///
   /// Se connecter à [LiveKitToken.url], jamais à une URL codée en dur.
   /// `GroupCallManager`, dans `api_central_calls`, s'en charge.
