@@ -1,6 +1,6 @@
 name: api_central_calls
-description: Appels audio et vidéo WebRTC pour l'API Central S2S.
-version: 0.1.0
+description: Appels audio et vidéo pour l'API Central S2S — WebRTC à deux, LiveKit en groupe.
+version: 0.2.0
 publish_to: none
 
 environment:
