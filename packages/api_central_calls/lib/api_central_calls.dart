@@ -9,3 +9,4 @@ export 'package:flutter_webrtc/flutter_webrtc.dart'
     show MediaStream, RTCVideoRenderer, RTCVideoView;
 
 export 'src/call_manager.dart';
+export 'src/call_mode.dart';

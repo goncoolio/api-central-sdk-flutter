@@ -3,13 +3,15 @@ import 'dart:async';
 import 'package:api_central_sdk/api_central_sdk.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 
+import 'call_mode.dart';
+
 /// État d'un appel du point de vue du média.
 ///
 /// Distinct de [CallStatus], qui reflète l'état côté serveur : un appel peut
 /// être `connected` pour l'API alors que la négociation WebRTC échoue encore.
 enum CallManagerState { idle, connecting, connected, ended, failed }
 
-/// Pilote la couche média d'un appel.
+/// Pilote la couche média d'un appel à deux, en WebRTC direct.
 ///
 /// Assemble trois choses que l'application n'a pas à orchestrer elle-même : la
 /// `RTCPeerConnection`, la signalisation via le SDK, et les flux média locaux
@@ -20,6 +22,11 @@ enum CallManagerState { idle, connecting, connected, ended, failed }
 ///
 /// La connexion temps réel doit être ouverte avant l'appel — sans elle, les
 /// offres SDP et les candidats ICE n'arrivent jamais.
+///
+/// Ne relie que deux participants : dès [CallMode.minGroupParticipants],
+/// [start] et [accept] lèvent [UnsupportedError] avant tout accès au média.
+/// `CallSession` choisit pour vous entre ce gestionnaire et
+/// `GroupCallManager`, qui passe par LiveKit.
 class CallManager {
   CallManager({required this.sdk, required this.userId});
 
@@ -55,12 +62,33 @@ class CallManager {
   }
 
   /// Démarre l'appel côté appelant : média local, offre SDP, envoi.
+  ///
+  /// Lève [UnsupportedError], avant tout accès au média, si l'appel compte
+  /// [CallMode.minGroupParticipants] participants ou plus.
   Future<void> start(String callId, {required CallType callType}) async {
+    _entrerEnConnexion(callId);
+    final call = await sdk.calls.get(callId);
+    await _demarrer(call, callType);
+  }
+
+  /// Accepte un appel entrant. L'offre distante arrive par le WebSocket.
+  ///
+  /// Lève [UnsupportedError], sans décrocher, si l'appel compte
+  /// [CallMode.minGroupParticipants] participants ou plus.
+  Future<void> accept(String callId) async {
+    _entrerEnConnexion(callId);
+    final call = await sdk.calls.get(callId);
+    await _accepter(call);
+  }
+
+  void _entrerEnConnexion(String callId) {
     _callId = callId;
     _setState(CallManagerState.connecting);
+  }
 
-    final call = await sdk.calls.get(callId);
-    await _preparerConnexion(callId, callType);
+  Future<void> _demarrer(Call call, CallType callType) async {
+    _exigerAppelADeux(call);
+    await _preparerConnexion(call.id, callType);
 
     _pairId = call.participants
         .map((p) => p.user.id)
@@ -71,18 +99,30 @@ class CallManager {
 
     final pair = _pairId;
     if (pair != null && pair.isNotEmpty) {
-      await sdk.calls.sendOffer(callId, toUserId: pair, sdp: offre.sdp ?? '');
+      await sdk.calls.sendOffer(call.id, toUserId: pair, sdp: offre.sdp ?? '');
     }
   }
 
-  /// Accepte un appel entrant. L'offre distante arrive par le WebSocket.
-  Future<void> accept(String callId) async {
-    _callId = callId;
-    _setState(CallManagerState.connecting);
+  Future<void> _accepter(Call call) async {
+    _exigerAppelADeux(call);
+    await _preparerConnexion(call.id, call.callType);
+    await sdk.calls.answer(call.id, userId: userId);
+  }
 
-    final call = await sdk.calls.get(callId);
-    await _preparerConnexion(callId, call.callType);
-    await sdk.calls.answer(callId, userId: userId);
+  /// Refuse un appel de groupe avant tout accès au média.
+  ///
+  /// Sans ce contrôle, un appel à trois ne relierait que le premier autre
+  /// participant, sans rien signaler.
+  void _exigerAppelADeux(Call call) {
+    if (CallMode.forCall(call) == CallMode.p2p) return;
+    _callId = null;
+    _setState(CallManagerState.failed);
+    throw UnsupportedError(
+      "CallManager ne relie que deux participants, or l'appel ${call.id} en "
+      'compte ${call.participants.length}. Passez par CallSession, qui choisit '
+      'LiveKit dès ${CallMode.minGroupParticipants} participants, ou '
+      'directement par GroupCallManager.',
+    );
   }
 
   Future<void> _preparerConnexion(String callId, CallType callType) async {
