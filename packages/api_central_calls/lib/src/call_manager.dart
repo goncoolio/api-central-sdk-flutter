@@ -147,11 +147,13 @@ class CallManager {
 
     _pc = await createPeerConnection({
       'iceServers': iceServers.iceServers
-          .map((s) => <String, dynamic>{
-                'urls': s.urls,
-                if (s.username != null) 'username': s.username,
-                if (s.credential != null) 'credential': s.credential,
-              })
+          .map(
+            (s) => <String, dynamic>{
+              'urls': s.urls,
+              if (s.username != null) 'username': s.username,
+              if (s.credential != null) 'credential': s.credential,
+            },
+          )
           .toList(),
     });
 
@@ -173,13 +175,15 @@ class CallManager {
     _pc!.onIceCandidate = (candidat) {
       final pair = _pairId;
       if (pair == null || pair.isEmpty) return;
-      unawaited(sdk.calls.sendIceCandidate(
-        callId,
-        toUserId: pair,
-        candidate: candidat.candidate ?? '',
-        sdpMid: candidat.sdpMid,
-        sdpMLineIndex: candidat.sdpMLineIndex,
-      ));
+      unawaited(
+        sdk.calls.sendIceCandidate(
+          callId,
+          toUserId: pair,
+          candidate: candidat.candidate ?? '',
+          sdpMid: candidat.sdpMid,
+          sdpMLineIndex: candidat.sdpMLineIndex,
+        ),
+      );
     };
 
     _pc!.onConnectionState = (etat) {
@@ -208,7 +212,8 @@ class CallManager {
         if (event.callId != _callId) return;
         _pairId = event.fromUserId;
         await _pc?.setRemoteDescription(
-            RTCSessionDescription(event.sdp, 'offer'));
+          RTCSessionDescription(event.sdp, 'offer'),
+        );
         final reponse = await _pc!.createAnswer();
         await _pc!.setLocalDescription(reponse);
         await sdk.calls.sendAnswer(
@@ -220,7 +225,8 @@ class CallManager {
       realtime.onCallAnswerReceived.listen((event) async {
         if (event.callId != _callId) return;
         await _pc?.setRemoteDescription(
-            RTCSessionDescription(event.sdp, 'answer'));
+          RTCSessionDescription(event.sdp, 'answer'),
+        );
       }),
       realtime.onCallIceCandidateReceived.listen((event) async {
         if (event.callId != _callId) return;
@@ -266,7 +272,8 @@ class CallManager {
 
   /// Coupe ou rétablit le micro, localement et côté serveur.
   Future<void> setMicrophoneEnabled(bool enabled) async {
-    for (final piste in _localStream?.getAudioTracks() ?? <MediaStreamTrack>[]) {
+    for (final piste
+        in _localStream?.getAudioTracks() ?? <MediaStreamTrack>[]) {
       piste.enabled = enabled;
     }
     final callId = _callId;
@@ -277,7 +284,8 @@ class CallManager {
 
   /// Coupe ou rétablit la caméra, localement et côté serveur.
   Future<void> setCameraEnabled(bool enabled) async {
-    for (final piste in _localStream?.getVideoTracks() ?? <MediaStreamTrack>[]) {
+    for (final piste
+        in _localStream?.getVideoTracks() ?? <MediaStreamTrack>[]) {
       piste.enabled = enabled;
     }
     final callId = _callId;

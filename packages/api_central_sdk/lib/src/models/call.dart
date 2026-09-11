@@ -146,10 +146,10 @@ abstract class CallHistory with _$CallHistory {
 }
 
 List<String> _urlsDepuisJson(Object? valeur) => switch (valeur) {
-      final String url => [url],
-      final List<dynamic> liste => liste.map((e) => e.toString()).toList(),
-      _ => const <String>[],
-    };
+  final String url => [url],
+  final List<dynamic> liste => liste.map((e) => e.toString()).toList(),
+  _ => const <String>[],
+};
 
 /// Serveur STUN ou TURN, tel qu'attendu par WebRTC.
 ///

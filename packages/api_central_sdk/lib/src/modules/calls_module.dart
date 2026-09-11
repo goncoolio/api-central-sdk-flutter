@@ -19,12 +19,15 @@ class CallsModule {
     String? conversationId,
     bool? encryptionEnabled,
   }) async {
-    final json = await _client.post<Map<String, dynamic>>('/calls', body: {
-      'participantIds': participantIds,
-      'callType': typeVersApi(callType),
-      'conversationId': ?conversationId,
-      'encryptionEnabled': ?encryptionEnabled,
-    });
+    final json = await _client.post<Map<String, dynamic>>(
+      '/calls',
+      body: {
+        'participantIds': participantIds,
+        'callType': typeVersApi(callType),
+        'conversationId': ?conversationId,
+        'encryptionEnabled': ?encryptionEnabled,
+      },
+    );
     return Call.fromJson(json);
   }
 
@@ -77,9 +80,8 @@ class CallsModule {
         body: {'userId': userId},
       );
 
-  Future<void> removeParticipant(String callId, String userId) =>
-      _client
-          .delete<Map<String, dynamic>>('/calls/$callId/participants/$userId');
+  Future<void> removeParticipant(String callId, String userId) => _client
+      .delete<Map<String, dynamic>>('/calls/$callId/participants/$userId');
 
   Future<void> setMuted(String callId, String userId, {required bool muted}) =>
       _client.put<Map<String, dynamic>>(
@@ -91,21 +93,19 @@ class CallsModule {
     String callId,
     String userId, {
     required bool enabled,
-  }) =>
-      _client.put<Map<String, dynamic>>(
-        '/calls/$callId/participants/$userId/video',
-        body: {'enabled': enabled},
-      );
+  }) => _client.put<Map<String, dynamic>>(
+    '/calls/$callId/participants/$userId/video',
+    body: {'enabled': enabled},
+  );
 
   Future<void> setScreenSharing(
     String callId,
     String userId, {
     required bool sharing,
-  }) =>
-      _client.put<Map<String, dynamic>>(
-        '/calls/$callId/participants/$userId/screen',
-        body: {'sharing': sharing},
-      );
+  }) => _client.put<Map<String, dynamic>>(
+    '/calls/$callId/participants/$userId/screen',
+    body: {'sharing': sharing},
+  );
 
   // --- Historique ----------------------------------------------------------
 
@@ -122,8 +122,9 @@ class CallsModule {
 
   /// Serveurs STUN/TURN à passer à la `RTCPeerConnection`.
   Future<IceServersResponse> getIceServers(String callId) async {
-    final json =
-        await _client.get<Map<String, dynamic>>('/calls/$callId/ice-servers');
+    final json = await _client.get<Map<String, dynamic>>(
+      '/calls/$callId/ice-servers',
+    );
     return IceServersResponse.fromJson(json);
   }
 
@@ -132,22 +133,20 @@ class CallsModule {
     required String toUserId,
     required String sdp,
     String sdpType = 'offer',
-  }) =>
-      _client.post<Map<String, dynamic>>(
-        '/calls/$callId/offer',
-        body: {'toUserId': toUserId, 'sdp': sdp, 'sdpType': sdpType},
-      );
+  }) => _client.post<Map<String, dynamic>>(
+    '/calls/$callId/offer',
+    body: {'toUserId': toUserId, 'sdp': sdp, 'sdpType': sdpType},
+  );
 
   Future<void> sendAnswer(
     String callId, {
     required String toUserId,
     required String sdp,
     String sdpType = 'answer',
-  }) =>
-      _client.post<Map<String, dynamic>>(
-        '/calls/$callId/answer-sdp',
-        body: {'toUserId': toUserId, 'sdp': sdp, 'sdpType': sdpType},
-      );
+  }) => _client.post<Map<String, dynamic>>(
+    '/calls/$callId/answer-sdp',
+    body: {'toUserId': toUserId, 'sdp': sdp, 'sdpType': sdpType},
+  );
 
   Future<void> sendIceCandidate(
     String callId, {
@@ -155,16 +154,15 @@ class CallsModule {
     required String candidate,
     String? sdpMid,
     int? sdpMLineIndex,
-  }) =>
-      _client.post<Map<String, dynamic>>(
-        '/calls/$callId/ice-candidate',
-        body: {
-          'toUserId': toUserId,
-          'candidate': candidate,
-          'sdpMid': ?sdpMid,
-          'sdpMLineIndex': ?sdpMLineIndex,
-        },
-      );
+  }) => _client.post<Map<String, dynamic>>(
+    '/calls/$callId/ice-candidate',
+    body: {
+      'toUserId': toUserId,
+      'candidate': candidate,
+      'sdpMid': ?sdpMid,
+      'sdpMLineIndex': ?sdpMLineIndex,
+    },
+  );
 
   // --- LiveKit (appels de groupe) -----------------------------------------
 
@@ -178,14 +176,15 @@ class CallsModule {
   /// Se connecter à [LiveKitToken.url], jamais à une URL codée en dur.
   /// `GroupCallManager`, dans `api_central_calls`, s'en charge.
   Future<LiveKitToken> getLiveKitToken(String callId) async {
-    final json =
-        await _client.get<Map<String, dynamic>>('/calls/$callId/token');
+    final json = await _client.get<Map<String, dynamic>>(
+      '/calls/$callId/token',
+    );
     return LiveKitToken.fromJson(json);
   }
 }
 
 /// `screenShare` se sérialise `screen_share` ; les autres types suivent leur nom.
 String typeVersApi(CallType type) => switch (type) {
-      CallType.screenShare => 'screen_share',
-      _ => type.name,
-    };
+  CallType.screenShare => 'screen_share',
+  _ => type.name,
+};

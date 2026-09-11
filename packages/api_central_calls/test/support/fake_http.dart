@@ -39,7 +39,10 @@ class FakeHttp implements HttpClientAdapter {
     requests.add(options);
     final reponse =
         routes['${options.method} ${options.path}'] ??
-        const FakeReply(404, {'message': 'Route non simulée', 'statusCode': 404});
+        const FakeReply(404, {
+          'message': 'Route non simulée',
+          'statusCode': 404,
+        });
 
     return ResponseBody.fromString(
       jsonEncode(reponse.body),

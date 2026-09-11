@@ -227,7 +227,10 @@ void main() {
       await manager.setMicrophoneEnabled(false);
 
       expect(room.journal.last, equals('micro:false'));
-      expect(http.journal.last, equals('PUT /calls/call-1/participants/u1/mute'));
+      expect(
+        http.journal.last,
+        equals('PUT /calls/call-1/participants/u1/mute'),
+      );
       expect(http.requests.last.data, equals({'muted': true}));
     });
 
@@ -353,29 +356,32 @@ void main() {
       );
     });
 
-    test('une connexion perdue passe en failed, puis leave prévient l API', () async {
-      final http = FakeHttp({
-        'GET /calls/call-1/token': _jeton,
-        'POST /calls/call-1/leave': const FakeReply(200),
-      });
-      final manager = await demarre(http);
-      final echec = manager.states.firstWhere(
-        (etat) => etat == CallManagerState.failed,
-      );
+    test(
+      'une connexion perdue passe en failed, puis leave prévient l API',
+      () async {
+        final http = FakeHttp({
+          'GET /calls/call-1/token': _jeton,
+          'POST /calls/call-1/leave': const FakeReply(200),
+        });
+        final manager = await demarre(http);
+        final echec = manager.states.firstWhere(
+          (etat) => etat == CallManagerState.failed,
+        );
 
-      room.emettre(GroupCallRoomEvent.connectionLost);
-      await echec;
-      expect(room.journal.last, equals('dispose'));
+        room.emettre(GroupCallRoomEvent.connectionLost);
+        await echec;
+        expect(room.journal.last, equals('dispose'));
 
-      await manager.leave();
+        await manager.leave();
 
-      expect(
-        http.journal.last,
-        equals('POST /calls/call-1/leave'),
-        reason: "l'API croit encore l'utilisateur dans l'appel",
-      );
-      expect(manager.state, equals(CallManagerState.ended));
-    });
+        expect(
+          http.journal.last,
+          equals('POST /calls/call-1/leave'),
+          reason: "l'API croit encore l'utilisateur dans l'appel",
+        );
+        expect(manager.state, equals(CallManagerState.ended));
+      },
+    );
 
     test('call_ended du serveur libère la room sans rappeler l API', () async {
       final serveur = await FakeRealtimeServer.demarrer();

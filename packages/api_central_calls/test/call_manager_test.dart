@@ -14,12 +14,12 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   ApiCentral creerSdk() => ApiCentral(
-        config: const ApiCentralConfig(
-          baseUrl: 'https://api.test/s2s/v1',
-          applicationId: 'app-42',
-        ),
-        tokenProvider: () async => 'jwt-1',
-      );
+    config: const ApiCentralConfig(
+      baseUrl: 'https://api.test/s2s/v1',
+      applicationId: 'app-42',
+    ),
+    tokenProvider: () async => 'jwt-1',
+  );
 
   group('CallManager', () {
     test('démarre à l état idle, sans média ni appel', () {
@@ -82,11 +82,19 @@ void main() {
 
       await expectLater(
         manager.start('call-1', callType: CallType.video),
-        throwsA(isA<UnsupportedError>()
-            .having((e) => e.message, 'message', contains('GroupCallManager'))),
+        throwsA(
+          isA<UnsupportedError>().having(
+            (e) => e.message,
+            'message',
+            contains('GroupCallManager'),
+          ),
+        ),
       );
-      expect(http.journal, equals(['GET /calls/call-1']),
-          reason: 'ni serveurs ICE, ni média, ni offre SDP');
+      expect(
+        http.journal,
+        equals(['GET /calls/call-1']),
+        reason: 'ni serveurs ICE, ni média, ni offre SDP',
+      );
       expect(manager.state, equals(CallManagerState.failed));
       expect(manager.callId, isNull);
     });
@@ -104,8 +112,11 @@ void main() {
         manager.accept('call-1'),
         throwsA(isA<UnsupportedError>()),
       );
-      expect(http.journal, equals(['GET /calls/call-1']),
-          reason: 'pas de POST answer');
+      expect(
+        http.journal,
+        equals(['GET /calls/call-1']),
+        reason: 'pas de POST answer',
+      );
     });
 
     test('laisse passer un appel à deux', () async {

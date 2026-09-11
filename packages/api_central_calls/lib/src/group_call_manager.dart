@@ -114,10 +114,7 @@ class GroupCallManager {
     await sdk.calls.answer(callId, userId: userId);
   }
 
-  Future<void> _entrer(
-    String callId,
-    Future<void> Function() connexion,
-  ) async {
+  Future<void> _entrer(String callId, Future<void> Function() connexion) async {
     if (_callId != null) {
       throw StateError(
         "L'appel $_callId est en cours : quittez-le avec leave() avant d'en "

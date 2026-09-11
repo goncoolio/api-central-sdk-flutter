@@ -212,10 +212,8 @@ sealed class RealtimeEvent with _$RealtimeEvent {
   }) = StatsEvent;
 
   @FreezedUnionValue('error')
-  const factory RealtimeEvent.errorEvent({
-    String? code,
-    String? message,
-  }) = ErrorEvent;
+  const factory RealtimeEvent.errorEvent({String? code, String? message}) =
+      ErrorEvent;
 
   // --- Directs -------------------------------------------------------------
 

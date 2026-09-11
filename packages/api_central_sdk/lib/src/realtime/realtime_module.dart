@@ -80,20 +80,35 @@ class RealtimeModule {
   }
 
   /// Transmet une offre SDP. Alternative WebSocket à `calls.sendOffer`.
-  void sendCallOffer(String callId,
-          {required String toUserId, required String sdp}) =>
-      _client.send(
-          'call_offer', {'callId': callId, 'toUserId': toUserId, 'sdp': sdp});
+  void sendCallOffer(
+    String callId, {
+    required String toUserId,
+    required String sdp,
+  }) => _client.send('call_offer', {
+    'callId': callId,
+    'toUserId': toUserId,
+    'sdp': sdp,
+  });
 
-  void sendCallAnswer(String callId,
-          {required String toUserId, required String sdp}) =>
-      _client.send(
-          'call_answer', {'callId': callId, 'toUserId': toUserId, 'sdp': sdp});
+  void sendCallAnswer(
+    String callId, {
+    required String toUserId,
+    required String sdp,
+  }) => _client.send('call_answer', {
+    'callId': callId,
+    'toUserId': toUserId,
+    'sdp': sdp,
+  });
 
-  void sendCallIceCandidate(String callId,
-          {required String toUserId, required String candidate}) =>
-      _client.send('call_ice_candidate',
-          {'callId': callId, 'toUserId': toUserId, 'candidate': candidate});
+  void sendCallIceCandidate(
+    String callId, {
+    required String toUserId,
+    required String candidate,
+  }) => _client.send('call_ice_candidate', {
+    'callId': callId,
+    'toUserId': toUserId,
+    'candidate': candidate,
+  });
 
   // --- Directs -------------------------------------------------------------
 
@@ -119,8 +134,10 @@ class RealtimeModule {
       });
 
   /// Poste un commentaire par le WebSocket, sans passer par REST.
-  void sendStreamComment(String streamId, String content) => _client
-      .send('stream_comment', {'streamId': streamId, 'content': content});
+  void sendStreamComment(String streamId, String content) => _client.send(
+    'stream_comment',
+    {'streamId': streamId, 'content': content},
+  );
 
   /// Envoie une réaction par le WebSocket.
   ///
@@ -177,8 +194,7 @@ class RealtimeModule {
   Stream<PresenceUpdateEvent> get onPresenceUpdate => on<PresenceUpdateEvent>();
 
   /// Réponse à [subscribePresence] : un statut par utilisateur demandé.
-  Stream<PresenceStatusEvent> get onPresenceStatus =>
-      on<PresenceStatusEvent>();
+  Stream<PresenceStatusEvent> get onPresenceStatus => on<PresenceStatusEvent>();
 
   Stream<NotificationNewEvent> get onNotificationNew =>
       on<NotificationNewEvent>();

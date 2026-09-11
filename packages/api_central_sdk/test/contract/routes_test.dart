@@ -146,22 +146,26 @@ void main() {
     final routesApi = await _chargerSpec();
 
     if (routesApi == null) {
-      markTestSkipped('API injoignable sur $_specUrl — test de contrat ignoré. '
-          'Lancer le serveur pour le rejouer.');
+      markTestSkipped(
+        'API injoignable sur $_specUrl — test de contrat ignoré. '
+        'Lancer le serveur pour le rejouer.',
+      );
       return;
     }
 
-    final manquantes = _routesUtilisees
-        .difference(_absentesDuSpec)
-        .map(_normalise)
-        .where((route) => !routesApi.contains(route))
-        .toList()
-      ..sort();
+    final manquantes =
+        _routesUtilisees
+            .difference(_absentesDuSpec)
+            .map(_normalise)
+            .where((route) => !routesApi.contains(route))
+            .toList()
+          ..sort();
 
     expect(
       manquantes,
       isEmpty,
-      reason: 'Ces routes sont appelées par le SDK mais absentes du spec :\n'
+      reason:
+          'Ces routes sont appelées par le SDK mais absentes du spec :\n'
           '${manquantes.join('\n')}',
     );
   });
