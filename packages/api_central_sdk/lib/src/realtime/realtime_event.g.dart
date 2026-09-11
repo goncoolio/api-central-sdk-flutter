@@ -233,6 +233,25 @@ Map<String, dynamic> _$PresenceUpdateEventToJson(
   'type': instance.$type,
 };
 
+PresenceStatusEvent _$PresenceStatusEventFromJson(Map<String, dynamic> json) =>
+    PresenceStatusEvent(
+      statuses:
+          (json['statuses'] as List<dynamic>?)
+              ?.map(
+                (e) => PresenceStatusItem.fromJson(e as Map<String, dynamic>),
+              )
+              .toList() ??
+          const <PresenceStatusItem>[],
+      $type: json['type'] as String?,
+    );
+
+Map<String, dynamic> _$PresenceStatusEventToJson(
+  PresenceStatusEvent instance,
+) => <String, dynamic>{
+  'statuses': instance.statuses.map((e) => e.toJson()).toList(),
+  'type': instance.$type,
+};
+
 NotificationNewEvent _$NotificationNewEventFromJson(
   Map<String, dynamic> json,
 ) => NotificationNewEvent(
@@ -292,6 +311,21 @@ Map<String, dynamic> _$PongEventToJson(PongEvent instance) => <String, dynamic>{
   'timestamp': instance.timestamp,
   'type': instance.$type,
 };
+
+StatsEvent _$StatsEventFromJson(Map<String, dynamic> json) => StatsEvent(
+  totalConnections: (json['totalConnections'] as num?)?.toInt() ?? 0,
+  applications: (json['applications'] as num?)?.toInt() ?? 0,
+  usersOnline: (json['usersOnline'] as num?)?.toInt() ?? 0,
+  $type: json['type'] as String?,
+);
+
+Map<String, dynamic> _$StatsEventToJson(StatsEvent instance) =>
+    <String, dynamic>{
+      'totalConnections': instance.totalConnections,
+      'applications': instance.applications,
+      'usersOnline': instance.usersOnline,
+      'type': instance.$type,
+    };
 
 ErrorEvent _$ErrorEventFromJson(Map<String, dynamic> json) => ErrorEvent(
   code: json['code'] as String?,

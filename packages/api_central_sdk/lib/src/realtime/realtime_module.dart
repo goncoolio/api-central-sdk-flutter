@@ -137,14 +137,20 @@ class RealtimeModule {
   void stopTyping(String conversationId) =>
       _client.send('typing_stop', {'conversationId': conversationId});
 
-  /// Souscrit aux changements de présence.
+  /// Demande l'état de présence courant de ces utilisateurs.
   ///
-  /// L'API renvoie un objet vide en réponse immédiate — un défaut connu de
-  /// `presence_status` côté serveur, qui ne sait pas sérialiser sa liste de
-  /// statuts. Les changements ultérieurs arrivent normalement via
-  /// [onPresenceUpdate].
+  /// Le serveur répond par un unique [PresenceStatusEvent] ([onPresenceStatus])
+  /// qui porte un statut par utilisateur demandé. Malgré son nom, cet appel
+  /// n'enregistre aucun abonnement côté serveur, et l'API n'émet pas encore de
+  /// `presence_update` : rappelez cette méthode pour rafraîchir les statuts.
   void subscribePresence(List<String> userIds) =>
       _client.send('presence_subscribe', {'userIds': userIds});
+
+  /// Demande les statistiques de connexion du serveur, reçues via [onStats].
+  ///
+  /// Réservé aux tokens d'application : avec un token utilisateur, le serveur
+  /// ignore la demande et aucun [StatsEvent] n'arrive.
+  void requestStats() => _client.send('stats');
 
   // --- Flux typés ----------------------------------------------------------
 
@@ -169,9 +175,17 @@ class RealtimeModule {
       on<MessageReactionRemovedEvent>();
   Stream<TypingUpdateEvent> get onTypingUpdate => on<TypingUpdateEvent>();
   Stream<PresenceUpdateEvent> get onPresenceUpdate => on<PresenceUpdateEvent>();
+
+  /// Réponse à [subscribePresence] : un statut par utilisateur demandé.
+  Stream<PresenceStatusEvent> get onPresenceStatus =>
+      on<PresenceStatusEvent>();
+
   Stream<NotificationNewEvent> get onNotificationNew =>
       on<NotificationNewEvent>();
   Stream<ErrorEvent> get onError => on<ErrorEvent>();
+
+  /// Réponse à [requestStats], pour un token d'application.
+  Stream<StatsEvent> get onStats => on<StatsEvent>();
 
   Stream<StreamCommentNewEvent> get onStreamCommentNew =>
       on<StreamCommentNewEvent>();
