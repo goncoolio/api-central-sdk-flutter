@@ -162,4 +162,68 @@ void main() {
       expect(adapter.requests.single.method, equals('PUT'));
     });
   });
+
+  group('CallsModule.getLiveKitToken', () {
+    const jeton = <String, dynamic>{
+      'url': 'wss://livekit.example.test',
+      'token': 'eyJhbGciOiJIUzI1NiJ9.charge.signature',
+      'room': 'call:call-1',
+      'identity': 'u1',
+    };
+
+    test('demande le jeton de la room LiveKit de l appel', () async {
+      final adapter =
+          FakeAdapter((options, callIndex) => const FakeReply(200, jeton));
+
+      final reponse = await _sdk(adapter).calls.getLiveKitToken('call-1');
+
+      expect(adapter.requests.single.method, equals('GET'));
+      expect(adapter.requests.single.path, equals('/calls/call-1/token'));
+      expect(reponse.url, equals('wss://livekit.example.test'),
+          reason: "l'URL du SFU vient de l'API, jamais d'une constante");
+      expect(reponse.token, equals('eyJhbGciOiJIUzI1NiJ9.charge.signature'));
+      expect(reponse.room, equals('call:call-1'));
+      expect(reponse.identity, equals('u1'));
+    });
+
+    test('ne divulgue pas le jeton dans toString', () {
+      final reponse = LiveKitToken.fromJson(jeton);
+
+      expect(reponse.toString(), isNot(contains('charge.signature')),
+          reason: 'un jeton journalisé ouvre la room à qui lit les logs, '
+              'pendant toute sa durée de validité');
+      expect(reponse.toString(), contains('call:call-1'));
+    });
+
+    test('traduit le refus opposé à un non-participant', () async {
+      final adapter = FakeAdapter(
+        (options, callIndex) => const FakeReply(403, {
+          'message': 'Forbidden',
+          'statusCode': 403,
+          'error': 'Forbidden',
+        }),
+      );
+
+      await expectLater(
+        _sdk(adapter).calls.getLiveKitToken('call-1'),
+        throwsA(isA<ForbiddenException>()),
+      );
+    });
+
+    test('signale un serveur sans LiveKit configuré', () async {
+      final adapter = FakeAdapter(
+        (options, callIndex) => const FakeReply(400, {
+          'message': 'LiveKit is not configured',
+          'statusCode': 400,
+          'error': 'Bad Request',
+        }),
+      );
+
+      await expectLater(
+        _sdk(adapter).calls.getLiveKitToken('call-1'),
+        throwsA(isA<ValidationException>()
+            .having((e) => e.message, 'message', contains('LiveKit'))),
+      );
+    });
+  });
 }

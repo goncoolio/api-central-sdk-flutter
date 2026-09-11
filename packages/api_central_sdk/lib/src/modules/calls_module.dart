@@ -4,8 +4,8 @@ import '../models/call.dart';
 /// Appels audio et vidéo : cycle de vie, participants et signalisation WebRTC.
 ///
 /// Ce module ne manipule aucun média : il ne fait que parler à l'API. Le
-/// pilotage des `RTCPeerConnection` vit dans le package `api_central_calls`,
-/// qui dépend de `flutter_webrtc`.
+/// pilotage du média vit dans le package `api_central_calls` : `flutter_webrtc`
+/// pour les appels à deux, `livekit_client` pour les appels de groupe.
 class CallsModule {
   const CallsModule(this._client);
 
@@ -165,6 +165,22 @@ class CallsModule {
           'sdpMLineIndex': ?sdpMLineIndex,
         },
       );
+
+  // --- LiveKit (appels de groupe) -----------------------------------------
+
+  /// Jeton pour rejoindre la room LiveKit (SFU) de l'appel.
+  ///
+  /// Requiert un token utilisateur, et que cet utilisateur participe à
+  /// l'appel : sinon l'API répond 403 (`ForbiddenException`). Un appel inconnu
+  /// donne 404, un serveur sans LiveKit configuré 400 (`ValidationException`).
+  ///
+  /// Se connecter à [LiveKitToken.url], jamais à une URL codée en dur.
+  /// `GroupCallManager`, dans `api_central_calls`, s'en charge.
+  Future<LiveKitToken> getLiveKitToken(String callId) async {
+    final json =
+        await _client.get<Map<String, dynamic>>('/calls/$callId/token');
+    return LiveKitToken.fromJson(json);
+  }
 }
 
 /// `screenShare` se sérialise `screen_share` ; les autres types suivent leur nom.

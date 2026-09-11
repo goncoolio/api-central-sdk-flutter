@@ -93,6 +93,7 @@ const _routesUtilisees = <String>{
   'PUT /calls/{id}/participants/{userId}/screen',
   'GET /calls/history',
   'GET /calls/{id}/ice-servers',
+  'GET /calls/{id}/token',
   'POST /calls/{id}/offer',
   'POST /calls/{id}/answer-sdp',
   'POST /calls/{id}/ice-candidate',
