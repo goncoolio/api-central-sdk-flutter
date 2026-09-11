@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:api_central_sdk/api_central_sdk.dart';
+import 'package:flutter/foundation.dart' show internal;
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 
 import 'call_mode.dart';
@@ -78,6 +79,22 @@ class CallManager {
   Future<void> accept(String callId) async {
     _entrerEnConnexion(callId);
     final call = await sdk.calls.get(callId);
+    await _accepter(call);
+  }
+
+  /// Variante de [start] pour un appel déjà chargé, qui évite de le relire.
+  /// Réservée à `CallSession`.
+  @internal
+  Future<void> startWithCall(Call call, {required CallType callType}) async {
+    _entrerEnConnexion(call.id);
+    await _demarrer(call, callType);
+  }
+
+  /// Variante de [accept] pour un appel déjà chargé. Réservée à
+  /// `CallSession`.
+  @internal
+  Future<void> acceptWithCall(Call call) async {
+    _entrerEnConnexion(call.id);
     await _accepter(call);
   }
 

@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:api_central_sdk/api_central_sdk.dart';
-import 'package:flutter/foundation.dart' show listEquals, visibleForTesting;
+import 'package:flutter/foundation.dart' show internal, listEquals;
 import 'package:flutter_webrtc/flutter_webrtc.dart' show MediaStream;
 
 import 'call_manager.dart' show CallManagerState;
@@ -29,8 +29,9 @@ class GroupCallManager {
         roomFactory: LiveKitGroupCallRoom.new,
       );
 
-  /// Remplace la room LiveKit par [roomFactory], pour les tests.
-  @visibleForTesting
+  /// Remplace la room LiveKit par [roomFactory]. Réservé au package : aux
+  /// tests, et à `CallSession.withRoomFactory`.
+  @internal
   GroupCallManager.withRoomFactory({
     required this.sdk,
     required this.userId,
@@ -99,9 +100,19 @@ class GroupCallManager {
   /// muet.
   Future<void> accept(String callId) => _entrer(callId, () async {
     final call = await sdk.calls.get(callId);
-    await _rejoindre(callId, call.callType);
-    await sdk.calls.answer(callId, userId: userId);
+    await _decrocher(callId, call.callType);
   });
+
+  /// Variante de [accept] pour un appel déjà chargé, qui évite de le relire.
+  /// Réservée à `CallSession`.
+  @internal
+  Future<void> acceptWithCall(Call call) =>
+      _entrer(call.id, () => _decrocher(call.id, call.callType));
+
+  Future<void> _decrocher(String callId, CallType callType) async {
+    await _rejoindre(callId, callType);
+    await sdk.calls.answer(callId, userId: userId);
+  }
 
   Future<void> _entrer(
     String callId,

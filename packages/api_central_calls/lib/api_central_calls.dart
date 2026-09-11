@@ -11,5 +11,6 @@ export 'package:flutter_webrtc/flutter_webrtc.dart'
 
 export 'src/call_manager.dart';
 export 'src/call_mode.dart';
+export 'src/call_session.dart';
 export 'src/group_call_manager.dart';
 export 'src/group_call_participant.dart';
