@@ -12,12 +12,18 @@ class LiveModule {
 
   // --- Cycle de vie --------------------------------------------------------
 
+  /// Crée un direct.
+  ///
+  /// [settings] est un objet JSON libre que l'API stocke sans l'interpréter
+  /// ni le renvoyer dans [LiveStream]. Comme `metadata` ailleurs dans le SDK,
+  /// ses clés passent par la conversion snake_case appliquée à tout le corps.
   Future<LiveStream> createStream({
     required String hostId,
     required String title,
     String? description,
     String? thumbnailUrl,
     DateTime? scheduledAt,
+    Map<String, dynamic>? settings,
   }) async {
     final json =
         await _client.post<Map<String, dynamic>>('/live/streams', body: {
@@ -26,6 +32,7 @@ class LiveModule {
       'description': ?description,
       'thumbnailUrl': ?thumbnailUrl,
       'scheduledAt': ?scheduledAt?.toIso8601String(),
+      'settings': ?settings,
     });
     return LiveStream.fromJson(json);
   }
@@ -58,17 +65,23 @@ class LiveModule {
     return LiveStream.fromJson(json);
   }
 
+  /// Met à jour un direct : seuls les champs fournis sont modifiés.
+  ///
+  /// Un [settings] fourni remplace les réglages existants en entier, sans
+  /// fusion côté serveur.
   Future<LiveStream> updateStream(
     String streamId, {
     String? title,
     String? description,
     String? thumbnailUrl,
+    Map<String, dynamic>? settings,
   }) async {
     final json = await _client
         .put<Map<String, dynamic>>('/live/streams/$streamId', body: {
       'title': ?title,
       'description': ?description,
       'thumbnailUrl': ?thumbnailUrl,
+      'settings': ?settings,
     });
     return LiveStream.fromJson(json);
   }

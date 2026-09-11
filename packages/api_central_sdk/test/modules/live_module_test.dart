@@ -44,6 +44,53 @@ void main() {
       expect(envoye['host_id'], equals('u1'));
     });
 
+    test('transmet les réglages du direct à la création', () async {
+      final adapter =
+          FakeAdapter((options, callIndex) => const FakeReply(200, _stream));
+
+      await _sdk(adapter).live.createStream(
+        hostId: 'u1',
+        title: 'Mon direct',
+        settings: {'record': true, 'maxViewers': 500},
+      );
+
+      final envoye =
+          (adapter.requests.single.data! as Map).cast<String, dynamic>();
+      expect(envoye['settings'], equals({'record': true, 'max_viewers': 500}),
+          reason: 'comme metadata, les clés suivent la conversion snake_case '
+              'appliquée à tout le corps de requête');
+    });
+
+    test('n envoie pas de réglages quand l application n en fournit pas',
+        () async {
+      final adapter =
+          FakeAdapter((options, callIndex) => const FakeReply(200, _stream));
+
+      await _sdk(adapter).live.createStream(hostId: 'u1', title: 'Mon direct');
+
+      final envoye =
+          (adapter.requests.single.data! as Map).cast<String, dynamic>();
+      expect(envoye.containsKey('settings'), isFalse,
+          reason: 'comme les autres champs optionnels, rien n est envoyé '
+              'quand l application ne fournit rien');
+    });
+
+    test('met à jour les seuls réglages d un direct', () async {
+      final adapter =
+          FakeAdapter((options, callIndex) => const FakeReply(200, _stream));
+
+      await _sdk(adapter).live.updateStream('s1', settings: {'record': false});
+
+      expect(adapter.requests.single.method, equals('PUT'));
+      expect(adapter.requests.single.path, equals('/live/streams/s1'));
+      expect(
+        (adapter.requests.single.data! as Map).cast<String, dynamic>(),
+        equals({
+          'settings': {'record': false},
+        }),
+      );
+    });
+
     test('accepte un stream sans clé de diffusion', () async {
       final adapter =
           FakeAdapter((options, callIndex) => const FakeReply(200, _stream));
