@@ -19,3 +19,19 @@ abstract class PresenceResponse with _$PresenceResponse {
   factory PresenceResponse.fromJson(Map<String, dynamic> json) =>
       _$PresenceResponseFromJson(json);
 }
+
+/// Statut d'un utilisateur, tel que le porte l'événement temps réel
+/// `presence_status`.
+///
+/// Forme réduite de [PresenceResponse] : le WebSocket ne transmet pas
+/// `lastSeenAt`.
+@freezed
+abstract class PresenceStatusItem with _$PresenceStatusItem {
+  const factory PresenceStatusItem({
+    required String userId,
+    required String status,
+  }) = _PresenceStatusItem;
+
+  factory PresenceStatusItem.fromJson(Map<String, dynamic> json) =>
+      _$PresenceStatusItemFromJson(json);
+}

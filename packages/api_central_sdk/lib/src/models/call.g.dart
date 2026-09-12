@@ -211,3 +211,19 @@ Map<String, dynamic> _$IceServersResponseToJson(_IceServersResponse instance) =>
       'callId': instance.callId,
       'ttl': instance.ttl,
     };
+
+_LiveKitToken _$LiveKitTokenFromJson(Map<String, dynamic> json) =>
+    _LiveKitToken(
+      url: json['url'] as String,
+      token: json['token'] as String,
+      room: json['room'] as String,
+      identity: json['identity'] as String,
+    );
+
+Map<String, dynamic> _$LiveKitTokenToJson(_LiveKitToken instance) =>
+    <String, dynamic>{
+      'url': instance.url,
+      'token': instance.token,
+      'room': instance.room,
+      'identity': instance.identity,
+    };

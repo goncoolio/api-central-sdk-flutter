@@ -80,20 +80,35 @@ class RealtimeModule {
   }
 
   /// Transmet une offre SDP. Alternative WebSocket à `calls.sendOffer`.
-  void sendCallOffer(String callId,
-          {required String toUserId, required String sdp}) =>
-      _client.send(
-          'call_offer', {'callId': callId, 'toUserId': toUserId, 'sdp': sdp});
+  void sendCallOffer(
+    String callId, {
+    required String toUserId,
+    required String sdp,
+  }) => _client.send('call_offer', {
+    'callId': callId,
+    'toUserId': toUserId,
+    'sdp': sdp,
+  });
 
-  void sendCallAnswer(String callId,
-          {required String toUserId, required String sdp}) =>
-      _client.send(
-          'call_answer', {'callId': callId, 'toUserId': toUserId, 'sdp': sdp});
+  void sendCallAnswer(
+    String callId, {
+    required String toUserId,
+    required String sdp,
+  }) => _client.send('call_answer', {
+    'callId': callId,
+    'toUserId': toUserId,
+    'sdp': sdp,
+  });
 
-  void sendCallIceCandidate(String callId,
-          {required String toUserId, required String candidate}) =>
-      _client.send('call_ice_candidate',
-          {'callId': callId, 'toUserId': toUserId, 'candidate': candidate});
+  void sendCallIceCandidate(
+    String callId, {
+    required String toUserId,
+    required String candidate,
+  }) => _client.send('call_ice_candidate', {
+    'callId': callId,
+    'toUserId': toUserId,
+    'candidate': candidate,
+  });
 
   // --- Directs -------------------------------------------------------------
 
@@ -119,8 +134,10 @@ class RealtimeModule {
       });
 
   /// Poste un commentaire par le WebSocket, sans passer par REST.
-  void sendStreamComment(String streamId, String content) => _client
-      .send('stream_comment', {'streamId': streamId, 'content': content});
+  void sendStreamComment(String streamId, String content) => _client.send(
+    'stream_comment',
+    {'streamId': streamId, 'content': content},
+  );
 
   /// Envoie une réaction par le WebSocket.
   ///
@@ -137,14 +154,20 @@ class RealtimeModule {
   void stopTyping(String conversationId) =>
       _client.send('typing_stop', {'conversationId': conversationId});
 
-  /// Souscrit aux changements de présence.
+  /// Demande l'état de présence courant de ces utilisateurs.
   ///
-  /// L'API renvoie un objet vide en réponse immédiate — un défaut connu de
-  /// `presence_status` côté serveur, qui ne sait pas sérialiser sa liste de
-  /// statuts. Les changements ultérieurs arrivent normalement via
-  /// [onPresenceUpdate].
+  /// Le serveur répond par un unique [PresenceStatusEvent] ([onPresenceStatus])
+  /// qui porte un statut par utilisateur demandé. Malgré son nom, cet appel
+  /// n'enregistre aucun abonnement côté serveur, et l'API n'émet pas encore de
+  /// `presence_update` : rappelez cette méthode pour rafraîchir les statuts.
   void subscribePresence(List<String> userIds) =>
       _client.send('presence_subscribe', {'userIds': userIds});
+
+  /// Demande les statistiques de connexion du serveur, reçues via [onStats].
+  ///
+  /// Réservé aux tokens d'application : avec un token utilisateur, le serveur
+  /// ignore la demande et aucun [StatsEvent] n'arrive.
+  void requestStats() => _client.send('stats');
 
   // --- Flux typés ----------------------------------------------------------
 
@@ -169,9 +192,16 @@ class RealtimeModule {
       on<MessageReactionRemovedEvent>();
   Stream<TypingUpdateEvent> get onTypingUpdate => on<TypingUpdateEvent>();
   Stream<PresenceUpdateEvent> get onPresenceUpdate => on<PresenceUpdateEvent>();
+
+  /// Réponse à [subscribePresence] : un statut par utilisateur demandé.
+  Stream<PresenceStatusEvent> get onPresenceStatus => on<PresenceStatusEvent>();
+
   Stream<NotificationNewEvent> get onNotificationNew =>
       on<NotificationNewEvent>();
   Stream<ErrorEvent> get onError => on<ErrorEvent>();
+
+  /// Réponse à [requestStats], pour un token d'application.
+  Stream<StatsEvent> get onStats => on<StatsEvent>();
 
   Stream<StreamCommentNewEvent> get onStreamCommentNew =>
       on<StreamCommentNewEvent>();

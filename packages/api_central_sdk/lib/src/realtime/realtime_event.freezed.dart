@@ -63,6 +63,10 @@ RealtimeEvent _$RealtimeEventFromJson(
           return PresenceUpdateEvent.fromJson(
             json
           );
+                case 'presence_status':
+          return PresenceStatusEvent.fromJson(
+            json
+          );
                 case 'notification_new':
           return NotificationNewEvent.fromJson(
             json
@@ -77,6 +81,10 @@ RealtimeEvent _$RealtimeEventFromJson(
           );
                 case 'pong':
           return PongEvent.fromJson(
+            json
+          );
+                case 'stats':
+          return StatsEvent.fromJson(
             json
           );
                 case 'error':
@@ -238,7 +246,7 @@ extension RealtimeEventPatterns on RealtimeEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( ConnectedEvent value)?  connected,TResult Function( ConversationJoinedEvent value)?  conversationJoined,TResult Function( ConversationLeftEvent value)?  conversationLeft,TResult Function( MessageNewEvent value)?  messageNew,TResult Function( MessageUpdatedEvent value)?  messageUpdated,TResult Function( MessageDeletedEvent value)?  messageDeleted,TResult Function( MessageDeliveredEvent value)?  messageDelivered,TResult Function( MessageReadEvent value)?  messageRead,TResult Function( MessageReactionAddedEvent value)?  messageReactionAdded,TResult Function( MessageReactionRemovedEvent value)?  messageReactionRemoved,TResult Function( TypingUpdateEvent value)?  typingUpdate,TResult Function( PresenceUpdateEvent value)?  presenceUpdate,TResult Function( NotificationNewEvent value)?  notificationNew,TResult Function( NotificationReadEvent value)?  notificationRead,TResult Function( NotificationAllReadEvent value)?  notificationAllRead,TResult Function( PongEvent value)?  pong,TResult Function( ErrorEvent value)?  errorEvent,TResult Function( StreamJoinedEvent value)?  streamJoined,TResult Function( StreamLeftEvent value)?  streamLeft,TResult Function( StreamStartedEvent value)?  streamStarted,TResult Function( StreamPausedEvent value)?  streamPaused,TResult Function( StreamEndedEvent value)?  streamEnded,TResult Function( StreamViewerCountEvent value)?  streamViewerCount,TResult Function( StreamViewerJoinedEvent value)?  streamViewerJoined,TResult Function( StreamViewerLeftEvent value)?  streamViewerLeft,TResult Function( StreamCommentNewEvent value)?  streamCommentNew,TResult Function( StreamReactionBurstEvent value)?  streamReactionBurst,TResult Function( CallJoinedEvent value)?  callJoined,TResult Function( CallLeftEvent value)?  callLeft,TResult Function( CallIncomingEvent value)?  callIncoming,TResult Function( CallAnsweredEvent value)?  callAnswered,TResult Function( CallConnectedEvent value)?  callConnected,TResult Function( CallDeclinedEvent value)?  callDeclined,TResult Function( CallEndedEvent value)?  callEnded,TResult Function( CallParticipantJoinedEvent value)?  callParticipantJoined,TResult Function( CallParticipantLeftEvent value)?  callParticipantLeft,TResult Function( CallOfferReceivedEvent value)?  callOfferReceived,TResult Function( CallAnswerReceivedEvent value)?  callAnswerReceived,TResult Function( CallIceCandidateReceivedEvent value)?  callIceCandidateReceived,TResult Function( CallMuteChangedEvent value)?  callMuteChanged,TResult Function( CallVideoChangedEvent value)?  callVideoChanged,TResult Function( CallScreenShareChangedEvent value)?  callScreenShareChanged,TResult Function( UnknownEvent value)?  unknown,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( ConnectedEvent value)?  connected,TResult Function( ConversationJoinedEvent value)?  conversationJoined,TResult Function( ConversationLeftEvent value)?  conversationLeft,TResult Function( MessageNewEvent value)?  messageNew,TResult Function( MessageUpdatedEvent value)?  messageUpdated,TResult Function( MessageDeletedEvent value)?  messageDeleted,TResult Function( MessageDeliveredEvent value)?  messageDelivered,TResult Function( MessageReadEvent value)?  messageRead,TResult Function( MessageReactionAddedEvent value)?  messageReactionAdded,TResult Function( MessageReactionRemovedEvent value)?  messageReactionRemoved,TResult Function( TypingUpdateEvent value)?  typingUpdate,TResult Function( PresenceUpdateEvent value)?  presenceUpdate,TResult Function( PresenceStatusEvent value)?  presenceStatus,TResult Function( NotificationNewEvent value)?  notificationNew,TResult Function( NotificationReadEvent value)?  notificationRead,TResult Function( NotificationAllReadEvent value)?  notificationAllRead,TResult Function( PongEvent value)?  pong,TResult Function( StatsEvent value)?  stats,TResult Function( ErrorEvent value)?  errorEvent,TResult Function( StreamJoinedEvent value)?  streamJoined,TResult Function( StreamLeftEvent value)?  streamLeft,TResult Function( StreamStartedEvent value)?  streamStarted,TResult Function( StreamPausedEvent value)?  streamPaused,TResult Function( StreamEndedEvent value)?  streamEnded,TResult Function( StreamViewerCountEvent value)?  streamViewerCount,TResult Function( StreamViewerJoinedEvent value)?  streamViewerJoined,TResult Function( StreamViewerLeftEvent value)?  streamViewerLeft,TResult Function( StreamCommentNewEvent value)?  streamCommentNew,TResult Function( StreamReactionBurstEvent value)?  streamReactionBurst,TResult Function( CallJoinedEvent value)?  callJoined,TResult Function( CallLeftEvent value)?  callLeft,TResult Function( CallIncomingEvent value)?  callIncoming,TResult Function( CallAnsweredEvent value)?  callAnswered,TResult Function( CallConnectedEvent value)?  callConnected,TResult Function( CallDeclinedEvent value)?  callDeclined,TResult Function( CallEndedEvent value)?  callEnded,TResult Function( CallParticipantJoinedEvent value)?  callParticipantJoined,TResult Function( CallParticipantLeftEvent value)?  callParticipantLeft,TResult Function( CallOfferReceivedEvent value)?  callOfferReceived,TResult Function( CallAnswerReceivedEvent value)?  callAnswerReceived,TResult Function( CallIceCandidateReceivedEvent value)?  callIceCandidateReceived,TResult Function( CallMuteChangedEvent value)?  callMuteChanged,TResult Function( CallVideoChangedEvent value)?  callVideoChanged,TResult Function( CallScreenShareChangedEvent value)?  callScreenShareChanged,TResult Function( UnknownEvent value)?  unknown,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case ConnectedEvent() when connected != null:
@@ -253,11 +261,13 @@ return messageRead(_that);case MessageReactionAddedEvent() when messageReactionA
 return messageReactionAdded(_that);case MessageReactionRemovedEvent() when messageReactionRemoved != null:
 return messageReactionRemoved(_that);case TypingUpdateEvent() when typingUpdate != null:
 return typingUpdate(_that);case PresenceUpdateEvent() when presenceUpdate != null:
-return presenceUpdate(_that);case NotificationNewEvent() when notificationNew != null:
+return presenceUpdate(_that);case PresenceStatusEvent() when presenceStatus != null:
+return presenceStatus(_that);case NotificationNewEvent() when notificationNew != null:
 return notificationNew(_that);case NotificationReadEvent() when notificationRead != null:
 return notificationRead(_that);case NotificationAllReadEvent() when notificationAllRead != null:
 return notificationAllRead(_that);case PongEvent() when pong != null:
-return pong(_that);case ErrorEvent() when errorEvent != null:
+return pong(_that);case StatsEvent() when stats != null:
+return stats(_that);case ErrorEvent() when errorEvent != null:
 return errorEvent(_that);case StreamJoinedEvent() when streamJoined != null:
 return streamJoined(_that);case StreamLeftEvent() when streamLeft != null:
 return streamLeft(_that);case StreamStartedEvent() when streamStarted != null:
@@ -302,7 +312,7 @@ return unknown(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( ConnectedEvent value)  connected,required TResult Function( ConversationJoinedEvent value)  conversationJoined,required TResult Function( ConversationLeftEvent value)  conversationLeft,required TResult Function( MessageNewEvent value)  messageNew,required TResult Function( MessageUpdatedEvent value)  messageUpdated,required TResult Function( MessageDeletedEvent value)  messageDeleted,required TResult Function( MessageDeliveredEvent value)  messageDelivered,required TResult Function( MessageReadEvent value)  messageRead,required TResult Function( MessageReactionAddedEvent value)  messageReactionAdded,required TResult Function( MessageReactionRemovedEvent value)  messageReactionRemoved,required TResult Function( TypingUpdateEvent value)  typingUpdate,required TResult Function( PresenceUpdateEvent value)  presenceUpdate,required TResult Function( NotificationNewEvent value)  notificationNew,required TResult Function( NotificationReadEvent value)  notificationRead,required TResult Function( NotificationAllReadEvent value)  notificationAllRead,required TResult Function( PongEvent value)  pong,required TResult Function( ErrorEvent value)  errorEvent,required TResult Function( StreamJoinedEvent value)  streamJoined,required TResult Function( StreamLeftEvent value)  streamLeft,required TResult Function( StreamStartedEvent value)  streamStarted,required TResult Function( StreamPausedEvent value)  streamPaused,required TResult Function( StreamEndedEvent value)  streamEnded,required TResult Function( StreamViewerCountEvent value)  streamViewerCount,required TResult Function( StreamViewerJoinedEvent value)  streamViewerJoined,required TResult Function( StreamViewerLeftEvent value)  streamViewerLeft,required TResult Function( StreamCommentNewEvent value)  streamCommentNew,required TResult Function( StreamReactionBurstEvent value)  streamReactionBurst,required TResult Function( CallJoinedEvent value)  callJoined,required TResult Function( CallLeftEvent value)  callLeft,required TResult Function( CallIncomingEvent value)  callIncoming,required TResult Function( CallAnsweredEvent value)  callAnswered,required TResult Function( CallConnectedEvent value)  callConnected,required TResult Function( CallDeclinedEvent value)  callDeclined,required TResult Function( CallEndedEvent value)  callEnded,required TResult Function( CallParticipantJoinedEvent value)  callParticipantJoined,required TResult Function( CallParticipantLeftEvent value)  callParticipantLeft,required TResult Function( CallOfferReceivedEvent value)  callOfferReceived,required TResult Function( CallAnswerReceivedEvent value)  callAnswerReceived,required TResult Function( CallIceCandidateReceivedEvent value)  callIceCandidateReceived,required TResult Function( CallMuteChangedEvent value)  callMuteChanged,required TResult Function( CallVideoChangedEvent value)  callVideoChanged,required TResult Function( CallScreenShareChangedEvent value)  callScreenShareChanged,required TResult Function( UnknownEvent value)  unknown,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( ConnectedEvent value)  connected,required TResult Function( ConversationJoinedEvent value)  conversationJoined,required TResult Function( ConversationLeftEvent value)  conversationLeft,required TResult Function( MessageNewEvent value)  messageNew,required TResult Function( MessageUpdatedEvent value)  messageUpdated,required TResult Function( MessageDeletedEvent value)  messageDeleted,required TResult Function( MessageDeliveredEvent value)  messageDelivered,required TResult Function( MessageReadEvent value)  messageRead,required TResult Function( MessageReactionAddedEvent value)  messageReactionAdded,required TResult Function( MessageReactionRemovedEvent value)  messageReactionRemoved,required TResult Function( TypingUpdateEvent value)  typingUpdate,required TResult Function( PresenceUpdateEvent value)  presenceUpdate,required TResult Function( PresenceStatusEvent value)  presenceStatus,required TResult Function( NotificationNewEvent value)  notificationNew,required TResult Function( NotificationReadEvent value)  notificationRead,required TResult Function( NotificationAllReadEvent value)  notificationAllRead,required TResult Function( PongEvent value)  pong,required TResult Function( StatsEvent value)  stats,required TResult Function( ErrorEvent value)  errorEvent,required TResult Function( StreamJoinedEvent value)  streamJoined,required TResult Function( StreamLeftEvent value)  streamLeft,required TResult Function( StreamStartedEvent value)  streamStarted,required TResult Function( StreamPausedEvent value)  streamPaused,required TResult Function( StreamEndedEvent value)  streamEnded,required TResult Function( StreamViewerCountEvent value)  streamViewerCount,required TResult Function( StreamViewerJoinedEvent value)  streamViewerJoined,required TResult Function( StreamViewerLeftEvent value)  streamViewerLeft,required TResult Function( StreamCommentNewEvent value)  streamCommentNew,required TResult Function( StreamReactionBurstEvent value)  streamReactionBurst,required TResult Function( CallJoinedEvent value)  callJoined,required TResult Function( CallLeftEvent value)  callLeft,required TResult Function( CallIncomingEvent value)  callIncoming,required TResult Function( CallAnsweredEvent value)  callAnswered,required TResult Function( CallConnectedEvent value)  callConnected,required TResult Function( CallDeclinedEvent value)  callDeclined,required TResult Function( CallEndedEvent value)  callEnded,required TResult Function( CallParticipantJoinedEvent value)  callParticipantJoined,required TResult Function( CallParticipantLeftEvent value)  callParticipantLeft,required TResult Function( CallOfferReceivedEvent value)  callOfferReceived,required TResult Function( CallAnswerReceivedEvent value)  callAnswerReceived,required TResult Function( CallIceCandidateReceivedEvent value)  callIceCandidateReceived,required TResult Function( CallMuteChangedEvent value)  callMuteChanged,required TResult Function( CallVideoChangedEvent value)  callVideoChanged,required TResult Function( CallScreenShareChangedEvent value)  callScreenShareChanged,required TResult Function( UnknownEvent value)  unknown,}){
 final _that = this;
 switch (_that) {
 case ConnectedEvent():
@@ -317,11 +327,13 @@ return messageRead(_that);case MessageReactionAddedEvent():
 return messageReactionAdded(_that);case MessageReactionRemovedEvent():
 return messageReactionRemoved(_that);case TypingUpdateEvent():
 return typingUpdate(_that);case PresenceUpdateEvent():
-return presenceUpdate(_that);case NotificationNewEvent():
+return presenceUpdate(_that);case PresenceStatusEvent():
+return presenceStatus(_that);case NotificationNewEvent():
 return notificationNew(_that);case NotificationReadEvent():
 return notificationRead(_that);case NotificationAllReadEvent():
 return notificationAllRead(_that);case PongEvent():
-return pong(_that);case ErrorEvent():
+return pong(_that);case StatsEvent():
+return stats(_that);case ErrorEvent():
 return errorEvent(_that);case StreamJoinedEvent():
 return streamJoined(_that);case StreamLeftEvent():
 return streamLeft(_that);case StreamStartedEvent():
@@ -362,7 +374,7 @@ return unknown(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( ConnectedEvent value)?  connected,TResult? Function( ConversationJoinedEvent value)?  conversationJoined,TResult? Function( ConversationLeftEvent value)?  conversationLeft,TResult? Function( MessageNewEvent value)?  messageNew,TResult? Function( MessageUpdatedEvent value)?  messageUpdated,TResult? Function( MessageDeletedEvent value)?  messageDeleted,TResult? Function( MessageDeliveredEvent value)?  messageDelivered,TResult? Function( MessageReadEvent value)?  messageRead,TResult? Function( MessageReactionAddedEvent value)?  messageReactionAdded,TResult? Function( MessageReactionRemovedEvent value)?  messageReactionRemoved,TResult? Function( TypingUpdateEvent value)?  typingUpdate,TResult? Function( PresenceUpdateEvent value)?  presenceUpdate,TResult? Function( NotificationNewEvent value)?  notificationNew,TResult? Function( NotificationReadEvent value)?  notificationRead,TResult? Function( NotificationAllReadEvent value)?  notificationAllRead,TResult? Function( PongEvent value)?  pong,TResult? Function( ErrorEvent value)?  errorEvent,TResult? Function( StreamJoinedEvent value)?  streamJoined,TResult? Function( StreamLeftEvent value)?  streamLeft,TResult? Function( StreamStartedEvent value)?  streamStarted,TResult? Function( StreamPausedEvent value)?  streamPaused,TResult? Function( StreamEndedEvent value)?  streamEnded,TResult? Function( StreamViewerCountEvent value)?  streamViewerCount,TResult? Function( StreamViewerJoinedEvent value)?  streamViewerJoined,TResult? Function( StreamViewerLeftEvent value)?  streamViewerLeft,TResult? Function( StreamCommentNewEvent value)?  streamCommentNew,TResult? Function( StreamReactionBurstEvent value)?  streamReactionBurst,TResult? Function( CallJoinedEvent value)?  callJoined,TResult? Function( CallLeftEvent value)?  callLeft,TResult? Function( CallIncomingEvent value)?  callIncoming,TResult? Function( CallAnsweredEvent value)?  callAnswered,TResult? Function( CallConnectedEvent value)?  callConnected,TResult? Function( CallDeclinedEvent value)?  callDeclined,TResult? Function( CallEndedEvent value)?  callEnded,TResult? Function( CallParticipantJoinedEvent value)?  callParticipantJoined,TResult? Function( CallParticipantLeftEvent value)?  callParticipantLeft,TResult? Function( CallOfferReceivedEvent value)?  callOfferReceived,TResult? Function( CallAnswerReceivedEvent value)?  callAnswerReceived,TResult? Function( CallIceCandidateReceivedEvent value)?  callIceCandidateReceived,TResult? Function( CallMuteChangedEvent value)?  callMuteChanged,TResult? Function( CallVideoChangedEvent value)?  callVideoChanged,TResult? Function( CallScreenShareChangedEvent value)?  callScreenShareChanged,TResult? Function( UnknownEvent value)?  unknown,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( ConnectedEvent value)?  connected,TResult? Function( ConversationJoinedEvent value)?  conversationJoined,TResult? Function( ConversationLeftEvent value)?  conversationLeft,TResult? Function( MessageNewEvent value)?  messageNew,TResult? Function( MessageUpdatedEvent value)?  messageUpdated,TResult? Function( MessageDeletedEvent value)?  messageDeleted,TResult? Function( MessageDeliveredEvent value)?  messageDelivered,TResult? Function( MessageReadEvent value)?  messageRead,TResult? Function( MessageReactionAddedEvent value)?  messageReactionAdded,TResult? Function( MessageReactionRemovedEvent value)?  messageReactionRemoved,TResult? Function( TypingUpdateEvent value)?  typingUpdate,TResult? Function( PresenceUpdateEvent value)?  presenceUpdate,TResult? Function( PresenceStatusEvent value)?  presenceStatus,TResult? Function( NotificationNewEvent value)?  notificationNew,TResult? Function( NotificationReadEvent value)?  notificationRead,TResult? Function( NotificationAllReadEvent value)?  notificationAllRead,TResult? Function( PongEvent value)?  pong,TResult? Function( StatsEvent value)?  stats,TResult? Function( ErrorEvent value)?  errorEvent,TResult? Function( StreamJoinedEvent value)?  streamJoined,TResult? Function( StreamLeftEvent value)?  streamLeft,TResult? Function( StreamStartedEvent value)?  streamStarted,TResult? Function( StreamPausedEvent value)?  streamPaused,TResult? Function( StreamEndedEvent value)?  streamEnded,TResult? Function( StreamViewerCountEvent value)?  streamViewerCount,TResult? Function( StreamViewerJoinedEvent value)?  streamViewerJoined,TResult? Function( StreamViewerLeftEvent value)?  streamViewerLeft,TResult? Function( StreamCommentNewEvent value)?  streamCommentNew,TResult? Function( StreamReactionBurstEvent value)?  streamReactionBurst,TResult? Function( CallJoinedEvent value)?  callJoined,TResult? Function( CallLeftEvent value)?  callLeft,TResult? Function( CallIncomingEvent value)?  callIncoming,TResult? Function( CallAnsweredEvent value)?  callAnswered,TResult? Function( CallConnectedEvent value)?  callConnected,TResult? Function( CallDeclinedEvent value)?  callDeclined,TResult? Function( CallEndedEvent value)?  callEnded,TResult? Function( CallParticipantJoinedEvent value)?  callParticipantJoined,TResult? Function( CallParticipantLeftEvent value)?  callParticipantLeft,TResult? Function( CallOfferReceivedEvent value)?  callOfferReceived,TResult? Function( CallAnswerReceivedEvent value)?  callAnswerReceived,TResult? Function( CallIceCandidateReceivedEvent value)?  callIceCandidateReceived,TResult? Function( CallMuteChangedEvent value)?  callMuteChanged,TResult? Function( CallVideoChangedEvent value)?  callVideoChanged,TResult? Function( CallScreenShareChangedEvent value)?  callScreenShareChanged,TResult? Function( UnknownEvent value)?  unknown,}){
 final _that = this;
 switch (_that) {
 case ConnectedEvent() when connected != null:
@@ -377,11 +389,13 @@ return messageRead(_that);case MessageReactionAddedEvent() when messageReactionA
 return messageReactionAdded(_that);case MessageReactionRemovedEvent() when messageReactionRemoved != null:
 return messageReactionRemoved(_that);case TypingUpdateEvent() when typingUpdate != null:
 return typingUpdate(_that);case PresenceUpdateEvent() when presenceUpdate != null:
-return presenceUpdate(_that);case NotificationNewEvent() when notificationNew != null:
+return presenceUpdate(_that);case PresenceStatusEvent() when presenceStatus != null:
+return presenceStatus(_that);case NotificationNewEvent() when notificationNew != null:
 return notificationNew(_that);case NotificationReadEvent() when notificationRead != null:
 return notificationRead(_that);case NotificationAllReadEvent() when notificationAllRead != null:
 return notificationAllRead(_that);case PongEvent() when pong != null:
-return pong(_that);case ErrorEvent() when errorEvent != null:
+return pong(_that);case StatsEvent() when stats != null:
+return stats(_that);case ErrorEvent() when errorEvent != null:
 return errorEvent(_that);case StreamJoinedEvent() when streamJoined != null:
 return streamJoined(_that);case StreamLeftEvent() when streamLeft != null:
 return streamLeft(_that);case StreamStartedEvent() when streamStarted != null:
@@ -425,7 +439,7 @@ return unknown(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String? socketId,  Map<String, dynamic>? application,  Map<String, dynamic>? user)?  connected,TResult Function( String conversationId,  bool success)?  conversationJoined,TResult Function( String conversationId)?  conversationLeft,TResult Function( String id,  String conversationId,  String content,  String? senderId,  String? contentType,  String? createdAt,  List<String>? participants)?  messageNew,TResult Function( String id,  String conversationId,  String content,  String? senderId,  String? contentType,  String? createdAt)?  messageUpdated,TResult Function( String id,  String conversationId)?  messageDeleted,TResult Function( String conversationId,  String userId,  String deliveredAt,  List<String> messageIds)?  messageDelivered,TResult Function( String conversationId,  String userId,  String lastReadMessageId,  String readAt)?  messageRead,TResult Function( String messageId,  String conversationId,  String userId,  String emoji)?  messageReactionAdded,TResult Function( String messageId,  String conversationId,  String userId,  String emoji)?  messageReactionRemoved,TResult Function( String conversationId,  List<String> userIds)?  typingUpdate,TResult Function( String userId,  String status,  String? timestamp)?  presenceUpdate,TResult Function( String id,  String title,  String body,  String? notificationType,  Map<String, dynamic>? data,  String? createdAt)?  notificationNew,TResult Function( List<String> notificationIds)?  notificationRead,TResult Function()?  notificationAllRead,TResult Function( String? timestamp)?  pong,TResult Function( String? code,  String? message)?  errorEvent,TResult Function( String streamId,  int viewerCount)?  streamJoined,TResult Function( String streamId)?  streamLeft,TResult Function( String streamId,  String title,  String? hostId,  String? hostName)?  streamStarted,TResult Function( String streamId)?  streamPaused,TResult Function( String streamId)?  streamEnded,TResult Function( String streamId,  int count)?  streamViewerCount,TResult Function( String streamId,  String userId,  String? userName)?  streamViewerJoined,TResult Function( String streamId,  String userId)?  streamViewerLeft,TResult Function( String streamId,  String commentId,  String userId,  String content,  String? userName)?  streamCommentNew,TResult Function( String streamId,  String emoji,  int count)?  streamReactionBurst,TResult Function( String callId)?  callJoined,TResult Function( String callId)?  callLeft,TResult Function( String callId,  String callerId,  String? callerName,  String? callType)?  callIncoming,TResult Function( String callId,  String userId)?  callAnswered,TResult Function( String callId,  List<String> participantIds)?  callConnected,TResult Function( String callId,  String userId)?  callDeclined,TResult Function( String callId,  String? reason,  int? durationSeconds)?  callEnded,TResult Function( String callId,  String userId,  String? userName)?  callParticipantJoined,TResult Function( String callId,  String userId)?  callParticipantLeft,TResult Function( String callId,  String fromUserId,  String sdp)?  callOfferReceived,TResult Function( String callId,  String fromUserId,  String sdp)?  callAnswerReceived,TResult Function( String callId,  String fromUserId,  String candidate)?  callIceCandidateReceived,TResult Function( String callId,  String userId,  bool isMuted)?  callMuteChanged,TResult Function( String callId,  String userId,  bool isVideoEnabled)?  callVideoChanged,TResult Function( String callId,  String userId,  bool isScreenSharing)?  callScreenShareChanged,TResult Function( String type,  Map<String, dynamic> data)?  unknown,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String? socketId,  Map<String, dynamic>? application,  Map<String, dynamic>? user)?  connected,TResult Function( String conversationId,  bool success)?  conversationJoined,TResult Function( String conversationId)?  conversationLeft,TResult Function( String id,  String conversationId,  String content,  String? senderId,  String? contentType,  String? createdAt,  List<String>? participants)?  messageNew,TResult Function( String id,  String conversationId,  String content,  String? senderId,  String? contentType,  String? createdAt)?  messageUpdated,TResult Function( String id,  String conversationId)?  messageDeleted,TResult Function( String conversationId,  String userId,  String deliveredAt,  List<String> messageIds)?  messageDelivered,TResult Function( String conversationId,  String userId,  String lastReadMessageId,  String readAt)?  messageRead,TResult Function( String messageId,  String conversationId,  String userId,  String emoji)?  messageReactionAdded,TResult Function( String messageId,  String conversationId,  String userId,  String emoji)?  messageReactionRemoved,TResult Function( String conversationId,  List<String> userIds)?  typingUpdate,TResult Function( String userId,  String status,  String? timestamp)?  presenceUpdate,TResult Function( List<PresenceStatusItem> statuses)?  presenceStatus,TResult Function( String id,  String title,  String body,  String? notificationType,  Map<String, dynamic>? data,  String? createdAt)?  notificationNew,TResult Function( List<String> notificationIds)?  notificationRead,TResult Function()?  notificationAllRead,TResult Function( String? timestamp)?  pong,TResult Function( int totalConnections,  int applications,  int usersOnline)?  stats,TResult Function( String? code,  String? message)?  errorEvent,TResult Function( String streamId,  int viewerCount)?  streamJoined,TResult Function( String streamId)?  streamLeft,TResult Function( String streamId,  String title,  String? hostId,  String? hostName)?  streamStarted,TResult Function( String streamId)?  streamPaused,TResult Function( String streamId)?  streamEnded,TResult Function( String streamId,  int count)?  streamViewerCount,TResult Function( String streamId,  String userId,  String? userName)?  streamViewerJoined,TResult Function( String streamId,  String userId)?  streamViewerLeft,TResult Function( String streamId,  String commentId,  String userId,  String content,  String? userName)?  streamCommentNew,TResult Function( String streamId,  String emoji,  int count)?  streamReactionBurst,TResult Function( String callId)?  callJoined,TResult Function( String callId)?  callLeft,TResult Function( String callId,  String callerId,  String? callerName,  String? callType)?  callIncoming,TResult Function( String callId,  String userId)?  callAnswered,TResult Function( String callId,  List<String> participantIds)?  callConnected,TResult Function( String callId,  String userId)?  callDeclined,TResult Function( String callId,  String? reason,  int? durationSeconds)?  callEnded,TResult Function( String callId,  String userId,  String? userName)?  callParticipantJoined,TResult Function( String callId,  String userId)?  callParticipantLeft,TResult Function( String callId,  String fromUserId,  String sdp)?  callOfferReceived,TResult Function( String callId,  String fromUserId,  String sdp)?  callAnswerReceived,TResult Function( String callId,  String fromUserId,  String candidate)?  callIceCandidateReceived,TResult Function( String callId,  String userId,  bool isMuted)?  callMuteChanged,TResult Function( String callId,  String userId,  bool isVideoEnabled)?  callVideoChanged,TResult Function( String callId,  String userId,  bool isScreenSharing)?  callScreenShareChanged,TResult Function( String type,  Map<String, dynamic> data)?  unknown,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case ConnectedEvent() when connected != null:
 return connected(_that.socketId,_that.application,_that.user);case ConversationJoinedEvent() when conversationJoined != null:
@@ -439,11 +453,13 @@ return messageRead(_that.conversationId,_that.userId,_that.lastReadMessageId,_th
 return messageReactionAdded(_that.messageId,_that.conversationId,_that.userId,_that.emoji);case MessageReactionRemovedEvent() when messageReactionRemoved != null:
 return messageReactionRemoved(_that.messageId,_that.conversationId,_that.userId,_that.emoji);case TypingUpdateEvent() when typingUpdate != null:
 return typingUpdate(_that.conversationId,_that.userIds);case PresenceUpdateEvent() when presenceUpdate != null:
-return presenceUpdate(_that.userId,_that.status,_that.timestamp);case NotificationNewEvent() when notificationNew != null:
+return presenceUpdate(_that.userId,_that.status,_that.timestamp);case PresenceStatusEvent() when presenceStatus != null:
+return presenceStatus(_that.statuses);case NotificationNewEvent() when notificationNew != null:
 return notificationNew(_that.id,_that.title,_that.body,_that.notificationType,_that.data,_that.createdAt);case NotificationReadEvent() when notificationRead != null:
 return notificationRead(_that.notificationIds);case NotificationAllReadEvent() when notificationAllRead != null:
 return notificationAllRead();case PongEvent() when pong != null:
-return pong(_that.timestamp);case ErrorEvent() when errorEvent != null:
+return pong(_that.timestamp);case StatsEvent() when stats != null:
+return stats(_that.totalConnections,_that.applications,_that.usersOnline);case ErrorEvent() when errorEvent != null:
 return errorEvent(_that.code,_that.message);case StreamJoinedEvent() when streamJoined != null:
 return streamJoined(_that.streamId,_that.viewerCount);case StreamLeftEvent() when streamLeft != null:
 return streamLeft(_that.streamId);case StreamStartedEvent() when streamStarted != null:
@@ -488,7 +504,7 @@ return unknown(_that.type,_that.data);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String? socketId,  Map<String, dynamic>? application,  Map<String, dynamic>? user)  connected,required TResult Function( String conversationId,  bool success)  conversationJoined,required TResult Function( String conversationId)  conversationLeft,required TResult Function( String id,  String conversationId,  String content,  String? senderId,  String? contentType,  String? createdAt,  List<String>? participants)  messageNew,required TResult Function( String id,  String conversationId,  String content,  String? senderId,  String? contentType,  String? createdAt)  messageUpdated,required TResult Function( String id,  String conversationId)  messageDeleted,required TResult Function( String conversationId,  String userId,  String deliveredAt,  List<String> messageIds)  messageDelivered,required TResult Function( String conversationId,  String userId,  String lastReadMessageId,  String readAt)  messageRead,required TResult Function( String messageId,  String conversationId,  String userId,  String emoji)  messageReactionAdded,required TResult Function( String messageId,  String conversationId,  String userId,  String emoji)  messageReactionRemoved,required TResult Function( String conversationId,  List<String> userIds)  typingUpdate,required TResult Function( String userId,  String status,  String? timestamp)  presenceUpdate,required TResult Function( String id,  String title,  String body,  String? notificationType,  Map<String, dynamic>? data,  String? createdAt)  notificationNew,required TResult Function( List<String> notificationIds)  notificationRead,required TResult Function()  notificationAllRead,required TResult Function( String? timestamp)  pong,required TResult Function( String? code,  String? message)  errorEvent,required TResult Function( String streamId,  int viewerCount)  streamJoined,required TResult Function( String streamId)  streamLeft,required TResult Function( String streamId,  String title,  String? hostId,  String? hostName)  streamStarted,required TResult Function( String streamId)  streamPaused,required TResult Function( String streamId)  streamEnded,required TResult Function( String streamId,  int count)  streamViewerCount,required TResult Function( String streamId,  String userId,  String? userName)  streamViewerJoined,required TResult Function( String streamId,  String userId)  streamViewerLeft,required TResult Function( String streamId,  String commentId,  String userId,  String content,  String? userName)  streamCommentNew,required TResult Function( String streamId,  String emoji,  int count)  streamReactionBurst,required TResult Function( String callId)  callJoined,required TResult Function( String callId)  callLeft,required TResult Function( String callId,  String callerId,  String? callerName,  String? callType)  callIncoming,required TResult Function( String callId,  String userId)  callAnswered,required TResult Function( String callId,  List<String> participantIds)  callConnected,required TResult Function( String callId,  String userId)  callDeclined,required TResult Function( String callId,  String? reason,  int? durationSeconds)  callEnded,required TResult Function( String callId,  String userId,  String? userName)  callParticipantJoined,required TResult Function( String callId,  String userId)  callParticipantLeft,required TResult Function( String callId,  String fromUserId,  String sdp)  callOfferReceived,required TResult Function( String callId,  String fromUserId,  String sdp)  callAnswerReceived,required TResult Function( String callId,  String fromUserId,  String candidate)  callIceCandidateReceived,required TResult Function( String callId,  String userId,  bool isMuted)  callMuteChanged,required TResult Function( String callId,  String userId,  bool isVideoEnabled)  callVideoChanged,required TResult Function( String callId,  String userId,  bool isScreenSharing)  callScreenShareChanged,required TResult Function( String type,  Map<String, dynamic> data)  unknown,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String? socketId,  Map<String, dynamic>? application,  Map<String, dynamic>? user)  connected,required TResult Function( String conversationId,  bool success)  conversationJoined,required TResult Function( String conversationId)  conversationLeft,required TResult Function( String id,  String conversationId,  String content,  String? senderId,  String? contentType,  String? createdAt,  List<String>? participants)  messageNew,required TResult Function( String id,  String conversationId,  String content,  String? senderId,  String? contentType,  String? createdAt)  messageUpdated,required TResult Function( String id,  String conversationId)  messageDeleted,required TResult Function( String conversationId,  String userId,  String deliveredAt,  List<String> messageIds)  messageDelivered,required TResult Function( String conversationId,  String userId,  String lastReadMessageId,  String readAt)  messageRead,required TResult Function( String messageId,  String conversationId,  String userId,  String emoji)  messageReactionAdded,required TResult Function( String messageId,  String conversationId,  String userId,  String emoji)  messageReactionRemoved,required TResult Function( String conversationId,  List<String> userIds)  typingUpdate,required TResult Function( String userId,  String status,  String? timestamp)  presenceUpdate,required TResult Function( List<PresenceStatusItem> statuses)  presenceStatus,required TResult Function( String id,  String title,  String body,  String? notificationType,  Map<String, dynamic>? data,  String? createdAt)  notificationNew,required TResult Function( List<String> notificationIds)  notificationRead,required TResult Function()  notificationAllRead,required TResult Function( String? timestamp)  pong,required TResult Function( int totalConnections,  int applications,  int usersOnline)  stats,required TResult Function( String? code,  String? message)  errorEvent,required TResult Function( String streamId,  int viewerCount)  streamJoined,required TResult Function( String streamId)  streamLeft,required TResult Function( String streamId,  String title,  String? hostId,  String? hostName)  streamStarted,required TResult Function( String streamId)  streamPaused,required TResult Function( String streamId)  streamEnded,required TResult Function( String streamId,  int count)  streamViewerCount,required TResult Function( String streamId,  String userId,  String? userName)  streamViewerJoined,required TResult Function( String streamId,  String userId)  streamViewerLeft,required TResult Function( String streamId,  String commentId,  String userId,  String content,  String? userName)  streamCommentNew,required TResult Function( String streamId,  String emoji,  int count)  streamReactionBurst,required TResult Function( String callId)  callJoined,required TResult Function( String callId)  callLeft,required TResult Function( String callId,  String callerId,  String? callerName,  String? callType)  callIncoming,required TResult Function( String callId,  String userId)  callAnswered,required TResult Function( String callId,  List<String> participantIds)  callConnected,required TResult Function( String callId,  String userId)  callDeclined,required TResult Function( String callId,  String? reason,  int? durationSeconds)  callEnded,required TResult Function( String callId,  String userId,  String? userName)  callParticipantJoined,required TResult Function( String callId,  String userId)  callParticipantLeft,required TResult Function( String callId,  String fromUserId,  String sdp)  callOfferReceived,required TResult Function( String callId,  String fromUserId,  String sdp)  callAnswerReceived,required TResult Function( String callId,  String fromUserId,  String candidate)  callIceCandidateReceived,required TResult Function( String callId,  String userId,  bool isMuted)  callMuteChanged,required TResult Function( String callId,  String userId,  bool isVideoEnabled)  callVideoChanged,required TResult Function( String callId,  String userId,  bool isScreenSharing)  callScreenShareChanged,required TResult Function( String type,  Map<String, dynamic> data)  unknown,}) {final _that = this;
 switch (_that) {
 case ConnectedEvent():
 return connected(_that.socketId,_that.application,_that.user);case ConversationJoinedEvent():
@@ -502,11 +518,13 @@ return messageRead(_that.conversationId,_that.userId,_that.lastReadMessageId,_th
 return messageReactionAdded(_that.messageId,_that.conversationId,_that.userId,_that.emoji);case MessageReactionRemovedEvent():
 return messageReactionRemoved(_that.messageId,_that.conversationId,_that.userId,_that.emoji);case TypingUpdateEvent():
 return typingUpdate(_that.conversationId,_that.userIds);case PresenceUpdateEvent():
-return presenceUpdate(_that.userId,_that.status,_that.timestamp);case NotificationNewEvent():
+return presenceUpdate(_that.userId,_that.status,_that.timestamp);case PresenceStatusEvent():
+return presenceStatus(_that.statuses);case NotificationNewEvent():
 return notificationNew(_that.id,_that.title,_that.body,_that.notificationType,_that.data,_that.createdAt);case NotificationReadEvent():
 return notificationRead(_that.notificationIds);case NotificationAllReadEvent():
 return notificationAllRead();case PongEvent():
-return pong(_that.timestamp);case ErrorEvent():
+return pong(_that.timestamp);case StatsEvent():
+return stats(_that.totalConnections,_that.applications,_that.usersOnline);case ErrorEvent():
 return errorEvent(_that.code,_that.message);case StreamJoinedEvent():
 return streamJoined(_that.streamId,_that.viewerCount);case StreamLeftEvent():
 return streamLeft(_that.streamId);case StreamStartedEvent():
@@ -547,7 +565,7 @@ return unknown(_that.type,_that.data);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String? socketId,  Map<String, dynamic>? application,  Map<String, dynamic>? user)?  connected,TResult? Function( String conversationId,  bool success)?  conversationJoined,TResult? Function( String conversationId)?  conversationLeft,TResult? Function( String id,  String conversationId,  String content,  String? senderId,  String? contentType,  String? createdAt,  List<String>? participants)?  messageNew,TResult? Function( String id,  String conversationId,  String content,  String? senderId,  String? contentType,  String? createdAt)?  messageUpdated,TResult? Function( String id,  String conversationId)?  messageDeleted,TResult? Function( String conversationId,  String userId,  String deliveredAt,  List<String> messageIds)?  messageDelivered,TResult? Function( String conversationId,  String userId,  String lastReadMessageId,  String readAt)?  messageRead,TResult? Function( String messageId,  String conversationId,  String userId,  String emoji)?  messageReactionAdded,TResult? Function( String messageId,  String conversationId,  String userId,  String emoji)?  messageReactionRemoved,TResult? Function( String conversationId,  List<String> userIds)?  typingUpdate,TResult? Function( String userId,  String status,  String? timestamp)?  presenceUpdate,TResult? Function( String id,  String title,  String body,  String? notificationType,  Map<String, dynamic>? data,  String? createdAt)?  notificationNew,TResult? Function( List<String> notificationIds)?  notificationRead,TResult? Function()?  notificationAllRead,TResult? Function( String? timestamp)?  pong,TResult? Function( String? code,  String? message)?  errorEvent,TResult? Function( String streamId,  int viewerCount)?  streamJoined,TResult? Function( String streamId)?  streamLeft,TResult? Function( String streamId,  String title,  String? hostId,  String? hostName)?  streamStarted,TResult? Function( String streamId)?  streamPaused,TResult? Function( String streamId)?  streamEnded,TResult? Function( String streamId,  int count)?  streamViewerCount,TResult? Function( String streamId,  String userId,  String? userName)?  streamViewerJoined,TResult? Function( String streamId,  String userId)?  streamViewerLeft,TResult? Function( String streamId,  String commentId,  String userId,  String content,  String? userName)?  streamCommentNew,TResult? Function( String streamId,  String emoji,  int count)?  streamReactionBurst,TResult? Function( String callId)?  callJoined,TResult? Function( String callId)?  callLeft,TResult? Function( String callId,  String callerId,  String? callerName,  String? callType)?  callIncoming,TResult? Function( String callId,  String userId)?  callAnswered,TResult? Function( String callId,  List<String> participantIds)?  callConnected,TResult? Function( String callId,  String userId)?  callDeclined,TResult? Function( String callId,  String? reason,  int? durationSeconds)?  callEnded,TResult? Function( String callId,  String userId,  String? userName)?  callParticipantJoined,TResult? Function( String callId,  String userId)?  callParticipantLeft,TResult? Function( String callId,  String fromUserId,  String sdp)?  callOfferReceived,TResult? Function( String callId,  String fromUserId,  String sdp)?  callAnswerReceived,TResult? Function( String callId,  String fromUserId,  String candidate)?  callIceCandidateReceived,TResult? Function( String callId,  String userId,  bool isMuted)?  callMuteChanged,TResult? Function( String callId,  String userId,  bool isVideoEnabled)?  callVideoChanged,TResult? Function( String callId,  String userId,  bool isScreenSharing)?  callScreenShareChanged,TResult? Function( String type,  Map<String, dynamic> data)?  unknown,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String? socketId,  Map<String, dynamic>? application,  Map<String, dynamic>? user)?  connected,TResult? Function( String conversationId,  bool success)?  conversationJoined,TResult? Function( String conversationId)?  conversationLeft,TResult? Function( String id,  String conversationId,  String content,  String? senderId,  String? contentType,  String? createdAt,  List<String>? participants)?  messageNew,TResult? Function( String id,  String conversationId,  String content,  String? senderId,  String? contentType,  String? createdAt)?  messageUpdated,TResult? Function( String id,  String conversationId)?  messageDeleted,TResult? Function( String conversationId,  String userId,  String deliveredAt,  List<String> messageIds)?  messageDelivered,TResult? Function( String conversationId,  String userId,  String lastReadMessageId,  String readAt)?  messageRead,TResult? Function( String messageId,  String conversationId,  String userId,  String emoji)?  messageReactionAdded,TResult? Function( String messageId,  String conversationId,  String userId,  String emoji)?  messageReactionRemoved,TResult? Function( String conversationId,  List<String> userIds)?  typingUpdate,TResult? Function( String userId,  String status,  String? timestamp)?  presenceUpdate,TResult? Function( List<PresenceStatusItem> statuses)?  presenceStatus,TResult? Function( String id,  String title,  String body,  String? notificationType,  Map<String, dynamic>? data,  String? createdAt)?  notificationNew,TResult? Function( List<String> notificationIds)?  notificationRead,TResult? Function()?  notificationAllRead,TResult? Function( String? timestamp)?  pong,TResult? Function( int totalConnections,  int applications,  int usersOnline)?  stats,TResult? Function( String? code,  String? message)?  errorEvent,TResult? Function( String streamId,  int viewerCount)?  streamJoined,TResult? Function( String streamId)?  streamLeft,TResult? Function( String streamId,  String title,  String? hostId,  String? hostName)?  streamStarted,TResult? Function( String streamId)?  streamPaused,TResult? Function( String streamId)?  streamEnded,TResult? Function( String streamId,  int count)?  streamViewerCount,TResult? Function( String streamId,  String userId,  String? userName)?  streamViewerJoined,TResult? Function( String streamId,  String userId)?  streamViewerLeft,TResult? Function( String streamId,  String commentId,  String userId,  String content,  String? userName)?  streamCommentNew,TResult? Function( String streamId,  String emoji,  int count)?  streamReactionBurst,TResult? Function( String callId)?  callJoined,TResult? Function( String callId)?  callLeft,TResult? Function( String callId,  String callerId,  String? callerName,  String? callType)?  callIncoming,TResult? Function( String callId,  String userId)?  callAnswered,TResult? Function( String callId,  List<String> participantIds)?  callConnected,TResult? Function( String callId,  String userId)?  callDeclined,TResult? Function( String callId,  String? reason,  int? durationSeconds)?  callEnded,TResult? Function( String callId,  String userId,  String? userName)?  callParticipantJoined,TResult? Function( String callId,  String userId)?  callParticipantLeft,TResult? Function( String callId,  String fromUserId,  String sdp)?  callOfferReceived,TResult? Function( String callId,  String fromUserId,  String sdp)?  callAnswerReceived,TResult? Function( String callId,  String fromUserId,  String candidate)?  callIceCandidateReceived,TResult? Function( String callId,  String userId,  bool isMuted)?  callMuteChanged,TResult? Function( String callId,  String userId,  bool isVideoEnabled)?  callVideoChanged,TResult? Function( String callId,  String userId,  bool isScreenSharing)?  callScreenShareChanged,TResult? Function( String type,  Map<String, dynamic> data)?  unknown,}) {final _that = this;
 switch (_that) {
 case ConnectedEvent() when connected != null:
 return connected(_that.socketId,_that.application,_that.user);case ConversationJoinedEvent() when conversationJoined != null:
@@ -561,11 +579,13 @@ return messageRead(_that.conversationId,_that.userId,_that.lastReadMessageId,_th
 return messageReactionAdded(_that.messageId,_that.conversationId,_that.userId,_that.emoji);case MessageReactionRemovedEvent() when messageReactionRemoved != null:
 return messageReactionRemoved(_that.messageId,_that.conversationId,_that.userId,_that.emoji);case TypingUpdateEvent() when typingUpdate != null:
 return typingUpdate(_that.conversationId,_that.userIds);case PresenceUpdateEvent() when presenceUpdate != null:
-return presenceUpdate(_that.userId,_that.status,_that.timestamp);case NotificationNewEvent() when notificationNew != null:
+return presenceUpdate(_that.userId,_that.status,_that.timestamp);case PresenceStatusEvent() when presenceStatus != null:
+return presenceStatus(_that.statuses);case NotificationNewEvent() when notificationNew != null:
 return notificationNew(_that.id,_that.title,_that.body,_that.notificationType,_that.data,_that.createdAt);case NotificationReadEvent() when notificationRead != null:
 return notificationRead(_that.notificationIds);case NotificationAllReadEvent() when notificationAllRead != null:
 return notificationAllRead();case PongEvent() when pong != null:
-return pong(_that.timestamp);case ErrorEvent() when errorEvent != null:
+return pong(_that.timestamp);case StatsEvent() when stats != null:
+return stats(_that.totalConnections,_that.applications,_that.usersOnline);case ErrorEvent() when errorEvent != null:
 return errorEvent(_that.code,_that.message);case StreamJoinedEvent() when streamJoined != null:
 return streamJoined(_that.streamId,_that.viewerCount);case StreamLeftEvent() when streamLeft != null:
 return streamLeft(_that.streamId);case StreamStartedEvent() when streamStarted != null:
@@ -1575,6 +1595,85 @@ as String?,
 /// @nodoc
 @JsonSerializable()
 
+class PresenceStatusEvent implements RealtimeEvent {
+  const PresenceStatusEvent({final  List<PresenceStatusItem> statuses = const <PresenceStatusItem>[], final  String? $type}): _statuses = statuses,$type = $type ?? 'presence_status';
+  factory PresenceStatusEvent.fromJson(Map<String, dynamic> json) => _$PresenceStatusEventFromJson(json);
+
+ final  List<PresenceStatusItem> _statuses;
+@JsonKey() List<PresenceStatusItem> get statuses {
+  if (_statuses is EqualUnmodifiableListView) return _statuses;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_statuses);
+}
+
+
+@JsonKey(name: 'type')
+final String $type;
+
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$PresenceStatusEventCopyWith<PresenceStatusEvent> get copyWith => _$PresenceStatusEventCopyWithImpl<PresenceStatusEvent>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$PresenceStatusEventToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PresenceStatusEvent&&const DeepCollectionEquality().equals(other._statuses, _statuses));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_statuses));
+
+@override
+String toString() {
+  return 'RealtimeEvent.presenceStatus(statuses: $statuses)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $PresenceStatusEventCopyWith<$Res> implements $RealtimeEventCopyWith<$Res> {
+  factory $PresenceStatusEventCopyWith(PresenceStatusEvent value, $Res Function(PresenceStatusEvent) _then) = _$PresenceStatusEventCopyWithImpl;
+@useResult
+$Res call({
+ List<PresenceStatusItem> statuses
+});
+
+
+
+
+}
+/// @nodoc
+class _$PresenceStatusEventCopyWithImpl<$Res>
+    implements $PresenceStatusEventCopyWith<$Res> {
+  _$PresenceStatusEventCopyWithImpl(this._self, this._then);
+
+  final PresenceStatusEvent _self;
+  final $Res Function(PresenceStatusEvent) _then;
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? statuses = null,}) {
+  return _then(PresenceStatusEvent(
+statuses: null == statuses ? _self._statuses : statuses // ignore: cast_nullable_to_non_nullable
+as List<PresenceStatusItem>,
+  ));
+}
+
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
 class NotificationNewEvent implements RealtimeEvent {
   const NotificationNewEvent({required this.id, required this.title, required this.body, this.notificationType, final  Map<String, dynamic>? data, this.createdAt, final  String? $type}): _data = data,$type = $type ?? 'notification_new';
   factory NotificationNewEvent.fromJson(Map<String, dynamic> json) => _$NotificationNewEventFromJson(json);
@@ -1848,6 +1947,83 @@ class _$PongEventCopyWithImpl<$Res>
   return _then(PongEvent(
 timestamp: freezed == timestamp ? _self.timestamp : timestamp // ignore: cast_nullable_to_non_nullable
 as String?,
+  ));
+}
+
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class StatsEvent implements RealtimeEvent {
+  const StatsEvent({this.totalConnections = 0, this.applications = 0, this.usersOnline = 0, final  String? $type}): $type = $type ?? 'stats';
+  factory StatsEvent.fromJson(Map<String, dynamic> json) => _$StatsEventFromJson(json);
+
+@JsonKey() final  int totalConnections;
+@JsonKey() final  int applications;
+@JsonKey() final  int usersOnline;
+
+@JsonKey(name: 'type')
+final String $type;
+
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$StatsEventCopyWith<StatsEvent> get copyWith => _$StatsEventCopyWithImpl<StatsEvent>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$StatsEventToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is StatsEvent&&(identical(other.totalConnections, totalConnections) || other.totalConnections == totalConnections)&&(identical(other.applications, applications) || other.applications == applications)&&(identical(other.usersOnline, usersOnline) || other.usersOnline == usersOnline));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,totalConnections,applications,usersOnline);
+
+@override
+String toString() {
+  return 'RealtimeEvent.stats(totalConnections: $totalConnections, applications: $applications, usersOnline: $usersOnline)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $StatsEventCopyWith<$Res> implements $RealtimeEventCopyWith<$Res> {
+  factory $StatsEventCopyWith(StatsEvent value, $Res Function(StatsEvent) _then) = _$StatsEventCopyWithImpl;
+@useResult
+$Res call({
+ int totalConnections, int applications, int usersOnline
+});
+
+
+
+
+}
+/// @nodoc
+class _$StatsEventCopyWithImpl<$Res>
+    implements $StatsEventCopyWith<$Res> {
+  _$StatsEventCopyWithImpl(this._self, this._then);
+
+  final StatsEvent _self;
+  final $Res Function(StatsEvent) _then;
+
+/// Create a copy of RealtimeEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? totalConnections = null,Object? applications = null,Object? usersOnline = null,}) {
+  return _then(StatsEvent(
+totalConnections: null == totalConnections ? _self.totalConnections : totalConnections // ignore: cast_nullable_to_non_nullable
+as int,applications: null == applications ? _self.applications : applications // ignore: cast_nullable_to_non_nullable
+as int,usersOnline: null == usersOnline ? _self.usersOnline : usersOnline // ignore: cast_nullable_to_non_nullable
+as int,
   ));
 }
 

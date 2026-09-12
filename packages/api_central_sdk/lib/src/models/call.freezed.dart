@@ -2053,4 +2053,268 @@ as int,
 
 }
 
+
+/// @nodoc
+mixin _$LiveKitToken {
+
+ String get url; String get token; String get room; String get identity;
+/// Create a copy of LiveKitToken
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$LiveKitTokenCopyWith<LiveKitToken> get copyWith => _$LiveKitTokenCopyWithImpl<LiveKitToken>(this as LiveKitToken, _$identity);
+
+  /// Serializes this LiveKitToken to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LiveKitToken&&(identical(other.url, url) || other.url == url)&&(identical(other.token, token) || other.token == token)&&(identical(other.room, room) || other.room == room)&&(identical(other.identity, identity) || other.identity == identity));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,url,token,room,identity);
+
+
+
+}
+
+/// @nodoc
+abstract mixin class $LiveKitTokenCopyWith<$Res>  {
+  factory $LiveKitTokenCopyWith(LiveKitToken value, $Res Function(LiveKitToken) _then) = _$LiveKitTokenCopyWithImpl;
+@useResult
+$Res call({
+ String url, String token, String room, String identity
+});
+
+
+
+
+}
+/// @nodoc
+class _$LiveKitTokenCopyWithImpl<$Res>
+    implements $LiveKitTokenCopyWith<$Res> {
+  _$LiveKitTokenCopyWithImpl(this._self, this._then);
+
+  final LiveKitToken _self;
+  final $Res Function(LiveKitToken) _then;
+
+/// Create a copy of LiveKitToken
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? url = null,Object? token = null,Object? room = null,Object? identity = null,}) {
+  return _then(_self.copyWith(
+url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
+as String,token: null == token ? _self.token : token // ignore: cast_nullable_to_non_nullable
+as String,room: null == room ? _self.room : room // ignore: cast_nullable_to_non_nullable
+as String,identity: null == identity ? _self.identity : identity // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [LiveKitToken].
+extension LiveKitTokenPatterns on LiveKitToken {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _LiveKitToken value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _LiveKitToken() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _LiveKitToken value)  $default,){
+final _that = this;
+switch (_that) {
+case _LiveKitToken():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _LiveKitToken value)?  $default,){
+final _that = this;
+switch (_that) {
+case _LiveKitToken() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String url,  String token,  String room,  String identity)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _LiveKitToken() when $default != null:
+return $default(_that.url,_that.token,_that.room,_that.identity);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String url,  String token,  String room,  String identity)  $default,) {final _that = this;
+switch (_that) {
+case _LiveKitToken():
+return $default(_that.url,_that.token,_that.room,_that.identity);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String url,  String token,  String room,  String identity)?  $default,) {final _that = this;
+switch (_that) {
+case _LiveKitToken() when $default != null:
+return $default(_that.url,_that.token,_that.room,_that.identity);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _LiveKitToken extends LiveKitToken {
+  const _LiveKitToken({required this.url, required this.token, required this.room, required this.identity}): super._();
+  factory _LiveKitToken.fromJson(Map<String, dynamic> json) => _$LiveKitTokenFromJson(json);
+
+@override final  String url;
+@override final  String token;
+@override final  String room;
+@override final  String identity;
+
+/// Create a copy of LiveKitToken
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$LiveKitTokenCopyWith<_LiveKitToken> get copyWith => __$LiveKitTokenCopyWithImpl<_LiveKitToken>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$LiveKitTokenToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LiveKitToken&&(identical(other.url, url) || other.url == url)&&(identical(other.token, token) || other.token == token)&&(identical(other.room, room) || other.room == room)&&(identical(other.identity, identity) || other.identity == identity));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,url,token,room,identity);
+
+
+
+}
+
+/// @nodoc
+abstract mixin class _$LiveKitTokenCopyWith<$Res> implements $LiveKitTokenCopyWith<$Res> {
+  factory _$LiveKitTokenCopyWith(_LiveKitToken value, $Res Function(_LiveKitToken) _then) = __$LiveKitTokenCopyWithImpl;
+@override @useResult
+$Res call({
+ String url, String token, String room, String identity
+});
+
+
+
+
+}
+/// @nodoc
+class __$LiveKitTokenCopyWithImpl<$Res>
+    implements _$LiveKitTokenCopyWith<$Res> {
+  __$LiveKitTokenCopyWithImpl(this._self, this._then);
+
+  final _LiveKitToken _self;
+  final $Res Function(_LiveKitToken) _then;
+
+/// Create a copy of LiveKitToken
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? url = null,Object? token = null,Object? room = null,Object? identity = null,}) {
+  return _then(_LiveKitToken(
+url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
+as String,token: null == token ? _self.token : token // ignore: cast_nullable_to_non_nullable
+as String,room: null == room ? _self.room : room // ignore: cast_nullable_to_non_nullable
+as String,identity: null == identity ? _self.identity : identity // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
 // dart format on

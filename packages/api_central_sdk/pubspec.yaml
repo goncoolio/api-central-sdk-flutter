@@ -1,6 +1,6 @@
 name: api_central_sdk
 description: Dart SDK for API Central S2S — messaging, notifications, support, live streaming and calls.
-version: 0.1.0
+version: 0.2.0
 publish_to: none
 
 environment:

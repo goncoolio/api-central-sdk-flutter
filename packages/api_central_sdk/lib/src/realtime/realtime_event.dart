@@ -1,5 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../models/presence.dart';
+
 part 'realtime_event.freezed.dart';
 part 'realtime_event.g.dart';
 
@@ -17,10 +19,12 @@ const _typesConnus = <String>{
   'message_reaction_removed',
   'typing_update',
   'presence_update',
+  'presence_status',
   'notification_new',
   'notification_read',
   'notification_all_read',
   'pong',
+  'stats',
   'error',
   'stream_joined',
   'stream_left',
@@ -68,9 +72,8 @@ RealtimeEvent parseRealtimeEvent(Map<String, dynamic> json) {
 /// Événement reçu du WebSocket.
 ///
 /// Le serveur émet des objets à tag interne : `{"type": "message_new", ...}`.
-/// Les variantes `call_*` et `stream_*` ne sont pas encore typées et tombent
-/// dans [UnknownEvent] — les phases 4 et 5 les ajouteront sans casser le
-/// pattern matching existant.
+/// Chaque événement de l'API a sa variante ; un type qu'introduirait une
+/// version ultérieure du serveur tombe dans [UnknownEvent] au lieu de lever.
 @Freezed(unionKey: 'type', fallbackUnion: 'unknown')
 sealed class RealtimeEvent with _$RealtimeEvent {
   /// Connexion établie, premier message reçu après l'ouverture.
@@ -169,6 +172,13 @@ sealed class RealtimeEvent with _$RealtimeEvent {
     String? timestamp,
   }) = PresenceUpdateEvent;
 
+  /// Réponse à `presence_subscribe` : l'état courant de chaque utilisateur
+  /// demandé, en un seul événement.
+  @FreezedUnionValue('presence_status')
+  const factory RealtimeEvent.presenceStatus({
+    @Default(<PresenceStatusItem>[]) List<PresenceStatusItem> statuses,
+  }) = PresenceStatusEvent;
+
   @FreezedUnionValue('notification_new')
   const factory RealtimeEvent.notificationNew({
     required String id,
@@ -190,11 +200,20 @@ sealed class RealtimeEvent with _$RealtimeEvent {
   @FreezedUnionValue('pong')
   const factory RealtimeEvent.pong({String? timestamp}) = PongEvent;
 
+  /// Statistiques de connexion, en réponse à `requestStats`.
+  ///
+  /// Le serveur ne répond qu'aux tokens d'application : une application
+  /// connectée avec un token utilisateur ne reçoit jamais cet événement.
+  @FreezedUnionValue('stats')
+  const factory RealtimeEvent.stats({
+    @Default(0) int totalConnections,
+    @Default(0) int applications,
+    @Default(0) int usersOnline,
+  }) = StatsEvent;
+
   @FreezedUnionValue('error')
-  const factory RealtimeEvent.errorEvent({
-    String? code,
-    String? message,
-  }) = ErrorEvent;
+  const factory RealtimeEvent.errorEvent({String? code, String? message}) =
+      ErrorEvent;
 
   // --- Directs -------------------------------------------------------------
 

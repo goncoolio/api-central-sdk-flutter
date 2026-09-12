@@ -12,21 +12,30 @@ class LiveModule {
 
   // --- Cycle de vie --------------------------------------------------------
 
+  /// Crée un direct.
+  ///
+  /// [settings] est un objet JSON libre que l'API stocke sans l'interpréter
+  /// ni le renvoyer dans [LiveStream]. Comme `metadata` ailleurs dans le SDK,
+  /// ses clés passent par la conversion snake_case appliquée à tout le corps.
   Future<LiveStream> createStream({
     required String hostId,
     required String title,
     String? description,
     String? thumbnailUrl,
     DateTime? scheduledAt,
+    Map<String, dynamic>? settings,
   }) async {
-    final json =
-        await _client.post<Map<String, dynamic>>('/live/streams', body: {
-      'hostId': hostId,
-      'title': title,
-      'description': ?description,
-      'thumbnailUrl': ?thumbnailUrl,
-      'scheduledAt': ?scheduledAt?.toIso8601String(),
-    });
+    final json = await _client.post<Map<String, dynamic>>(
+      '/live/streams',
+      body: {
+        'hostId': hostId,
+        'title': title,
+        'description': ?description,
+        'thumbnailUrl': ?thumbnailUrl,
+        'scheduledAt': ?scheduledAt?.toIso8601String(),
+        'settings': ?settings,
+      },
+    );
     return LiveStream.fromJson(json);
   }
 
@@ -41,47 +50,61 @@ class LiveModule {
     int? page,
     int? limit,
   }) async {
-    final json = await _client.get<List<dynamic>>('/live/streams', query: {
-      'status': ?status?.name,
-      'hostId': ?hostId,
-      'page': ?page,
-      'limit': ?limit,
-    });
+    final json = await _client.get<List<dynamic>>(
+      '/live/streams',
+      query: {
+        'status': ?status?.name,
+        'hostId': ?hostId,
+        'page': ?page,
+        'limit': ?limit,
+      },
+    );
     return json
         .map((e) => LiveStream.fromJson((e! as Map).cast<String, dynamic>()))
         .toList();
   }
 
   Future<LiveStream> getStream(String streamId) async {
-    final json =
-        await _client.get<Map<String, dynamic>>('/live/streams/$streamId');
+    final json = await _client.get<Map<String, dynamic>>(
+      '/live/streams/$streamId',
+    );
     return LiveStream.fromJson(json);
   }
 
+  /// Met à jour un direct : seuls les champs fournis sont modifiés.
+  ///
+  /// Un [settings] fourni remplace les réglages existants en entier, sans
+  /// fusion côté serveur.
   Future<LiveStream> updateStream(
     String streamId, {
     String? title,
     String? description,
     String? thumbnailUrl,
+    Map<String, dynamic>? settings,
   }) async {
-    final json = await _client
-        .put<Map<String, dynamic>>('/live/streams/$streamId', body: {
-      'title': ?title,
-      'description': ?description,
-      'thumbnailUrl': ?thumbnailUrl,
-    });
+    final json = await _client.put<Map<String, dynamic>>(
+      '/live/streams/$streamId',
+      body: {
+        'title': ?title,
+        'description': ?description,
+        'thumbnailUrl': ?thumbnailUrl,
+        'settings': ?settings,
+      },
+    );
     return LiveStream.fromJson(json);
   }
 
   Future<LiveStream> startStream(String streamId) async {
-    final json = await _client
-        .post<Map<String, dynamic>>('/live/streams/$streamId/start');
+    final json = await _client.post<Map<String, dynamic>>(
+      '/live/streams/$streamId/start',
+    );
     return LiveStream.fromJson(json);
   }
 
   Future<LiveStream> pauseStream(String streamId) async {
-    final json = await _client
-        .post<Map<String, dynamic>>('/live/streams/$streamId/pause');
+    final json = await _client.post<Map<String, dynamic>>(
+      '/live/streams/$streamId/pause',
+    );
     return LiveStream.fromJson(json);
   }
 
@@ -92,8 +115,9 @@ class LiveModule {
   Future<LiveStream> resumeStream(String streamId) => startStream(streamId);
 
   Future<LiveStream> endStream(String streamId) async {
-    final json =
-        await _client.post<Map<String, dynamic>>('/live/streams/$streamId/end');
+    final json = await _client.post<Map<String, dynamic>>(
+      '/live/streams/$streamId/end',
+    );
     return LiveStream.fromJson(json);
   }
 
@@ -163,15 +187,18 @@ class LiveModule {
 
   Future<void> deleteComment(String streamId, String commentId) =>
       _client.delete<Map<String, dynamic>>(
-          '/live/streams/$streamId/comments/$commentId');
+        '/live/streams/$streamId/comments/$commentId',
+      );
 
   Future<void> pinComment(String streamId, String commentId) =>
       _client.post<Map<String, dynamic>>(
-          '/live/streams/$streamId/comments/$commentId/pin');
+        '/live/streams/$streamId/comments/$commentId/pin',
+      );
 
   Future<void> unpinComment(String streamId, String commentId) =>
       _client.post<Map<String, dynamic>>(
-          '/live/streams/$streamId/comments/$commentId/unpin');
+        '/live/streams/$streamId/comments/$commentId/unpin',
+      );
 
   // --- Réactions -----------------------------------------------------------
 
@@ -192,16 +219,18 @@ class LiveModule {
   }
 
   Future<List<ReactionCount>> getReactionCounts(String streamId) async {
-    final json =
-        await _client.get<List<dynamic>>('/live/streams/$streamId/reactions');
+    final json = await _client.get<List<dynamic>>(
+      '/live/streams/$streamId/reactions',
+    );
     return json
         .map((e) => ReactionCount.fromJson((e! as Map).cast<String, dynamic>()))
         .toList();
   }
 
   Future<StreamStats> getStats(String streamId) async {
-    final json = await _client
-        .get<Map<String, dynamic>>('/live/streams/$streamId/stats');
+    final json = await _client.get<Map<String, dynamic>>(
+      '/live/streams/$streamId/stats',
+    );
     return StreamStats.fromJson(json);
   }
 }

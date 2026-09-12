@@ -29,29 +29,95 @@ const _stream = {
 void main() {
   group('LiveModule', () {
     test('crée un stream', () async {
-      final adapter =
-          FakeAdapter((options, callIndex) => const FakeReply(200, _stream));
+      final adapter = FakeAdapter(
+        (options, callIndex) => const FakeReply(200, _stream),
+      );
 
-      final stream = await _sdk(adapter).live.createStream(
-            hostId: 'u1',
-            title: 'Mon direct',
-          );
+      final stream = await _sdk(
+        adapter,
+      ).live.createStream(hostId: 'u1', title: 'Mon direct');
 
       expect(stream.status, equals(StreamStatus.live));
       expect(adapter.requests.single.path, equals('/live/streams'));
-      final envoye =
-          (adapter.requests.single.data! as Map).cast<String, dynamic>();
+      final envoye = (adapter.requests.single.data! as Map)
+          .cast<String, dynamic>();
       expect(envoye['host_id'], equals('u1'));
     });
 
+    test('transmet les réglages du direct à la création', () async {
+      final adapter = FakeAdapter(
+        (options, callIndex) => const FakeReply(200, _stream),
+      );
+
+      await _sdk(adapter).live.createStream(
+        hostId: 'u1',
+        title: 'Mon direct',
+        settings: {'record': true, 'maxViewers': 500},
+      );
+
+      final envoye = (adapter.requests.single.data! as Map)
+          .cast<String, dynamic>();
+      expect(
+        envoye['settings'],
+        equals({'record': true, 'max_viewers': 500}),
+        reason:
+            'comme metadata, les clés suivent la conversion snake_case '
+            'appliquée à tout le corps de requête',
+      );
+    });
+
+    test(
+      'n envoie pas de réglages quand l application n en fournit pas',
+      () async {
+        final adapter = FakeAdapter(
+          (options, callIndex) => const FakeReply(200, _stream),
+        );
+
+        await _sdk(
+          adapter,
+        ).live.createStream(hostId: 'u1', title: 'Mon direct');
+
+        final envoye = (adapter.requests.single.data! as Map)
+            .cast<String, dynamic>();
+        expect(
+          envoye.containsKey('settings'),
+          isFalse,
+          reason:
+              'comme les autres champs optionnels, rien n est envoyé '
+              'quand l application ne fournit rien',
+        );
+      },
+    );
+
+    test('met à jour les seuls réglages d un direct', () async {
+      final adapter = FakeAdapter(
+        (options, callIndex) => const FakeReply(200, _stream),
+      );
+
+      await _sdk(adapter).live.updateStream('s1', settings: {'record': false});
+
+      expect(adapter.requests.single.method, equals('PUT'));
+      expect(adapter.requests.single.path, equals('/live/streams/s1'));
+      expect(
+        (adapter.requests.single.data! as Map).cast<String, dynamic>(),
+        equals({
+          'settings': {'record': false},
+        }),
+      );
+    });
+
     test('accepte un stream sans clé de diffusion', () async {
-      final adapter =
-          FakeAdapter((options, callIndex) => const FakeReply(200, _stream));
+      final adapter = FakeAdapter(
+        (options, callIndex) => const FakeReply(200, _stream),
+      );
 
       final stream = await _sdk(adapter).live.getStream('s1');
 
-      expect(stream.streamKey, isNull,
-          reason: "l'API masque la clé aux spectateurs");
+      expect(
+        stream.streamKey,
+        isNull,
+        reason: "l'API masque la clé aux spectateurs",
+      );
       expect(stream.viewerCount, equals(12));
     });
 
@@ -70,32 +136,51 @@ void main() {
       expect(stream.status, equals(StreamStatus.archived));
     });
 
-    test('listStreams lit un tableau nu, sans enveloppe de pagination', () async {
-      final adapter =
-          FakeAdapter((options, callIndex) => const FakeReply(200, [_stream]));
+    test(
+      'listStreams lit un tableau nu, sans enveloppe de pagination',
+      () async {
+        final adapter = FakeAdapter(
+          (options, callIndex) => const FakeReply(200, [_stream]),
+        );
 
-      final streams = await _sdk(adapter).live.listStreams(status: StreamStatus.live);
+        final streams = await _sdk(
+          adapter,
+        ).live.listStreams(status: StreamStatus.live);
 
-      expect(streams.single.id, equals('s1'),
-          reason: "l'API renvoie un tableau nu ici, contrairement aux autres listes");
-      expect(adapter.requests.single.queryParameters, equals({'status': 'live'}));
-    });
+        expect(
+          streams.single.id,
+          equals('s1'),
+          reason:
+              "l'API renvoie un tableau nu ici, contrairement aux autres listes",
+        );
+        expect(
+          adapter.requests.single.queryParameters,
+          equals({'status': 'live'}),
+        );
+      },
+    );
 
     test('listStreams accepte une liste vide', () async {
-      final adapter =
-          FakeAdapter((options, callIndex) => const FakeReply(200, <dynamic>[]));
+      final adapter = FakeAdapter(
+        (options, callIndex) => const FakeReply(200, <dynamic>[]),
+      );
 
       expect(await _sdk(adapter).live.listStreams(), isEmpty);
     });
 
     test('resumeStream passe par la route start', () async {
-      final adapter =
-          FakeAdapter((options, callIndex) => const FakeReply(200, _stream));
+      final adapter = FakeAdapter(
+        (options, callIndex) => const FakeReply(200, _stream),
+      );
 
       await _sdk(adapter).live.resumeStream('s1');
 
-      expect(adapter.requests.single.path, equals('/live/streams/s1/start'),
-          reason: "l'API n'a pas de route resume : start accepte un stream en pause");
+      expect(
+        adapter.requests.single.path,
+        equals('/live/streams/s1/start'),
+        reason:
+            "l'API n'a pas de route resume : start accepte un stream en pause",
+      );
     });
 
     test('rejoint un stream', () async {
@@ -118,11 +203,15 @@ void main() {
         }),
       );
 
-      final resultat =
-          await _sdk(adapter).live.sendReaction('s1', userId: 'u2', emoji: '❤️');
+      final resultat = await _sdk(
+        adapter,
+      ).live.sendReaction('s1', userId: 'u2', emoji: '❤️');
 
-      expect(resultat.accepted, isFalse,
-          reason: 'une réaction par utilisateur toutes les 200 ms');
+      expect(
+        resultat.accepted,
+        isFalse,
+        reason: 'une réaction par utilisateur toutes les 200 ms',
+      );
     });
 
     test('lit les compteurs de réactions', () async {
@@ -135,17 +224,23 @@ void main() {
       final compteurs = await _sdk(adapter).live.getReactionCounts('s1');
 
       expect(compteurs.single.count, equals(150));
-      expect(adapter.requests.single.path, equals('/live/streams/s1/reactions'));
+      expect(
+        adapter.requests.single.path,
+        equals('/live/streams/s1/reactions'),
+      );
     });
 
     test('épingle un commentaire', () async {
       final adapter = FakeAdapter(
-          (options, callIndex) => const FakeReply(200, {'success': true}));
+        (options, callIndex) => const FakeReply(200, {'success': true}),
+      );
 
       await _sdk(adapter).live.pinComment('s1', 'cm1');
 
-      expect(adapter.requests.single.path,
-          equals('/live/streams/s1/comments/cm1/pin'));
+      expect(
+        adapter.requests.single.path,
+        equals('/live/streams/s1/comments/cm1/pin'),
+      );
     });
 
     test('lit les statistiques avec leurs réactions', () async {

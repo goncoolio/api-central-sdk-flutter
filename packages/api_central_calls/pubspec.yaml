@@ -1,20 +1,26 @@
 name: api_central_calls
-description: Appels audio et vidéo WebRTC pour l'API Central S2S.
-version: 0.1.0
+description: Appels audio et vidéo pour l'API Central S2S — WebRTC à deux, LiveKit en groupe.
+version: 0.2.0
 publish_to: none
 
 environment:
   sdk: ^3.11.0
-  flutter: ">=3.24.0"
+  # livekit_client 2.12 exige Flutter 3.38 et Dart 3.10.
+  flutter: ">=3.38.0"
 
 dependencies:
   flutter:
     sdk: flutter
   api_central_sdk:
     path: ../api_central_sdk
+  # livekit_client épingle flutter_webrtc 1.6.0 : cette contrainte doit
+  # continuer à l'admettre.
   flutter_webrtc: ^1.5.2
+  livekit_client: ^2.12.0
 
 dev_dependencies:
+  # Simule les réponses HTTP de l'API dans les tests.
+  dio: ^5.11.0
   flutter_test:
     sdk: flutter
   lints: ^6.0.0

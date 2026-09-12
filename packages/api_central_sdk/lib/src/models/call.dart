@@ -146,10 +146,10 @@ abstract class CallHistory with _$CallHistory {
 }
 
 List<String> _urlsDepuisJson(Object? valeur) => switch (valeur) {
-      final String url => [url],
-      final List<dynamic> liste => liste.map((e) => e.toString()).toList(),
-      _ => const <String>[],
-    };
+  final String url => [url],
+  final List<dynamic> liste => liste.map((e) => e.toString()).toList(),
+  _ => const <String>[],
+};
 
 /// Serveur STUN ou TURN, tel qu'attendu par WebRTC.
 ///
@@ -178,4 +178,31 @@ abstract class IceServersResponse with _$IceServersResponse {
 
   factory IceServersResponse.fromJson(Map<String, dynamic> json) =>
       _$IceServersResponseFromJson(json);
+}
+
+/// Accès à la room LiveKit (SFU) d'un appel de groupe.
+///
+/// Se connecter toujours à [url] : c'est l'URL publique du SFU telle que l'API
+/// la configure, jamais une valeur à coder en dur. [room] vaut
+/// `call:<id de l'appel>` et [identity] est l'id de l'utilisateur du token.
+///
+/// [token] suffit à rejoindre la room tant qu'il n'a pas expiré : [toString]
+/// le masque pour qu'il ne finisse pas dans les logs.
+@freezed
+abstract class LiveKitToken with _$LiveKitToken {
+  const factory LiveKitToken({
+    required String url,
+    required String token,
+    required String room,
+    required String identity,
+  }) = _LiveKitToken;
+
+  const LiveKitToken._();
+
+  factory LiveKitToken.fromJson(Map<String, dynamic> json) =>
+      _$LiveKitTokenFromJson(json);
+
+  @override
+  String toString() =>
+      'LiveKitToken(url: $url, room: $room, identity: $identity, token: ***)';
 }
