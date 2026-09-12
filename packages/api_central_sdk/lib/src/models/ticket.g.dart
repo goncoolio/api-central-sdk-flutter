@@ -78,6 +78,9 @@ _Ticket _$TicketFromJson(Map<String, dynamic> json) => _Ticket(
   createdAt: json['createdAt'] == null
       ? null
       : DateTime.parse(json['createdAt'] as String),
+  updatedAt: json['updatedAt'] == null
+      ? null
+      : DateTime.parse(json['updatedAt'] as String),
 );
 
 Map<String, dynamic> _$TicketToJson(_Ticket instance) => <String, dynamic>{
@@ -96,6 +99,7 @@ Map<String, dynamic> _$TicketToJson(_Ticket instance) => <String, dynamic>{
   'resolvedAt': instance.resolvedAt?.toIso8601String(),
   'closedAt': instance.closedAt?.toIso8601String(),
   'createdAt': instance.createdAt?.toIso8601String(),
+  'updatedAt': instance.updatedAt?.toIso8601String(),
 };
 
 const _$TicketStatusEnumMap = {

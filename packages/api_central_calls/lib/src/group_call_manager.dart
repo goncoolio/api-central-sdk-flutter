@@ -111,7 +111,7 @@ class GroupCallManager {
 
   Future<void> _decrocher(String callId, CallType callType) async {
     await _rejoindre(callId, callType);
-    await sdk.calls.answer(callId, userId: userId);
+    await sdk.calls.answer(callId);
   }
 
   Future<void> _entrer(String callId, Future<void> Function() connexion) async {
@@ -196,7 +196,7 @@ class GroupCallManager {
     final callId = _callId;
     if (callId != null) {
       try {
-        await sdk.calls.leave(callId, userId: userId);
+        await sdk.calls.leave(callId);
       } on ApiCentralException {
         // L'appel peut déjà être terminé côté serveur : on libère la room
         // dans tous les cas.

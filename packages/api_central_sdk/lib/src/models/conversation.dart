@@ -30,6 +30,16 @@ enum ParticipantRole {
   readonly,
 }
 
+/// Préférence de notification d'un participant pour une conversation.
+enum NotificationPreference {
+  @JsonValue('all')
+  all,
+  @JsonValue('mentions')
+  mentions,
+  @JsonValue('none')
+  none,
+}
+
 /// Participant d'une conversation.
 @freezed
 abstract class Participant with _$Participant {
@@ -60,10 +70,37 @@ abstract class LastMessagePreview with _$LastMessagePreview {
       _$LastMessagePreviewFromJson(json);
 }
 
+/// Réglages de notification d'un participant, tels que l'API les renvoie
+/// après `updateParticipantSettings`.
+///
+/// Cette route renvoie l'enregistrement de participation : il porte
+/// [userId], et non l'utilisateur complet de [Participant].
+@freezed
+abstract class ParticipantSettings with _$ParticipantSettings {
+  const factory ParticipantSettings({
+    required String id,
+    required String conversationId,
+    required String userId,
+    required ParticipantRole role,
+    @Default(false) bool isMuted,
+    @Default(NotificationPreference.all)
+    NotificationPreference notificationPreference,
+    DateTime? joinedAt,
+    DateTime? leftAt,
+    DateTime? lastReadAt,
+    String? lastReadMessageId,
+    DateTime? mutedUntil,
+  }) = _ParticipantSettings;
+
+  factory ParticipantSettings.fromJson(Map<String, dynamic> json) =>
+      _$ParticipantSettingsFromJson(json);
+}
+
 /// Conversation.
 ///
 /// L'API sérialise la nature de la conversation sous la clé `type`, pas
-/// `conversationType`.
+/// `conversationType` — sauf sur la route de mise à jour, qui renvoie le
+/// modèle de domaine ; `messaging.updateConversation` traduit cette clé.
 @freezed
 abstract class Conversation with _$Conversation {
   const factory Conversation({

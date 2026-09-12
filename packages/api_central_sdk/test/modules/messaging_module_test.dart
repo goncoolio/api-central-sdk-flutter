@@ -89,6 +89,195 @@ void main() {
           reason: 'les messages peuvent porter des médias');
     });
 
+    test('lit les pièces jointes et les accusés de lecture', () async {
+      final adapter = FakeAdapter(
+        (options, callIndex) => const FakeReply(200, {
+          'id': 'm1',
+          'conversationId': 'c1',
+          'content': 'Voici le plan',
+          'contentType': 'file',
+          'attachments': [
+            {
+              'url': 'https://cdn.test/plan.pdf',
+              'mimeType': 'application/pdf',
+              'name': 'plan.pdf',
+              'size': 2048,
+            },
+          ],
+          'readBy': ['u2', 'u3'],
+          'createdAt': '2026-08-02T10:00:00Z',
+        }),
+      );
+
+      final message = await _sdk(adapter).messaging.getMessage('m1');
+
+      expect(
+        message.attachments!.single.url,
+        equals('https://cdn.test/plan.pdf'),
+        reason: "l'API renvoie un tableau de pièces jointes, pas un objet",
+      );
+      expect(message.readBy, equals(['u2', 'u3']));
+    });
+
+    test('un message sans pièce jointe arrive avec un tableau vide', () async {
+      final adapter = FakeAdapter(
+        (options, callIndex) => const FakeReply(200, {
+          'id': 'm1',
+          'conversationId': 'c1',
+          'content': 'Salut',
+          'contentType': 'text',
+          'attachments': <dynamic>[],
+          'readBy': <dynamic>[],
+          'createdAt': '2026-08-02T10:00:00Z',
+        }),
+      );
+
+      final message = await _sdk(adapter).messaging.getMessage('m1');
+
+      expect(message.attachments, isEmpty);
+      expect(message.readBy, isEmpty);
+    });
+
+    test('sendMessage transmet les mentions', () async {
+      final adapter = FakeAdapter(
+        (options, callIndex) => const FakeReply(200, {
+          'id': 'm1',
+          'conversationId': 'c1',
+          'content': 'Salut @u2',
+          'contentType': 'text',
+          'createdAt': '2026-08-02T10:00:00Z',
+        }),
+      );
+
+      await _sdk(adapter).messaging.sendMessage(
+        'c1',
+        senderId: 'u1',
+        content: 'Salut @u2',
+        mentions: ['u2'],
+      );
+
+      final envoye = (adapter.requests.single.data! as Map)
+          .cast<String, dynamic>();
+      expect(
+        envoye['mentions'],
+        equals(['u2']),
+        reason: 'sans mentions, les participants réglés sur « mentions » ne '
+            'reçoivent aucune notification',
+      );
+    });
+
+    test('addParticipant transmet l acteur exigé par l API', () async {
+      final adapter = FakeAdapter(
+        (options, callIndex) => const FakeReply(200, {'success': true}),
+      );
+
+      await _sdk(adapter).messaging.addParticipant(
+        'c1',
+        userId: 'u2',
+        actorId: 'u1',
+      );
+
+      final envoye = (adapter.requests.single.data! as Map)
+          .cast<String, dynamic>();
+      expect(
+        envoye['actor_id'],
+        equals('u1'),
+        reason: "l'API exige actor_id et refuse la requête sans lui (422)",
+      );
+    });
+
+    test('removeParticipant passe l acteur en paramètre de requête', () async {
+      final adapter = FakeAdapter(
+        (options, callIndex) => const FakeReply(200, {'success': true}),
+      );
+
+      await _sdk(
+        adapter,
+      ).messaging.removeParticipant('c1', 'u2', actorId: 'u1');
+
+      expect(
+        adapter.requests.single.queryParameters,
+        equals({'actor_id': 'u1'}),
+        reason: "l'API lit actor_id en query et refuse la requête sans lui",
+      );
+    });
+
+    test('listConversations transmet l utilisateur exigé par l API', () async {
+      final adapter = FakeAdapter(
+        (options, callIndex) => const FakeReply(200, {
+          'data': [_conversation],
+          'pagination': {'total': 1, 'page': 1, 'limit': 20, 'totalPages': 1},
+        }),
+      );
+
+      await _sdk(adapter).messaging.listConversations(userId: 'u1');
+
+      expect(
+        adapter.requests.single.queryParameters['user_id'],
+        equals('u1'),
+        reason: "l'API refuse la liste sans user_id (400)",
+      );
+    });
+
+    test('updateConversation lit le type du modèle de domaine', () async {
+      final adapter = FakeAdapter(
+        (options, callIndex) => const FakeReply(200, {
+          'id': 'c1',
+          'conversationType': 'group',
+          'title': 'Chantier',
+          'createdAt': '2026-08-02T10:00:00Z',
+        }),
+      );
+
+      final conversation = await _sdk(
+        adapter,
+      ).messaging.updateConversation('c1', title: 'Chantier');
+
+      expect(
+        conversation.type,
+        equals(ConversationType.group),
+        reason: 'cette route renvoie conversationType, non type comme les '
+            'autres',
+      );
+      expect(conversation.title, equals('Chantier'));
+    });
+
+    test('updateParticipantSettings coupe une conversation', () async {
+      final adapter = FakeAdapter(
+        (options, callIndex) => const FakeReply(200, {
+          'id': 'p1',
+          'conversationId': 'c1',
+          'userId': 'u2',
+          'role': 'member',
+          'isMuted': true,
+          'notificationPreference': 'mentions',
+          'joinedAt': '2026-08-02T10:00:00Z',
+        }),
+      );
+
+      final reglages = await _sdk(adapter).messaging.updateParticipantSettings(
+        'c1',
+        'u2',
+        isMuted: true,
+        notificationPreference: NotificationPreference.mentions,
+      );
+
+      expect(reglages.isMuted, isTrue);
+      expect(
+        reglages.notificationPreference,
+        equals(NotificationPreference.mentions),
+      );
+      expect(
+        adapter.requests.single.path,
+        equals('/messaging/conversations/c1/participants/u2/settings'),
+      );
+      expect(adapter.requests.single.method, equals('PUT'));
+      final envoye = (adapter.requests.single.data! as Map)
+          .cast<String, dynamic>();
+      expect(envoye['is_muted'], isTrue);
+      expect(envoye['notification_preference'], equals('mentions'));
+    });
+
     test('retire une réaction en encodant l emoji', () async {
       final adapter = FakeAdapter(
           (options, callIndex) => const FakeReply(200, {'success': true}));

@@ -162,7 +162,7 @@ class CallManager {
 
     try {
       await _preparerConnexion(call.id, call.callType, realtime);
-      await sdk.calls.answer(call.id, userId: userId);
+      await sdk.calls.answer(call.id);
     } on Object {
       await _abandonner();
       rethrow;
@@ -321,7 +321,7 @@ class CallManager {
     final callId = _callId;
     if (callId != null) {
       try {
-        await sdk.calls.end(callId, userId: userId);
+        await sdk.calls.end(callId);
       } on ApiCentralException {
         // L'appel peut déjà être terminé côté serveur : on poursuit le
         // nettoyage local dans tous les cas.

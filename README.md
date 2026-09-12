@@ -252,6 +252,30 @@ un token utilisateur via un `TokenProvider` fourni par l'application.
 Voir `docs/superpowers/specs/2026-08-02-sdk-flutter-design.md` dans le dépôt
 `api-central-s2s-rust`.
 
+### Ce que borne un token utilisateur
+
+L'API n'identifie plus l'appelant d'après le corps de la requête : avec un token
+utilisateur, elle applique ses propres limites. Les erreurs ci-dessous sont donc
+normales et ne signalent pas un bug du SDK.
+
+- **Messagerie** — une conversation dont l'utilisateur du token n'est pas
+  participant renvoie 403 ; une conversation inconnue ou appartenant à une autre
+  application renvoie 404. Cela vaut pour la lecture comme pour l'envoi, les
+  accusés de lecture et les pièces jointes.
+- **Notifications** — `markAsRead` ne marque que les notifications de
+  l'utilisateur du token : celles d'un autre utilisateur ne sont pas comptées
+  dans `updatedCount`, sans erreur. `delete` renvoie 404 sur une notification
+  qui ne lui appartient pas.
+- **Présence** — `users.getPresence` renvoie 404 pour un utilisateur d'une autre
+  application, et `subscribePresence` écarte silencieusement les identifiants
+  hors application. Les seuls statuts produits sont `online` et `offline`,
+  dérivés des connexions WebSocket ouvertes ; `updatePresence` se contente de
+  rafraîchir la date de dernière activité et renvoie le statut envoyé.
+- **Annuaire** — `users.listUsers` et `users.getUser` laissent `email` et
+  `metadata` à `null` pour les autres utilisateurs ; ces champs ne sont
+  renseignés que pour l'utilisateur du token. Un token d'application, lui, voit
+  tout l'annuaire de son application.
+
 ## Développement et tests
 
 Chaque package se teste à part :

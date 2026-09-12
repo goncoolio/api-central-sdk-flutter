@@ -29,14 +29,18 @@ class MessagingModule {
     return Conversation.fromJson(json);
   }
 
+  /// Conversations d'un utilisateur.
+  ///
+  /// [userId] est exigé par l'API, qui refuse la requête sans lui (400) : la
+  /// liste est toujours celle d'un utilisateur, jamais celle de l'application.
   Future<PaginatedResponse<Conversation>> listConversations({
-    String? userId,
+    required String userId,
     int? page,
     int? limit,
   }) async {
     final json = await _client
         .get<Map<String, dynamic>>('/messaging/conversations', query: {
-      'userId': ?userId,
+      'userId': userId,
       'page': ?page,
       'limit': ?limit,
     });
@@ -46,11 +50,18 @@ class MessagingModule {
     );
   }
 
-  Future<Conversation> getConversation(String conversationId,
-      {String? userId}) async {
+  /// Détail d'une conversation, vu par un utilisateur.
+  ///
+  /// [userId] est exigé par l'API (400 sans lui) : il sert à calculer le
+  /// nombre de messages non lus renvoyé avec la conversation. Avec un token
+  /// utilisateur, une conversation dont il n'est pas participant renvoie 403.
+  Future<Conversation> getConversation(
+    String conversationId, {
+    required String userId,
+  }) async {
     final json = await _client.get<Map<String, dynamic>>(
       '/messaging/conversations/$conversationId',
-      query: {'userId': ?userId},
+      query: {'userId': userId},
     );
     return Conversation.fromJson(json);
   }
@@ -69,7 +80,14 @@ class MessagingModule {
         'metadata': ?metadata,
       },
     );
-    return Conversation.fromJson(json);
+    // Cette route renvoie le modèle de domaine : la nature de la conversation
+    // y arrive sous `conversationType`, alors que les autres routes la
+    // sérialisent sous `type`. La conversation renvoyée ne porte ni
+    // participants, ni dernier message, ni compteur de non-lus.
+    return Conversation.fromJson({
+      'type': json['conversationType'],
+      ...json,
+    });
   }
 
   Future<void> deleteConversation(String conversationId) =>
@@ -78,15 +96,21 @@ class MessagingModule {
 
   // --- Participants --------------------------------------------------------
 
+  /// Ajoute un participant à une conversation.
+  ///
+  /// [actorId] est exigé par l'API (422 sans lui) et doit être administrateur
+  /// de la conversation.
   Future<void> addParticipant(
     String conversationId, {
     required String userId,
+    required String actorId,
     ParticipantRole? role,
   }) =>
       _client.post<Map<String, dynamic>>(
         '/messaging/conversations/$conversationId/participants',
         body: {
           'userId': userId,
+          'actorId': actorId,
           'role': ?role?.name,
         },
       );
@@ -99,10 +123,39 @@ class MessagingModule {
         .toList();
   }
 
-  Future<void> removeParticipant(String conversationId, String userId) =>
-      _client.delete<Map<String, dynamic>>(
-        '/messaging/conversations/$conversationId/participants/$userId',
-      );
+  /// Retire un participant d'une conversation.
+  ///
+  /// [actorId] est exigé par l'API en paramètre de requête (400 sans lui) et
+  /// doit être administrateur de la conversation.
+  Future<void> removeParticipant(
+    String conversationId,
+    String userId, {
+    required String actorId,
+  }) => _client.delete<Map<String, dynamic>>(
+    '/messaging/conversations/$conversationId/participants/$userId',
+    query: {'actorId': actorId},
+  );
+
+  /// Règle les notifications d'un participant pour une conversation.
+  ///
+  /// Seuls les champs fournis changent. Avec un token utilisateur, l'appel
+  /// porte sur la conversation de l'appelant : une conversation dont il n'est
+  /// pas participant renvoie 403.
+  Future<ParticipantSettings> updateParticipantSettings(
+    String conversationId,
+    String userId, {
+    bool? isMuted,
+    NotificationPreference? notificationPreference,
+  }) async {
+    final json = await _client.put<Map<String, dynamic>>(
+      '/messaging/conversations/$conversationId/participants/$userId/settings',
+      body: {
+        'isMuted': ?isMuted,
+        'notificationPreference': ?notificationPreference?.name,
+      },
+    );
+    return ParticipantSettings.fromJson(json);
+  }
 
   // --- Messages ------------------------------------------------------------
 
@@ -110,6 +163,10 @@ class MessagingModule {
   ///
   /// `clientMessageId` permet à l'application de rapprocher le message renvoyé
   /// de celui affiché en optimiste.
+  ///
+  /// `mentions` porte les identifiants des utilisateurs mentionnés : sans lui,
+  /// les participants réglés sur [NotificationPreference.mentions] ne reçoivent
+  /// aucune notification pour ce message.
   Future<Message> sendMessage(
     String conversationId, {
     required String senderId,
@@ -118,6 +175,7 @@ class MessagingModule {
     String? clientMessageId,
     List<Attachment>? attachments,
     String? replyToId,
+    List<String>? mentions,
   }) async {
     final json = await _client.post<Map<String, dynamic>>(
       '/messaging/conversations/$conversationId/messages',
@@ -128,6 +186,7 @@ class MessagingModule {
         'clientMessageId': ?clientMessageId,
         'attachments': ?attachments?.map((a) => a.toJson()).toList(),
         'replyToId': ?replyToId,
+        'mentions': ?mentions,
       },
     );
     return Message.fromJson(json);

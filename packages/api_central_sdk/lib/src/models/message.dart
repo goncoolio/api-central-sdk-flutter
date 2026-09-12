@@ -66,12 +66,23 @@ abstract class Message with _$Message {
     required ContentType contentType,
     String? clientMessageId,
     UserInfo? sender,
-    Map<String, dynamic>? attachments,
+
+    /// Pièces jointes du message.
+    ///
+    /// L'API renvoie toujours un tableau — vide quand le message n'en porte
+    /// aucune — jamais un objet.
+    List<Attachment>? attachments,
     Message? replyTo,
     @Default(<Reaction>[]) List<Reaction> reactions,
     @Default(false) bool isEdited,
     DateTime? editedAt,
     @Default(false) bool isDeleted,
+
+    /// Identifiants des utilisateurs qui ont lu ce message.
+    ///
+    /// Permet de reconstruire les accusés de lecture d'un groupe après une
+    /// reconnexion, sans attendre les événements temps réel.
+    @Default(<String>[]) List<String> readBy,
     DateTime? createdAt,
   }) = _Message;
 

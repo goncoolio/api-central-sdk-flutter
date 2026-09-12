@@ -154,13 +154,27 @@ void main() {
       );
       final sdk = _sdk(adapter);
 
-      await expectLater(sdk.calls.decline('call-1', userId: 'u1'), completes);
-      await expectLater(sdk.calls.leave('call-1', userId: 'u1'), completes);
+      await expectLater(sdk.calls.decline('call-1'), completes);
+      await expectLater(sdk.calls.leave('call-1'), completes);
+    });
+
+    test('answer n envoie aucun identifiant : le jeton décide', () async {
+      final adapter = FakeAdapter(
+        (options, callIndex) => const FakeReply(200, _call),
+      );
+
+      await _sdk(adapter).calls.answer('call-1');
+
+      expect(
+        adapter.requests.single.data,
+        isNull,
+        reason: "l'API prend l'acteur dans le jeton et ne lit aucun corps",
+      );
     });
 
     test('coupe le micro d un participant', () async {
       final adapter = FakeAdapter(
-        (options, callIndex) => const FakeReply(200, {'success': true}),
+        (options, callIndex) => const FakeReply(200, {'muted': true}),
       );
 
       await _sdk(adapter).calls.setMuted('call-1', 'u2', muted: true);
@@ -170,6 +184,50 @@ void main() {
         equals('/calls/call-1/participants/u2/mute'),
       );
       expect(adapter.requests.single.method, equals('PUT'));
+    });
+
+    test('setMuted renvoie l état appliqué par l API', () async {
+      final adapter = FakeAdapter(
+        (options, callIndex) => const FakeReply(200, {'muted': true}),
+      );
+
+      final coupe = await _sdk(
+        adapter,
+      ).calls.setMuted('call-1', 'u2', muted: true);
+
+      expect(coupe, isTrue);
+    });
+
+    test('setVideoEnabled renvoie l état appliqué par l API', () async {
+      final adapter = FakeAdapter(
+        (options, callIndex) => const FakeReply(200, {'video_enabled': false}),
+      );
+
+      final active = await _sdk(
+        adapter,
+      ).calls.setVideoEnabled('call-1', 'u2', enabled: false);
+
+      expect(active, isFalse);
+      expect(
+        adapter.requests.single.path,
+        equals('/calls/call-1/participants/u2/video'),
+      );
+    });
+
+    test('setScreenSharing renvoie l état appliqué par l API', () async {
+      final adapter = FakeAdapter(
+        (options, callIndex) => const FakeReply(200, {'screen_sharing': true}),
+      );
+
+      final partage = await _sdk(
+        adapter,
+      ).calls.setScreenSharing('call-1', 'u2', sharing: true);
+
+      expect(partage, isTrue);
+      expect(
+        adapter.requests.single.path,
+        equals('/calls/call-1/participants/u2/screen'),
+      );
     });
   });
 

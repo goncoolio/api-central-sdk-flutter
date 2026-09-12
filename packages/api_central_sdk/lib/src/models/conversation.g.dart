@@ -63,6 +63,57 @@ const _$ContentTypeEnumMap = {
   ContentType.system: 'system',
 };
 
+_ParticipantSettings _$ParticipantSettingsFromJson(Map<String, dynamic> json) =>
+    _ParticipantSettings(
+      id: json['id'] as String,
+      conversationId: json['conversationId'] as String,
+      userId: json['userId'] as String,
+      role: $enumDecode(_$ParticipantRoleEnumMap, json['role']),
+      isMuted: json['isMuted'] as bool? ?? false,
+      notificationPreference:
+          $enumDecodeNullable(
+            _$NotificationPreferenceEnumMap,
+            json['notificationPreference'],
+          ) ??
+          NotificationPreference.all,
+      joinedAt: json['joinedAt'] == null
+          ? null
+          : DateTime.parse(json['joinedAt'] as String),
+      leftAt: json['leftAt'] == null
+          ? null
+          : DateTime.parse(json['leftAt'] as String),
+      lastReadAt: json['lastReadAt'] == null
+          ? null
+          : DateTime.parse(json['lastReadAt'] as String),
+      lastReadMessageId: json['lastReadMessageId'] as String?,
+      mutedUntil: json['mutedUntil'] == null
+          ? null
+          : DateTime.parse(json['mutedUntil'] as String),
+    );
+
+Map<String, dynamic> _$ParticipantSettingsToJson(
+  _ParticipantSettings instance,
+) => <String, dynamic>{
+  'id': instance.id,
+  'conversationId': instance.conversationId,
+  'userId': instance.userId,
+  'role': _$ParticipantRoleEnumMap[instance.role]!,
+  'isMuted': instance.isMuted,
+  'notificationPreference':
+      _$NotificationPreferenceEnumMap[instance.notificationPreference]!,
+  'joinedAt': instance.joinedAt?.toIso8601String(),
+  'leftAt': instance.leftAt?.toIso8601String(),
+  'lastReadAt': instance.lastReadAt?.toIso8601String(),
+  'lastReadMessageId': instance.lastReadMessageId,
+  'mutedUntil': instance.mutedUntil?.toIso8601String(),
+};
+
+const _$NotificationPreferenceEnumMap = {
+  NotificationPreference.all: 'all',
+  NotificationPreference.mentions: 'mentions',
+  NotificationPreference.none: 'none',
+};
+
 _Conversation _$ConversationFromJson(Map<String, dynamic> json) =>
     _Conversation(
       id: json['id'] as String,
