@@ -123,12 +123,18 @@ abstract class StreamViewerCount with _$StreamViewerCount {
 /// Résultat d'un envoi de réaction.
 ///
 /// Les réactions sont limitées à une par utilisateur toutes les 200 ms :
-/// [accepted] vaut `false` quand la limite est atteinte.
+/// [accepted] vaut `false` quand la limite est atteinte, et [retryAfterMs]
+/// indique alors le délai à respecter avant de réessayer.
 @freezed
 abstract class ReactionResult with _$ReactionResult {
   const factory ReactionResult({
     @Default(false) bool accepted,
     String? message,
+
+    /// Délai à respecter avant un nouvel envoi, en millisecondes.
+    ///
+    /// Renseigné seulement quand l'API refuse la réaction ; `null` sinon.
+    int? retryAfterMs,
   }) = _ReactionResult;
 
   factory ReactionResult.fromJson(Map<String, dynamic> json) =>

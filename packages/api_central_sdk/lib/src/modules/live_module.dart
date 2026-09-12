@@ -39,25 +39,20 @@ class LiveModule {
     return LiveStream.fromJson(json);
   }
 
-  /// Liste les directs.
+  /// Liste les directs, `live` par défaut.
   ///
   /// L'API renvoie ici un tableau nu, sans enveloppe de pagination —
   /// contrairement aux autres listes du SDK. `page` et `limit` restent
-  /// transmis et honorés côté serveur.
+  /// transmis et honorés côté serveur. Il n'existe pas de filtre par hôte :
+  /// l'API ne lit que le statut et la pagination.
   Future<List<LiveStream>> listStreams({
     StreamStatus? status,
-    String? hostId,
     int? page,
     int? limit,
   }) async {
     final json = await _client.get<List<dynamic>>(
       '/live/streams',
-      query: {
-        'status': ?status?.name,
-        'hostId': ?hostId,
-        'page': ?page,
-        'limit': ?limit,
-      },
+      query: {'status': ?status?.name, 'page': ?page, 'limit': ?limit},
     );
     return json
         .map((e) => LiveStream.fromJson((e! as Map).cast<String, dynamic>()))
@@ -123,14 +118,16 @@ class LiveModule {
 
   // --- Spectateurs ---------------------------------------------------------
 
-  Future<StreamViewers> getViewers(
-    String streamId, {
-    int? page,
-    int? limit,
-  }) async {
+  /// Échantillon de spectateurs, avec leur nombre total.
+  ///
+  /// L'API tire au hasard jusqu'à `limit` spectateurs dans l'ensemble Redis du
+  /// direct : la liste n'est ni ordonnée ni paginable, et deux appels peuvent
+  /// renvoyer des spectateurs différents. `StreamViewers.viewerCount` reste,
+  /// lui, le total exact.
+  Future<StreamViewers> getViewers(String streamId, {int? limit}) async {
     final json = await _client.get<Map<String, dynamic>>(
       '/live/streams/$streamId/viewers',
-      query: {'page': ?page, 'limit': ?limit},
+      query: {'limit': ?limit},
     );
     return StreamViewers.fromJson(json);
   }
@@ -159,13 +156,18 @@ class LiveModule {
 
   // --- Commentaires --------------------------------------------------------
 
+  /// Commentaires du direct, du plus récent au plus ancien.
+  ///
+  /// L'API renvoie ici un tableau nu, sans enveloppe de pagination, mais
+  /// honore `page` et `limit` (100 commentaires au maximum par page).
   Future<List<StreamComment>> listComments(
     String streamId, {
+    int? page,
     int? limit,
   }) async {
     final json = await _client.get<List<dynamic>>(
       '/live/streams/$streamId/comments',
-      query: {'limit': ?limit},
+      query: {'page': ?page, 'limit': ?limit},
     );
     return json
         .map((e) => StreamComment.fromJson((e! as Map).cast<String, dynamic>()))
@@ -205,7 +207,8 @@ class LiveModule {
   /// Envoie une réaction.
   ///
   /// Vérifiez [ReactionResult.accepted] : l'API limite chaque utilisateur à une
-  /// réaction toutes les 200 ms et rejette silencieusement les suivantes.
+  /// réaction toutes les 200 ms et rejette les suivantes sans erreur HTTP.
+  /// [ReactionResult.retryAfterMs] donne alors le délai à respecter.
   Future<ReactionResult> sendReaction(
     String streamId, {
     required String userId,

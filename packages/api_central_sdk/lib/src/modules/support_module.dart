@@ -22,6 +22,7 @@ class SupportModule {
     String? categoryId,
     TicketPriority? priority,
     List<String>? tags,
+    Map<String, dynamic>? metadata,
   }) async {
     final json =
         await _client.post<Map<String, dynamic>>('/support/tickets', body: {
@@ -31,6 +32,7 @@ class SupportModule {
       'categoryId': ?categoryId,
       'priority': ?priority?.name,
       'tags': ?tags,
+      'metadata': ?metadata,
     });
     return Ticket.fromJson(json);
   }
@@ -73,6 +75,7 @@ class SupportModule {
     TicketPriority? priority,
     String? categoryId,
     List<String>? tags,
+    Map<String, dynamic>? metadata,
   }) async {
     final json = await _client
         .put<Map<String, dynamic>>('/support/tickets/$ticketId', body: {
@@ -81,13 +84,15 @@ class SupportModule {
       'priority': ?priority?.name,
       'categoryId': ?categoryId,
       'tags': ?tags,
+      'metadata': ?metadata,
     });
     return Ticket.fromJson(json);
   }
 
+  /// Affecte un ticket à un agent, ou retire l'affectation avec `null`.
   Future<Ticket> assignTicket(
     String ticketId, {
-    required String assignedToId,
+    required String? assignedToId,
   }) async {
     final json = await _client.put<Map<String, dynamic>>(
       '/support/tickets/$ticketId/assign',
@@ -96,13 +101,17 @@ class SupportModule {
     return Ticket.fromJson(json);
   }
 
+  /// Change le statut d'un ticket.
+  ///
+  /// [note] est conservée dans l'historique des statuts du ticket.
   Future<Ticket> updateStatus(
     String ticketId, {
     required TicketStatus status,
+    String? note,
   }) async {
     final json = await _client.put<Map<String, dynamic>>(
       '/support/tickets/$ticketId/status',
-      body: {'status': statusVersApi(status)},
+      body: {'status': statusVersApi(status), 'note': ?note},
     );
     return Ticket.fromJson(json);
   }
@@ -151,9 +160,12 @@ class SupportModule {
         .toList();
   }
 
+  /// Crée une catégorie de support.
+  ///
+  /// [slug] est exigé par l'API, qui refuse la requête sans lui (422).
   Future<SupportCategory> createCategory({
     required String name,
-    String? slug,
+    required String slug,
     String? description,
     String? icon,
     String? parentId,
@@ -162,7 +174,7 @@ class SupportModule {
     final json =
         await _client.post<Map<String, dynamic>>('/support/categories', body: {
       'name': name,
-      'slug': ?slug,
+      'slug': slug,
       'description': ?description,
       'icon': ?icon,
       'parentId': ?parentId,
@@ -171,21 +183,32 @@ class SupportModule {
     return SupportCategory.fromJson(json);
   }
 
+  /// Remplace une catégorie de support.
+  ///
+  /// L'API attend ici la même charge qu'à la création — [name] et [slug]
+  /// compris — et **crée une nouvelle catégorie** au lieu de modifier
+  /// l'existante : la catégorie renvoyée porte un nouvel identifiant, et
+  /// l'ancienne reste en place. À réserver aux outils d'administration, en
+  /// attendant une vraie mise à jour côté API.
+  ///
+  /// L'API ne lit pas d'indicateur d'activation sur cette route.
   Future<SupportCategory> updateCategory(
     String categoryId, {
-    String? name,
+    required String name,
+    required String slug,
     String? description,
     String? icon,
+    String? parentId,
     int? sortOrder,
-    bool? isActive,
   }) async {
     final json = await _client
         .put<Map<String, dynamic>>('/support/categories/$categoryId', body: {
-      'name': ?name,
+      'name': name,
+      'slug': slug,
       'description': ?description,
       'icon': ?icon,
+      'parentId': ?parentId,
       'sortOrder': ?sortOrder,
-      'isActive': ?isActive,
     });
     return SupportCategory.fromJson(json);
   }
@@ -216,48 +239,64 @@ class SupportModule {
     );
   }
 
-  Future<KnowledgeArticle> getArticle(String articleId) async {
-    final json =
-        await _client.get<Map<String, dynamic>>('/support/articles/$articleId');
+  /// Lit un article de la base de connaissances.
+  ///
+  /// [incrementView] demande à l'API de compter la vue ; sans lui,
+  /// `KnowledgeArticle.viewCount` ne bouge jamais.
+  Future<KnowledgeArticle> getArticle(
+    String articleId, {
+    bool incrementView = false,
+  }) async {
+    final json = await _client.get<Map<String, dynamic>>(
+      '/support/articles/$articleId',
+      query: {'incrementView': ?(incrementView ? 'true' : null)},
+    );
     return KnowledgeArticle.fromJson(json);
   }
 
   /// `content` fait 1 à 50000 caractères.
   Future<KnowledgeArticle> createArticle({
     required String title,
+    required String slug,
     required String content,
-    String? slug,
     String? categoryId,
     ContentFormat? contentFormat,
     List<String>? tags,
     bool? isPublished,
+    String? createdById,
   }) async {
     final json =
         await _client.post<Map<String, dynamic>>('/support/articles', body: {
       'title': title,
+      'slug': slug,
       'content': content,
-      'slug': ?slug,
       'categoryId': ?categoryId,
       'contentFormat': ?contentFormat?.name,
       'tags': ?tags,
       'isPublished': ?isPublished,
+      'createdById': ?createdById,
     });
     return KnowledgeArticle.fromJson(json);
   }
 
+  /// Met à jour un article : seuls les champs fournis changent.
   Future<KnowledgeArticle> updateArticle(
     String articleId, {
     String? title,
+    String? slug,
     String? content,
     String? categoryId,
+    ContentFormat? contentFormat,
     List<String>? tags,
     bool? isPublished,
   }) async {
     final json = await _client
         .put<Map<String, dynamic>>('/support/articles/$articleId', body: {
       'title': ?title,
+      'slug': ?slug,
       'content': ?content,
       'categoryId': ?categoryId,
+      'contentFormat': ?contentFormat?.name,
       'tags': ?tags,
       'isPublished': ?isPublished,
     });

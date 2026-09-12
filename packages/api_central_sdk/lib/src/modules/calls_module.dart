@@ -36,28 +36,29 @@ class CallsModule {
     return Call.fromJson(json);
   }
 
-  Future<Call> answer(String callId, {required String userId}) async {
+  /// Décroche l'appel, pour l'utilisateur du token.
+  ///
+  /// Ces quatre actions — décrocher, refuser, terminer, quitter — sont
+  /// réservées au token utilisateur : l'API prend l'acteur dans le token et ne
+  /// lit aucun corps. Avec un token d'application, elle répond 400.
+  Future<Call> answer(String callId) async {
     final json = await _client.post<Map<String, dynamic>>(
       '/calls/$callId/answer',
-      body: {'userId': userId},
     );
     return Call.fromJson(json);
   }
 
-  /// Refuse un appel entrant.
+  /// Refuse un appel entrant, pour l'utilisateur du token.
   ///
   /// L'API accuse réception par `{success: true}` : elle ne renvoie pas
   /// l'appel. Rechargez-le avec [get] si son état vous intéresse.
-  Future<void> decline(String callId, {required String userId}) =>
-      _client.post<Map<String, dynamic>>(
-        '/calls/$callId/decline',
-        body: {'userId': userId},
-      );
+  Future<void> decline(String callId) =>
+      _client.post<Map<String, dynamic>>('/calls/$callId/decline');
 
-  Future<Call> end(String callId, {required String userId}) async {
+  /// Termine l'appel pour tous, à la demande de l'utilisateur du token.
+  Future<Call> end(String callId) async {
     final json = await _client.post<Map<String, dynamic>>(
       '/calls/$callId/end',
-      body: {'userId': userId},
     );
     return Call.fromJson(json);
   }
@@ -66,11 +67,8 @@ class CallsModule {
   ///
   /// L'API accuse réception par `{success: true}` : elle ne renvoie pas
   /// l'appel.
-  Future<void> leave(String callId, {required String userId}) =>
-      _client.post<Map<String, dynamic>>(
-        '/calls/$callId/leave',
-        body: {'userId': userId},
-      );
+  Future<void> leave(String callId) =>
+      _client.post<Map<String, dynamic>>('/calls/$callId/leave');
 
   // --- Participants --------------------------------------------------------
 
@@ -83,29 +81,47 @@ class CallsModule {
   Future<void> removeParticipant(String callId, String userId) => _client
       .delete<Map<String, dynamic>>('/calls/$callId/participants/$userId');
 
-  Future<void> setMuted(String callId, String userId, {required bool muted}) =>
-      _client.put<Map<String, dynamic>>(
-        '/calls/$callId/participants/$userId/mute',
-        body: {'muted': muted},
-      );
+  /// Coupe ou rétablit le micro d'un participant.
+  ///
+  /// Renvoie l'état appliqué par l'API, qui le rediffuse aux autres
+  /// participants par l'événement `call_participant_muted`.
+  Future<bool> setMuted(
+    String callId,
+    String userId, {
+    required bool muted,
+  }) async {
+    final json = await _client.put<Map<String, dynamic>>(
+      '/calls/$callId/participants/$userId/mute',
+      body: {'muted': muted},
+    );
+    return (json['muted'] as bool?) ?? muted;
+  }
 
-  Future<void> setVideoEnabled(
+  /// Active ou coupe la caméra d'un participant, et renvoie l'état appliqué.
+  Future<bool> setVideoEnabled(
     String callId,
     String userId, {
     required bool enabled,
-  }) => _client.put<Map<String, dynamic>>(
-    '/calls/$callId/participants/$userId/video',
-    body: {'enabled': enabled},
-  );
+  }) async {
+    final json = await _client.put<Map<String, dynamic>>(
+      '/calls/$callId/participants/$userId/video',
+      body: {'enabled': enabled},
+    );
+    return (json['videoEnabled'] as bool?) ?? enabled;
+  }
 
-  Future<void> setScreenSharing(
+  /// Démarre ou arrête le partage d'écran, et renvoie l'état appliqué.
+  Future<bool> setScreenSharing(
     String callId,
     String userId, {
     required bool sharing,
-  }) => _client.put<Map<String, dynamic>>(
-    '/calls/$callId/participants/$userId/screen',
-    body: {'sharing': sharing},
-  );
+  }) async {
+    final json = await _client.put<Map<String, dynamic>>(
+      '/calls/$callId/participants/$userId/screen',
+      body: {'sharing': sharing},
+    );
+    return (json['screenSharing'] as bool?) ?? sharing;
+  }
 
   // --- Historique ----------------------------------------------------------
 

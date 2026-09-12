@@ -93,6 +93,7 @@ abstract class Ticket with _$Ticket {
     DateTime? resolvedAt,
     DateTime? closedAt,
     DateTime? createdAt,
+    DateTime? updatedAt,
   }) = _Ticket;
 
   factory Ticket.fromJson(Map<String, dynamic> json) => _$TicketFromJson(json);

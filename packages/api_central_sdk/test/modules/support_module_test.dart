@@ -91,6 +91,140 @@ void main() {
       expect(adapter.requests.single.path, equals('/support/categories'));
     });
 
+    test('createCategory transmet le slug exigé par l API', () async {
+      final adapter = FakeAdapter(
+        (options, callIndex) => const FakeReply(200, {
+          'id': 'cat-1',
+          'name': 'Facturation',
+          'slug': 'facturation',
+        }),
+      );
+
+      await _sdk(
+        adapter,
+      ).support.createCategory(name: 'Facturation', slug: 'facturation');
+
+      final envoye = (adapter.requests.single.data! as Map)
+          .cast<String, dynamic>();
+      expect(
+        envoye['slug'],
+        equals('facturation'),
+        reason: "l'API exige le slug et refuse la requête sans lui (422)",
+      );
+    });
+
+    test('updateCategory transmet nom et slug', () async {
+      final adapter = FakeAdapter(
+        (options, callIndex) => const FakeReply(200, {
+          'id': 'cat-2',
+          'name': 'Paiements',
+          'slug': 'paiements',
+        }),
+      );
+
+      await _sdk(adapter).support.updateCategory(
+        'cat-1',
+        name: 'Paiements',
+        slug: 'paiements',
+      );
+
+      final envoye = (adapter.requests.single.data! as Map)
+          .cast<String, dynamic>();
+      expect(envoye['name'], equals('Paiements'));
+      expect(envoye['slug'], equals('paiements'));
+    });
+
+    test('createArticle transmet le slug exigé par l API', () async {
+      final adapter = FakeAdapter(
+        (options, callIndex) => const FakeReply(200, {
+          'id': 'a1',
+          'title': 'Premiers pas',
+          'slug': 'premiers-pas',
+          'content': 'Bienvenue',
+        }),
+      );
+
+      await _sdk(adapter).support.createArticle(
+        title: 'Premiers pas',
+        slug: 'premiers-pas',
+        content: 'Bienvenue',
+      );
+
+      final envoye = (adapter.requests.single.data! as Map)
+          .cast<String, dynamic>();
+      expect(envoye['slug'], equals('premiers-pas'));
+    });
+
+    test('getArticle peut compter la vue', () async {
+      final adapter = FakeAdapter(
+        (options, callIndex) => const FakeReply(200, {
+          'id': 'a1',
+          'title': 'Premiers pas',
+          'slug': 'premiers-pas',
+          'content': 'Bienvenue',
+        }),
+      );
+
+      await _sdk(adapter).support.getArticle('a1', incrementView: true);
+
+      expect(
+        adapter.requests.single.queryParameters,
+        equals({'increment_view': 'true'}),
+        reason: "sans ce paramètre, l'API ne compte jamais la vue",
+      );
+    });
+
+    test('assignTicket peut désassigner un ticket', () async {
+      final adapter = FakeAdapter(
+        (options, callIndex) => const FakeReply(200, _ticket),
+      );
+
+      await _sdk(adapter).support.assignTicket('t1', assignedToId: null);
+
+      final envoye = (adapter.requests.single.data! as Map)
+          .cast<String, dynamic>();
+      expect(
+        envoye.containsKey('assigned_to_id'),
+        isTrue,
+        reason: "l'API accepte null pour retirer l'affectation",
+      );
+      expect(envoye['assigned_to_id'], isNull);
+    });
+
+    test('updateStatus joint une note à l historique', () async {
+      final adapter = FakeAdapter(
+        (options, callIndex) => const FakeReply(200, _ticket),
+      );
+
+      await _sdk(adapter).support.updateStatus(
+        't1',
+        status: TicketStatus.resolved,
+        note: 'Corrigé en 1.2.3',
+      );
+
+      final envoye = (adapter.requests.single.data! as Map)
+          .cast<String, dynamic>();
+      expect(envoye['status'], equals('resolved'));
+      expect(envoye['note'], equals('Corrigé en 1.2.3'));
+    });
+
+    test('lit la date de dernière modification d un ticket', () async {
+      final adapter = FakeAdapter(
+        (options, callIndex) => const FakeReply(200, {
+          ..._ticket,
+          'createdAt': '2026-08-02T10:00:00Z',
+          'updatedAt': '2026-08-03T11:30:00Z',
+        }),
+      );
+
+      final ticket = await _sdk(adapter).support.getTicket('t1');
+
+      expect(
+        ticket.updatedAt,
+        equals(DateTime.utc(2026, 8, 3, 11, 30)),
+      );
+    });
+
     test('note un article', () async {
       final adapter = FakeAdapter(
           (options, callIndex) => const FakeReply(200, {'success': true}));

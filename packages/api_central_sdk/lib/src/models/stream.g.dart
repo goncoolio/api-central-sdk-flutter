@@ -156,10 +156,12 @@ _ReactionResult _$ReactionResultFromJson(Map<String, dynamic> json) =>
     _ReactionResult(
       accepted: json['accepted'] as bool? ?? false,
       message: json['message'] as String?,
+      retryAfterMs: (json['retryAfterMs'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$ReactionResultToJson(_ReactionResult instance) =>
     <String, dynamic>{
       'accepted': instance.accepted,
       'message': instance.message,
+      'retryAfterMs': instance.retryAfterMs,
     };

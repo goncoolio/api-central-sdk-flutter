@@ -1737,7 +1737,10 @@ as int,
 /// @nodoc
 mixin _$ReactionResult {
 
- bool get accepted; String? get message;
+ bool get accepted; String? get message;/// Délai à respecter avant un nouvel envoi, en millisecondes.
+///
+/// Renseigné seulement quand l'API refuse la réaction ; `null` sinon.
+ int? get retryAfterMs;
 /// Create a copy of ReactionResult
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1750,16 +1753,16 @@ $ReactionResultCopyWith<ReactionResult> get copyWith => _$ReactionResultCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ReactionResult&&(identical(other.accepted, accepted) || other.accepted == accepted)&&(identical(other.message, message) || other.message == message));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ReactionResult&&(identical(other.accepted, accepted) || other.accepted == accepted)&&(identical(other.message, message) || other.message == message)&&(identical(other.retryAfterMs, retryAfterMs) || other.retryAfterMs == retryAfterMs));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,accepted,message);
+int get hashCode => Object.hash(runtimeType,accepted,message,retryAfterMs);
 
 @override
 String toString() {
-  return 'ReactionResult(accepted: $accepted, message: $message)';
+  return 'ReactionResult(accepted: $accepted, message: $message, retryAfterMs: $retryAfterMs)';
 }
 
 
@@ -1770,7 +1773,7 @@ abstract mixin class $ReactionResultCopyWith<$Res>  {
   factory $ReactionResultCopyWith(ReactionResult value, $Res Function(ReactionResult) _then) = _$ReactionResultCopyWithImpl;
 @useResult
 $Res call({
- bool accepted, String? message
+ bool accepted, String? message, int? retryAfterMs
 });
 
 
@@ -1787,11 +1790,12 @@ class _$ReactionResultCopyWithImpl<$Res>
 
 /// Create a copy of ReactionResult
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? accepted = null,Object? message = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? accepted = null,Object? message = freezed,Object? retryAfterMs = freezed,}) {
   return _then(_self.copyWith(
 accepted: null == accepted ? _self.accepted : accepted // ignore: cast_nullable_to_non_nullable
 as bool,message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,retryAfterMs: freezed == retryAfterMs ? _self.retryAfterMs : retryAfterMs // ignore: cast_nullable_to_non_nullable
+as int?,
   ));
 }
 
@@ -1876,10 +1880,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool accepted,  String? message)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool accepted,  String? message,  int? retryAfterMs)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ReactionResult() when $default != null:
-return $default(_that.accepted,_that.message);case _:
+return $default(_that.accepted,_that.message,_that.retryAfterMs);case _:
   return orElse();
 
 }
@@ -1897,10 +1901,10 @@ return $default(_that.accepted,_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool accepted,  String? message)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool accepted,  String? message,  int? retryAfterMs)  $default,) {final _that = this;
 switch (_that) {
 case _ReactionResult():
-return $default(_that.accepted,_that.message);case _:
+return $default(_that.accepted,_that.message,_that.retryAfterMs);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -1917,10 +1921,10 @@ return $default(_that.accepted,_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool accepted,  String? message)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool accepted,  String? message,  int? retryAfterMs)?  $default,) {final _that = this;
 switch (_that) {
 case _ReactionResult() when $default != null:
-return $default(_that.accepted,_that.message);case _:
+return $default(_that.accepted,_that.message,_that.retryAfterMs);case _:
   return null;
 
 }
@@ -1932,11 +1936,15 @@ return $default(_that.accepted,_that.message);case _:
 @JsonSerializable()
 
 class _ReactionResult implements ReactionResult {
-  const _ReactionResult({this.accepted = false, this.message});
+  const _ReactionResult({this.accepted = false, this.message, this.retryAfterMs});
   factory _ReactionResult.fromJson(Map<String, dynamic> json) => _$ReactionResultFromJson(json);
 
 @override@JsonKey() final  bool accepted;
 @override final  String? message;
+/// Délai à respecter avant un nouvel envoi, en millisecondes.
+///
+/// Renseigné seulement quand l'API refuse la réaction ; `null` sinon.
+@override final  int? retryAfterMs;
 
 /// Create a copy of ReactionResult
 /// with the given fields replaced by the non-null parameter values.
@@ -1951,16 +1959,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ReactionResult&&(identical(other.accepted, accepted) || other.accepted == accepted)&&(identical(other.message, message) || other.message == message));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ReactionResult&&(identical(other.accepted, accepted) || other.accepted == accepted)&&(identical(other.message, message) || other.message == message)&&(identical(other.retryAfterMs, retryAfterMs) || other.retryAfterMs == retryAfterMs));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,accepted,message);
+int get hashCode => Object.hash(runtimeType,accepted,message,retryAfterMs);
 
 @override
 String toString() {
-  return 'ReactionResult(accepted: $accepted, message: $message)';
+  return 'ReactionResult(accepted: $accepted, message: $message, retryAfterMs: $retryAfterMs)';
 }
 
 
@@ -1971,7 +1979,7 @@ abstract mixin class _$ReactionResultCopyWith<$Res> implements $ReactionResultCo
   factory _$ReactionResultCopyWith(_ReactionResult value, $Res Function(_ReactionResult) _then) = __$ReactionResultCopyWithImpl;
 @override @useResult
 $Res call({
- bool accepted, String? message
+ bool accepted, String? message, int? retryAfterMs
 });
 
 
@@ -1988,11 +1996,12 @@ class __$ReactionResultCopyWithImpl<$Res>
 
 /// Create a copy of ReactionResult
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? accepted = null,Object? message = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? accepted = null,Object? message = freezed,Object? retryAfterMs = freezed,}) {
   return _then(_ReactionResult(
 accepted: null == accepted ? _self.accepted : accepted // ignore: cast_nullable_to_non_nullable
 as bool,message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,retryAfterMs: freezed == retryAfterMs ? _self.retryAfterMs : retryAfterMs // ignore: cast_nullable_to_non_nullable
+as int?,
   ));
 }
 

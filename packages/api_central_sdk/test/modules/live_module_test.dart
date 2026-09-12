@@ -160,6 +160,54 @@ void main() {
       },
     );
 
+    test('listStreams ne transmet que les filtres lus par l API', () async {
+      final adapter = FakeAdapter(
+        (options, callIndex) => const FakeReply(200, [_stream]),
+      );
+
+      await _sdk(
+        adapter,
+      ).live.listStreams(status: StreamStatus.scheduled, page: 2, limit: 20);
+
+      expect(
+        adapter.requests.single.queryParameters,
+        equals({'status': 'scheduled', 'page': 2, 'limit': 20}),
+        reason: "l'API ne lit que le statut et la pagination",
+      );
+    });
+
+    test('getViewers ne transmet que la limite', () async {
+      final adapter = FakeAdapter(
+        (options, callIndex) => const FakeReply(200, {
+          'streamId': 's1',
+          'viewerCount': 2,
+          'viewers': <dynamic>[],
+        }),
+      );
+
+      await _sdk(adapter).live.getViewers('s1', limit: 50);
+
+      expect(
+        adapter.requests.single.queryParameters,
+        equals({'limit': 50}),
+        reason: "l'API tire les spectateurs au hasard : elle ignore la page",
+      );
+    });
+
+    test('listComments pagine', () async {
+      final adapter = FakeAdapter(
+        (options, callIndex) => const FakeReply(200, <dynamic>[]),
+      );
+
+      await _sdk(adapter).live.listComments('s1', page: 3, limit: 50);
+
+      expect(
+        adapter.requests.single.queryParameters,
+        equals({'page': 3, 'limit': 50}),
+        reason: "le handler lit l'offset : sans page, on reste bloqué sur la première",
+      );
+    });
+
     test('listStreams accepte une liste vide', () async {
       final adapter = FakeAdapter(
         (options, callIndex) => const FakeReply(200, <dynamic>[]),
@@ -212,6 +260,40 @@ void main() {
         isFalse,
         reason: 'une réaction par utilisateur toutes les 200 ms',
       );
+    });
+
+    test('expose le délai avant de réessayer une réaction', () async {
+      final adapter = FakeAdapter(
+        (options, callIndex) => const FakeReply(200, {
+          'accepted': false,
+          'message': 'Rate limited, try again later',
+          'retry_after_ms': 200,
+        }),
+      );
+
+      final resultat = await _sdk(
+        adapter,
+      ).live.sendReaction('s1', userId: 'u2', emoji: '❤️');
+
+      expect(
+        resultat.retryAfterMs,
+        equals(200),
+        reason: "l'API renvoie retry_after_ms quand elle refuse la réaction",
+      );
+    });
+
+    test('une réaction acceptée n annonce aucun délai', () async {
+      final adapter = FakeAdapter(
+        (options, callIndex) =>
+            const FakeReply(200, {'accepted': true, 'message': 'Reaction added'}),
+      );
+
+      final resultat = await _sdk(
+        adapter,
+      ).live.sendReaction('s1', userId: 'u2', emoji: '❤️');
+
+      expect(resultat.accepted, isTrue);
+      expect(resultat.retryAfterMs, isNull);
     });
 
     test('lit les compteurs de réactions', () async {

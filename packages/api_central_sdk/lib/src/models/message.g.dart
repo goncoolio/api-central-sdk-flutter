@@ -42,7 +42,9 @@ _Message _$MessageFromJson(Map<String, dynamic> json) => _Message(
   sender: json['sender'] == null
       ? null
       : UserInfo.fromJson(json['sender'] as Map<String, dynamic>),
-  attachments: json['attachments'] as Map<String, dynamic>?,
+  attachments: (json['attachments'] as List<dynamic>?)
+      ?.map((e) => Attachment.fromJson(e as Map<String, dynamic>))
+      .toList(),
   replyTo: json['replyTo'] == null
       ? null
       : Message.fromJson(json['replyTo'] as Map<String, dynamic>),
@@ -56,6 +58,9 @@ _Message _$MessageFromJson(Map<String, dynamic> json) => _Message(
       ? null
       : DateTime.parse(json['editedAt'] as String),
   isDeleted: json['isDeleted'] as bool? ?? false,
+  readBy:
+      (json['readBy'] as List<dynamic>?)?.map((e) => e as String).toList() ??
+      const <String>[],
   createdAt: json['createdAt'] == null
       ? null
       : DateTime.parse(json['createdAt'] as String),
@@ -68,12 +73,13 @@ Map<String, dynamic> _$MessageToJson(_Message instance) => <String, dynamic>{
   'contentType': _$ContentTypeEnumMap[instance.contentType]!,
   'clientMessageId': instance.clientMessageId,
   'sender': instance.sender?.toJson(),
-  'attachments': instance.attachments,
+  'attachments': instance.attachments?.map((e) => e.toJson()).toList(),
   'replyTo': instance.replyTo?.toJson(),
   'reactions': instance.reactions.map((e) => e.toJson()).toList(),
   'isEdited': instance.isEdited,
   'editedAt': instance.editedAt?.toIso8601String(),
   'isDeleted': instance.isDeleted,
+  'readBy': instance.readBy,
   'createdAt': instance.createdAt?.toIso8601String(),
 };
 

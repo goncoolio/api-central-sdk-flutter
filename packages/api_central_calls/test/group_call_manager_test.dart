@@ -155,7 +155,11 @@ void main() {
         ]),
         reason: 'décrocher en dernier : sans média, l appel continue de sonner',
       );
-      expect(http.requests.last.data, equals({'user_id': 'u1'}));
+      expect(
+        http.requests.last.data,
+        isNull,
+        reason: "l'API prend l'acteur dans le jeton et ne lit aucun corps",
+      );
       expect(
         room.journal,
         equals(['connect', 'micro:true']),
@@ -277,7 +281,7 @@ void main() {
         equals('POST /calls/call-1/leave'),
         reason: "quitter laisse l'appel continuer pour les autres",
       );
-      expect(http.requests.last.data, equals({'user_id': 'u1'}));
+      expect(http.requests.last.data, isNull);
       expect(room.journal, containsAllInOrder(['disconnect', 'dispose']));
       expect(manager.state, equals(CallManagerState.ended));
       expect(manager.callId, isNull);

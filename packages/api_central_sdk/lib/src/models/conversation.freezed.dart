@@ -605,6 +605,299 @@ $UserInfoCopyWith<$Res>? get sender {
 
 
 /// @nodoc
+mixin _$ParticipantSettings {
+
+ String get id; String get conversationId; String get userId; ParticipantRole get role; bool get isMuted; NotificationPreference get notificationPreference; DateTime? get joinedAt; DateTime? get leftAt; DateTime? get lastReadAt; String? get lastReadMessageId; DateTime? get mutedUntil;
+/// Create a copy of ParticipantSettings
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ParticipantSettingsCopyWith<ParticipantSettings> get copyWith => _$ParticipantSettingsCopyWithImpl<ParticipantSettings>(this as ParticipantSettings, _$identity);
+
+  /// Serializes this ParticipantSettings to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ParticipantSettings&&(identical(other.id, id) || other.id == id)&&(identical(other.conversationId, conversationId) || other.conversationId == conversationId)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.role, role) || other.role == role)&&(identical(other.isMuted, isMuted) || other.isMuted == isMuted)&&(identical(other.notificationPreference, notificationPreference) || other.notificationPreference == notificationPreference)&&(identical(other.joinedAt, joinedAt) || other.joinedAt == joinedAt)&&(identical(other.leftAt, leftAt) || other.leftAt == leftAt)&&(identical(other.lastReadAt, lastReadAt) || other.lastReadAt == lastReadAt)&&(identical(other.lastReadMessageId, lastReadMessageId) || other.lastReadMessageId == lastReadMessageId)&&(identical(other.mutedUntil, mutedUntil) || other.mutedUntil == mutedUntil));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,conversationId,userId,role,isMuted,notificationPreference,joinedAt,leftAt,lastReadAt,lastReadMessageId,mutedUntil);
+
+@override
+String toString() {
+  return 'ParticipantSettings(id: $id, conversationId: $conversationId, userId: $userId, role: $role, isMuted: $isMuted, notificationPreference: $notificationPreference, joinedAt: $joinedAt, leftAt: $leftAt, lastReadAt: $lastReadAt, lastReadMessageId: $lastReadMessageId, mutedUntil: $mutedUntil)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $ParticipantSettingsCopyWith<$Res>  {
+  factory $ParticipantSettingsCopyWith(ParticipantSettings value, $Res Function(ParticipantSettings) _then) = _$ParticipantSettingsCopyWithImpl;
+@useResult
+$Res call({
+ String id, String conversationId, String userId, ParticipantRole role, bool isMuted, NotificationPreference notificationPreference, DateTime? joinedAt, DateTime? leftAt, DateTime? lastReadAt, String? lastReadMessageId, DateTime? mutedUntil
+});
+
+
+
+
+}
+/// @nodoc
+class _$ParticipantSettingsCopyWithImpl<$Res>
+    implements $ParticipantSettingsCopyWith<$Res> {
+  _$ParticipantSettingsCopyWithImpl(this._self, this._then);
+
+  final ParticipantSettings _self;
+  final $Res Function(ParticipantSettings) _then;
+
+/// Create a copy of ParticipantSettings
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? conversationId = null,Object? userId = null,Object? role = null,Object? isMuted = null,Object? notificationPreference = null,Object? joinedAt = freezed,Object? leftAt = freezed,Object? lastReadAt = freezed,Object? lastReadMessageId = freezed,Object? mutedUntil = freezed,}) {
+  return _then(_self.copyWith(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,conversationId: null == conversationId ? _self.conversationId : conversationId // ignore: cast_nullable_to_non_nullable
+as String,userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
+as String,role: null == role ? _self.role : role // ignore: cast_nullable_to_non_nullable
+as ParticipantRole,isMuted: null == isMuted ? _self.isMuted : isMuted // ignore: cast_nullable_to_non_nullable
+as bool,notificationPreference: null == notificationPreference ? _self.notificationPreference : notificationPreference // ignore: cast_nullable_to_non_nullable
+as NotificationPreference,joinedAt: freezed == joinedAt ? _self.joinedAt : joinedAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,leftAt: freezed == leftAt ? _self.leftAt : leftAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,lastReadAt: freezed == lastReadAt ? _self.lastReadAt : lastReadAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,lastReadMessageId: freezed == lastReadMessageId ? _self.lastReadMessageId : lastReadMessageId // ignore: cast_nullable_to_non_nullable
+as String?,mutedUntil: freezed == mutedUntil ? _self.mutedUntil : mutedUntil // ignore: cast_nullable_to_non_nullable
+as DateTime?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [ParticipantSettings].
+extension ParticipantSettingsPatterns on ParticipantSettings {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _ParticipantSettings value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _ParticipantSettings() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _ParticipantSettings value)  $default,){
+final _that = this;
+switch (_that) {
+case _ParticipantSettings():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _ParticipantSettings value)?  $default,){
+final _that = this;
+switch (_that) {
+case _ParticipantSettings() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String conversationId,  String userId,  ParticipantRole role,  bool isMuted,  NotificationPreference notificationPreference,  DateTime? joinedAt,  DateTime? leftAt,  DateTime? lastReadAt,  String? lastReadMessageId,  DateTime? mutedUntil)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _ParticipantSettings() when $default != null:
+return $default(_that.id,_that.conversationId,_that.userId,_that.role,_that.isMuted,_that.notificationPreference,_that.joinedAt,_that.leftAt,_that.lastReadAt,_that.lastReadMessageId,_that.mutedUntil);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String conversationId,  String userId,  ParticipantRole role,  bool isMuted,  NotificationPreference notificationPreference,  DateTime? joinedAt,  DateTime? leftAt,  DateTime? lastReadAt,  String? lastReadMessageId,  DateTime? mutedUntil)  $default,) {final _that = this;
+switch (_that) {
+case _ParticipantSettings():
+return $default(_that.id,_that.conversationId,_that.userId,_that.role,_that.isMuted,_that.notificationPreference,_that.joinedAt,_that.leftAt,_that.lastReadAt,_that.lastReadMessageId,_that.mutedUntil);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String conversationId,  String userId,  ParticipantRole role,  bool isMuted,  NotificationPreference notificationPreference,  DateTime? joinedAt,  DateTime? leftAt,  DateTime? lastReadAt,  String? lastReadMessageId,  DateTime? mutedUntil)?  $default,) {final _that = this;
+switch (_that) {
+case _ParticipantSettings() when $default != null:
+return $default(_that.id,_that.conversationId,_that.userId,_that.role,_that.isMuted,_that.notificationPreference,_that.joinedAt,_that.leftAt,_that.lastReadAt,_that.lastReadMessageId,_that.mutedUntil);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _ParticipantSettings implements ParticipantSettings {
+  const _ParticipantSettings({required this.id, required this.conversationId, required this.userId, required this.role, this.isMuted = false, this.notificationPreference = NotificationPreference.all, this.joinedAt, this.leftAt, this.lastReadAt, this.lastReadMessageId, this.mutedUntil});
+  factory _ParticipantSettings.fromJson(Map<String, dynamic> json) => _$ParticipantSettingsFromJson(json);
+
+@override final  String id;
+@override final  String conversationId;
+@override final  String userId;
+@override final  ParticipantRole role;
+@override@JsonKey() final  bool isMuted;
+@override@JsonKey() final  NotificationPreference notificationPreference;
+@override final  DateTime? joinedAt;
+@override final  DateTime? leftAt;
+@override final  DateTime? lastReadAt;
+@override final  String? lastReadMessageId;
+@override final  DateTime? mutedUntil;
+
+/// Create a copy of ParticipantSettings
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$ParticipantSettingsCopyWith<_ParticipantSettings> get copyWith => __$ParticipantSettingsCopyWithImpl<_ParticipantSettings>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$ParticipantSettingsToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ParticipantSettings&&(identical(other.id, id) || other.id == id)&&(identical(other.conversationId, conversationId) || other.conversationId == conversationId)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.role, role) || other.role == role)&&(identical(other.isMuted, isMuted) || other.isMuted == isMuted)&&(identical(other.notificationPreference, notificationPreference) || other.notificationPreference == notificationPreference)&&(identical(other.joinedAt, joinedAt) || other.joinedAt == joinedAt)&&(identical(other.leftAt, leftAt) || other.leftAt == leftAt)&&(identical(other.lastReadAt, lastReadAt) || other.lastReadAt == lastReadAt)&&(identical(other.lastReadMessageId, lastReadMessageId) || other.lastReadMessageId == lastReadMessageId)&&(identical(other.mutedUntil, mutedUntil) || other.mutedUntil == mutedUntil));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,conversationId,userId,role,isMuted,notificationPreference,joinedAt,leftAt,lastReadAt,lastReadMessageId,mutedUntil);
+
+@override
+String toString() {
+  return 'ParticipantSettings(id: $id, conversationId: $conversationId, userId: $userId, role: $role, isMuted: $isMuted, notificationPreference: $notificationPreference, joinedAt: $joinedAt, leftAt: $leftAt, lastReadAt: $lastReadAt, lastReadMessageId: $lastReadMessageId, mutedUntil: $mutedUntil)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$ParticipantSettingsCopyWith<$Res> implements $ParticipantSettingsCopyWith<$Res> {
+  factory _$ParticipantSettingsCopyWith(_ParticipantSettings value, $Res Function(_ParticipantSettings) _then) = __$ParticipantSettingsCopyWithImpl;
+@override @useResult
+$Res call({
+ String id, String conversationId, String userId, ParticipantRole role, bool isMuted, NotificationPreference notificationPreference, DateTime? joinedAt, DateTime? leftAt, DateTime? lastReadAt, String? lastReadMessageId, DateTime? mutedUntil
+});
+
+
+
+
+}
+/// @nodoc
+class __$ParticipantSettingsCopyWithImpl<$Res>
+    implements _$ParticipantSettingsCopyWith<$Res> {
+  __$ParticipantSettingsCopyWithImpl(this._self, this._then);
+
+  final _ParticipantSettings _self;
+  final $Res Function(_ParticipantSettings) _then;
+
+/// Create a copy of ParticipantSettings
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? conversationId = null,Object? userId = null,Object? role = null,Object? isMuted = null,Object? notificationPreference = null,Object? joinedAt = freezed,Object? leftAt = freezed,Object? lastReadAt = freezed,Object? lastReadMessageId = freezed,Object? mutedUntil = freezed,}) {
+  return _then(_ParticipantSettings(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,conversationId: null == conversationId ? _self.conversationId : conversationId // ignore: cast_nullable_to_non_nullable
+as String,userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
+as String,role: null == role ? _self.role : role // ignore: cast_nullable_to_non_nullable
+as ParticipantRole,isMuted: null == isMuted ? _self.isMuted : isMuted // ignore: cast_nullable_to_non_nullable
+as bool,notificationPreference: null == notificationPreference ? _self.notificationPreference : notificationPreference // ignore: cast_nullable_to_non_nullable
+as NotificationPreference,joinedAt: freezed == joinedAt ? _self.joinedAt : joinedAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,leftAt: freezed == leftAt ? _self.leftAt : leftAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,lastReadAt: freezed == lastReadAt ? _self.lastReadAt : lastReadAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,lastReadMessageId: freezed == lastReadMessageId ? _self.lastReadMessageId : lastReadMessageId // ignore: cast_nullable_to_non_nullable
+as String?,mutedUntil: freezed == mutedUntil ? _self.mutedUntil : mutedUntil // ignore: cast_nullable_to_non_nullable
+as DateTime?,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
 mixin _$Conversation {
 
  String get id; ConversationType get type; String? get applicationId; String? get title; String? get avatarUrl; Map<String, dynamic>? get metadata; DateTime? get lastMessageAt; LastMessagePreview? get lastMessage; List<Participant> get participants; int get unreadCount; DateTime? get createdAt;

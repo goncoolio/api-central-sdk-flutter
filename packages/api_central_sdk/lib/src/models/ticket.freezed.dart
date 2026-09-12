@@ -574,7 +574,7 @@ as DateTime?,
 /// @nodoc
 mixin _$Ticket {
 
- String get id; String get ticketNumber; UserInfo get user; String get subject; TicketStatus get status; TicketPriority get priority; String? get conversationId; CategoryInfo? get category; UserInfo? get assignedTo; String? get description; List<String>? get tags; DateTime? get firstResponseAt; DateTime? get resolvedAt; DateTime? get closedAt; DateTime? get createdAt;
+ String get id; String get ticketNumber; UserInfo get user; String get subject; TicketStatus get status; TicketPriority get priority; String? get conversationId; CategoryInfo? get category; UserInfo? get assignedTo; String? get description; List<String>? get tags; DateTime? get firstResponseAt; DateTime? get resolvedAt; DateTime? get closedAt; DateTime? get createdAt; DateTime? get updatedAt;
 /// Create a copy of Ticket
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -587,16 +587,16 @@ $TicketCopyWith<Ticket> get copyWith => _$TicketCopyWithImpl<Ticket>(this as Tic
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Ticket&&(identical(other.id, id) || other.id == id)&&(identical(other.ticketNumber, ticketNumber) || other.ticketNumber == ticketNumber)&&(identical(other.user, user) || other.user == user)&&(identical(other.subject, subject) || other.subject == subject)&&(identical(other.status, status) || other.status == status)&&(identical(other.priority, priority) || other.priority == priority)&&(identical(other.conversationId, conversationId) || other.conversationId == conversationId)&&(identical(other.category, category) || other.category == category)&&(identical(other.assignedTo, assignedTo) || other.assignedTo == assignedTo)&&(identical(other.description, description) || other.description == description)&&const DeepCollectionEquality().equals(other.tags, tags)&&(identical(other.firstResponseAt, firstResponseAt) || other.firstResponseAt == firstResponseAt)&&(identical(other.resolvedAt, resolvedAt) || other.resolvedAt == resolvedAt)&&(identical(other.closedAt, closedAt) || other.closedAt == closedAt)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Ticket&&(identical(other.id, id) || other.id == id)&&(identical(other.ticketNumber, ticketNumber) || other.ticketNumber == ticketNumber)&&(identical(other.user, user) || other.user == user)&&(identical(other.subject, subject) || other.subject == subject)&&(identical(other.status, status) || other.status == status)&&(identical(other.priority, priority) || other.priority == priority)&&(identical(other.conversationId, conversationId) || other.conversationId == conversationId)&&(identical(other.category, category) || other.category == category)&&(identical(other.assignedTo, assignedTo) || other.assignedTo == assignedTo)&&(identical(other.description, description) || other.description == description)&&const DeepCollectionEquality().equals(other.tags, tags)&&(identical(other.firstResponseAt, firstResponseAt) || other.firstResponseAt == firstResponseAt)&&(identical(other.resolvedAt, resolvedAt) || other.resolvedAt == resolvedAt)&&(identical(other.closedAt, closedAt) || other.closedAt == closedAt)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,ticketNumber,user,subject,status,priority,conversationId,category,assignedTo,description,const DeepCollectionEquality().hash(tags),firstResponseAt,resolvedAt,closedAt,createdAt);
+int get hashCode => Object.hash(runtimeType,id,ticketNumber,user,subject,status,priority,conversationId,category,assignedTo,description,const DeepCollectionEquality().hash(tags),firstResponseAt,resolvedAt,closedAt,createdAt,updatedAt);
 
 @override
 String toString() {
-  return 'Ticket(id: $id, ticketNumber: $ticketNumber, user: $user, subject: $subject, status: $status, priority: $priority, conversationId: $conversationId, category: $category, assignedTo: $assignedTo, description: $description, tags: $tags, firstResponseAt: $firstResponseAt, resolvedAt: $resolvedAt, closedAt: $closedAt, createdAt: $createdAt)';
+  return 'Ticket(id: $id, ticketNumber: $ticketNumber, user: $user, subject: $subject, status: $status, priority: $priority, conversationId: $conversationId, category: $category, assignedTo: $assignedTo, description: $description, tags: $tags, firstResponseAt: $firstResponseAt, resolvedAt: $resolvedAt, closedAt: $closedAt, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
@@ -607,7 +607,7 @@ abstract mixin class $TicketCopyWith<$Res>  {
   factory $TicketCopyWith(Ticket value, $Res Function(Ticket) _then) = _$TicketCopyWithImpl;
 @useResult
 $Res call({
- String id, String ticketNumber, UserInfo user, String subject, TicketStatus status, TicketPriority priority, String? conversationId, CategoryInfo? category, UserInfo? assignedTo, String? description, List<String>? tags, DateTime? firstResponseAt, DateTime? resolvedAt, DateTime? closedAt, DateTime? createdAt
+ String id, String ticketNumber, UserInfo user, String subject, TicketStatus status, TicketPriority priority, String? conversationId, CategoryInfo? category, UserInfo? assignedTo, String? description, List<String>? tags, DateTime? firstResponseAt, DateTime? resolvedAt, DateTime? closedAt, DateTime? createdAt, DateTime? updatedAt
 });
 
 
@@ -624,7 +624,7 @@ class _$TicketCopyWithImpl<$Res>
 
 /// Create a copy of Ticket
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? ticketNumber = null,Object? user = null,Object? subject = null,Object? status = null,Object? priority = null,Object? conversationId = freezed,Object? category = freezed,Object? assignedTo = freezed,Object? description = freezed,Object? tags = freezed,Object? firstResponseAt = freezed,Object? resolvedAt = freezed,Object? closedAt = freezed,Object? createdAt = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? ticketNumber = null,Object? user = null,Object? subject = null,Object? status = null,Object? priority = null,Object? conversationId = freezed,Object? category = freezed,Object? assignedTo = freezed,Object? description = freezed,Object? tags = freezed,Object? firstResponseAt = freezed,Object? resolvedAt = freezed,Object? closedAt = freezed,Object? createdAt = freezed,Object? updatedAt = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,ticketNumber: null == ticketNumber ? _self.ticketNumber : ticketNumber // ignore: cast_nullable_to_non_nullable
@@ -641,6 +641,7 @@ as List<String>?,firstResponseAt: freezed == firstResponseAt ? _self.firstRespon
 as DateTime?,resolvedAt: freezed == resolvedAt ? _self.resolvedAt : resolvedAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,closedAt: freezed == closedAt ? _self.closedAt : closedAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,updatedAt: freezed == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,
   ));
 }
@@ -759,10 +760,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String ticketNumber,  UserInfo user,  String subject,  TicketStatus status,  TicketPriority priority,  String? conversationId,  CategoryInfo? category,  UserInfo? assignedTo,  String? description,  List<String>? tags,  DateTime? firstResponseAt,  DateTime? resolvedAt,  DateTime? closedAt,  DateTime? createdAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String ticketNumber,  UserInfo user,  String subject,  TicketStatus status,  TicketPriority priority,  String? conversationId,  CategoryInfo? category,  UserInfo? assignedTo,  String? description,  List<String>? tags,  DateTime? firstResponseAt,  DateTime? resolvedAt,  DateTime? closedAt,  DateTime? createdAt,  DateTime? updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Ticket() when $default != null:
-return $default(_that.id,_that.ticketNumber,_that.user,_that.subject,_that.status,_that.priority,_that.conversationId,_that.category,_that.assignedTo,_that.description,_that.tags,_that.firstResponseAt,_that.resolvedAt,_that.closedAt,_that.createdAt);case _:
+return $default(_that.id,_that.ticketNumber,_that.user,_that.subject,_that.status,_that.priority,_that.conversationId,_that.category,_that.assignedTo,_that.description,_that.tags,_that.firstResponseAt,_that.resolvedAt,_that.closedAt,_that.createdAt,_that.updatedAt);case _:
   return orElse();
 
 }
@@ -780,10 +781,10 @@ return $default(_that.id,_that.ticketNumber,_that.user,_that.subject,_that.statu
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String ticketNumber,  UserInfo user,  String subject,  TicketStatus status,  TicketPriority priority,  String? conversationId,  CategoryInfo? category,  UserInfo? assignedTo,  String? description,  List<String>? tags,  DateTime? firstResponseAt,  DateTime? resolvedAt,  DateTime? closedAt,  DateTime? createdAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String ticketNumber,  UserInfo user,  String subject,  TicketStatus status,  TicketPriority priority,  String? conversationId,  CategoryInfo? category,  UserInfo? assignedTo,  String? description,  List<String>? tags,  DateTime? firstResponseAt,  DateTime? resolvedAt,  DateTime? closedAt,  DateTime? createdAt,  DateTime? updatedAt)  $default,) {final _that = this;
 switch (_that) {
 case _Ticket():
-return $default(_that.id,_that.ticketNumber,_that.user,_that.subject,_that.status,_that.priority,_that.conversationId,_that.category,_that.assignedTo,_that.description,_that.tags,_that.firstResponseAt,_that.resolvedAt,_that.closedAt,_that.createdAt);case _:
+return $default(_that.id,_that.ticketNumber,_that.user,_that.subject,_that.status,_that.priority,_that.conversationId,_that.category,_that.assignedTo,_that.description,_that.tags,_that.firstResponseAt,_that.resolvedAt,_that.closedAt,_that.createdAt,_that.updatedAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -800,10 +801,10 @@ return $default(_that.id,_that.ticketNumber,_that.user,_that.subject,_that.statu
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String ticketNumber,  UserInfo user,  String subject,  TicketStatus status,  TicketPriority priority,  String? conversationId,  CategoryInfo? category,  UserInfo? assignedTo,  String? description,  List<String>? tags,  DateTime? firstResponseAt,  DateTime? resolvedAt,  DateTime? closedAt,  DateTime? createdAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String ticketNumber,  UserInfo user,  String subject,  TicketStatus status,  TicketPriority priority,  String? conversationId,  CategoryInfo? category,  UserInfo? assignedTo,  String? description,  List<String>? tags,  DateTime? firstResponseAt,  DateTime? resolvedAt,  DateTime? closedAt,  DateTime? createdAt,  DateTime? updatedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _Ticket() when $default != null:
-return $default(_that.id,_that.ticketNumber,_that.user,_that.subject,_that.status,_that.priority,_that.conversationId,_that.category,_that.assignedTo,_that.description,_that.tags,_that.firstResponseAt,_that.resolvedAt,_that.closedAt,_that.createdAt);case _:
+return $default(_that.id,_that.ticketNumber,_that.user,_that.subject,_that.status,_that.priority,_that.conversationId,_that.category,_that.assignedTo,_that.description,_that.tags,_that.firstResponseAt,_that.resolvedAt,_that.closedAt,_that.createdAt,_that.updatedAt);case _:
   return null;
 
 }
@@ -815,7 +816,7 @@ return $default(_that.id,_that.ticketNumber,_that.user,_that.subject,_that.statu
 @JsonSerializable()
 
 class _Ticket implements Ticket {
-  const _Ticket({required this.id, required this.ticketNumber, required this.user, required this.subject, required this.status, required this.priority, this.conversationId, this.category, this.assignedTo, this.description, final  List<String>? tags, this.firstResponseAt, this.resolvedAt, this.closedAt, this.createdAt}): _tags = tags;
+  const _Ticket({required this.id, required this.ticketNumber, required this.user, required this.subject, required this.status, required this.priority, this.conversationId, this.category, this.assignedTo, this.description, final  List<String>? tags, this.firstResponseAt, this.resolvedAt, this.closedAt, this.createdAt, this.updatedAt}): _tags = tags;
   factory _Ticket.fromJson(Map<String, dynamic> json) => _$TicketFromJson(json);
 
 @override final  String id;
@@ -841,6 +842,7 @@ class _Ticket implements Ticket {
 @override final  DateTime? resolvedAt;
 @override final  DateTime? closedAt;
 @override final  DateTime? createdAt;
+@override final  DateTime? updatedAt;
 
 /// Create a copy of Ticket
 /// with the given fields replaced by the non-null parameter values.
@@ -855,16 +857,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Ticket&&(identical(other.id, id) || other.id == id)&&(identical(other.ticketNumber, ticketNumber) || other.ticketNumber == ticketNumber)&&(identical(other.user, user) || other.user == user)&&(identical(other.subject, subject) || other.subject == subject)&&(identical(other.status, status) || other.status == status)&&(identical(other.priority, priority) || other.priority == priority)&&(identical(other.conversationId, conversationId) || other.conversationId == conversationId)&&(identical(other.category, category) || other.category == category)&&(identical(other.assignedTo, assignedTo) || other.assignedTo == assignedTo)&&(identical(other.description, description) || other.description == description)&&const DeepCollectionEquality().equals(other._tags, _tags)&&(identical(other.firstResponseAt, firstResponseAt) || other.firstResponseAt == firstResponseAt)&&(identical(other.resolvedAt, resolvedAt) || other.resolvedAt == resolvedAt)&&(identical(other.closedAt, closedAt) || other.closedAt == closedAt)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Ticket&&(identical(other.id, id) || other.id == id)&&(identical(other.ticketNumber, ticketNumber) || other.ticketNumber == ticketNumber)&&(identical(other.user, user) || other.user == user)&&(identical(other.subject, subject) || other.subject == subject)&&(identical(other.status, status) || other.status == status)&&(identical(other.priority, priority) || other.priority == priority)&&(identical(other.conversationId, conversationId) || other.conversationId == conversationId)&&(identical(other.category, category) || other.category == category)&&(identical(other.assignedTo, assignedTo) || other.assignedTo == assignedTo)&&(identical(other.description, description) || other.description == description)&&const DeepCollectionEquality().equals(other._tags, _tags)&&(identical(other.firstResponseAt, firstResponseAt) || other.firstResponseAt == firstResponseAt)&&(identical(other.resolvedAt, resolvedAt) || other.resolvedAt == resolvedAt)&&(identical(other.closedAt, closedAt) || other.closedAt == closedAt)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,ticketNumber,user,subject,status,priority,conversationId,category,assignedTo,description,const DeepCollectionEquality().hash(_tags),firstResponseAt,resolvedAt,closedAt,createdAt);
+int get hashCode => Object.hash(runtimeType,id,ticketNumber,user,subject,status,priority,conversationId,category,assignedTo,description,const DeepCollectionEquality().hash(_tags),firstResponseAt,resolvedAt,closedAt,createdAt,updatedAt);
 
 @override
 String toString() {
-  return 'Ticket(id: $id, ticketNumber: $ticketNumber, user: $user, subject: $subject, status: $status, priority: $priority, conversationId: $conversationId, category: $category, assignedTo: $assignedTo, description: $description, tags: $tags, firstResponseAt: $firstResponseAt, resolvedAt: $resolvedAt, closedAt: $closedAt, createdAt: $createdAt)';
+  return 'Ticket(id: $id, ticketNumber: $ticketNumber, user: $user, subject: $subject, status: $status, priority: $priority, conversationId: $conversationId, category: $category, assignedTo: $assignedTo, description: $description, tags: $tags, firstResponseAt: $firstResponseAt, resolvedAt: $resolvedAt, closedAt: $closedAt, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
@@ -875,7 +877,7 @@ abstract mixin class _$TicketCopyWith<$Res> implements $TicketCopyWith<$Res> {
   factory _$TicketCopyWith(_Ticket value, $Res Function(_Ticket) _then) = __$TicketCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String ticketNumber, UserInfo user, String subject, TicketStatus status, TicketPriority priority, String? conversationId, CategoryInfo? category, UserInfo? assignedTo, String? description, List<String>? tags, DateTime? firstResponseAt, DateTime? resolvedAt, DateTime? closedAt, DateTime? createdAt
+ String id, String ticketNumber, UserInfo user, String subject, TicketStatus status, TicketPriority priority, String? conversationId, CategoryInfo? category, UserInfo? assignedTo, String? description, List<String>? tags, DateTime? firstResponseAt, DateTime? resolvedAt, DateTime? closedAt, DateTime? createdAt, DateTime? updatedAt
 });
 
 
@@ -892,7 +894,7 @@ class __$TicketCopyWithImpl<$Res>
 
 /// Create a copy of Ticket
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? ticketNumber = null,Object? user = null,Object? subject = null,Object? status = null,Object? priority = null,Object? conversationId = freezed,Object? category = freezed,Object? assignedTo = freezed,Object? description = freezed,Object? tags = freezed,Object? firstResponseAt = freezed,Object? resolvedAt = freezed,Object? closedAt = freezed,Object? createdAt = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? ticketNumber = null,Object? user = null,Object? subject = null,Object? status = null,Object? priority = null,Object? conversationId = freezed,Object? category = freezed,Object? assignedTo = freezed,Object? description = freezed,Object? tags = freezed,Object? firstResponseAt = freezed,Object? resolvedAt = freezed,Object? closedAt = freezed,Object? createdAt = freezed,Object? updatedAt = freezed,}) {
   return _then(_Ticket(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,ticketNumber: null == ticketNumber ? _self.ticketNumber : ticketNumber // ignore: cast_nullable_to_non_nullable
@@ -909,6 +911,7 @@ as List<String>?,firstResponseAt: freezed == firstResponseAt ? _self.firstRespon
 as DateTime?,resolvedAt: freezed == resolvedAt ? _self.resolvedAt : resolvedAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,closedAt: freezed == closedAt ? _self.closedAt : closedAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,updatedAt: freezed == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,
   ));
 }
