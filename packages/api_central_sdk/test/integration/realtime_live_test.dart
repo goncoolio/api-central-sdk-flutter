@@ -1,17 +1,25 @@
 @Tags(['integration'])
 library;
 
+import 'dart:io' show Platform;
+
 import 'package:api_central_sdk/api_central_sdk.dart';
 import 'package:api_central_sdk/server.dart' show ApiCentralServer;
 import 'package:test/test.dart';
 
-const _baseUrl = 'http://localhost:3004/s2s/v1';
-const _wsUrl = 'ws://localhost:3004/events';
-const _apiKey = '***CREDENTIAL-RETIRE***';
-const _apiSecret = '***CREDENTIAL-RETIRE***';
-const _applicationId = '***IDENTIFIANT-RETIRE***';
+// Configuration lue dans l'environnement : aucun credential n'est versionné.
+// Sans API_CENTRAL_API_KEY et API_CENTRAL_API_SECRET, la suite est ignorée.
+//
+//   API_CENTRAL_API_KEY=… API_CENTRAL_API_SECRET=… \
+//   API_CENTRAL_APPLICATION_ID=… dart test --tags integration
+final _env = Platform.environment;
+final _baseUrl = _env['API_CENTRAL_BASE_URL'] ?? 'http://localhost:3004/s2s/v1';
+final _wsUrl = _env['API_CENTRAL_WS_URL'] ?? 'ws://localhost:3004/events';
+final _apiKey = _env['API_CENTRAL_API_KEY'] ?? '';
+final _apiSecret = _env['API_CENTRAL_API_SECRET'] ?? '';
+final _applicationId = _env['API_CENTRAL_APPLICATION_ID'] ?? '';
 
-const _config = ApiCentralConfig(
+final _config = ApiCentralConfig(
   baseUrl: _baseUrl,
   wsUrl: _wsUrl,
   applicationId: _applicationId,
@@ -32,6 +40,7 @@ void main() {
   var disponible = false;
 
   setUpAll(() async {
+    if (_apiKey.isEmpty || _apiSecret.isEmpty) return;
     try {
       serveur = _serveur();
       final appToken = (await serveur.authenticate()).accessToken;
