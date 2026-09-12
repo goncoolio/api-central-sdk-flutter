@@ -15,6 +15,20 @@
   et `accept` lèvent `UnsupportedError` avant tout accès au média. Il ne
   reliait jusque-là que le premier autre participant, sans rien signaler. Son
   API publique ne change pas.
+- **Signalisation par WebSocket.** L'offre, la réponse et les candidats ICE
+  passent par le WebSocket (`call_offer`, `call_answer`, `call_ice_candidate`)
+  au lieu des routes REST `offer`, `answer-sdp` et `ice-candidate` : l'API
+  stocke celles-ci puis les publie sur un canal sans abonné, sans jamais les
+  relayer au pair, si bien qu'un appel à deux ne pouvait pas se connecter. Les
+  candidats voyagent en JSON dans le champ `candidate`, avec `sdpMid` et
+  `sdpMLineIndex`, comme dans le SDK JS : un candidat privé des deux est refusé
+  par les navigateurs. `start` et `accept` exigent donc `connectRealtime` et
+  lèvent `StateError` sans lui, avant tout accès au micro.
+- **Échec au démarrage.** Une erreur de `start` ou `accept` (permission
+  refusée, serveurs ICE injoignables, connexion impossible) libère le média,
+  ferme la connexion et passe en `CallManagerState.failed`, au lieu de laisser
+  l'état sur `connecting`. L'appel reste connu, pour que `hangUp` le clore
+  côté API.
 - **Flutter 3.38 minimum** (au lieu de 3.24), à cause de la nouvelle dépendance
   `livekit_client` ^2.12.0. Celle-ci épingle `flutter_webrtc` 1.6.0, que la
   contrainte `^1.5.2` admet.

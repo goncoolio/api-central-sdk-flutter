@@ -52,6 +52,12 @@ await session.dispose();
 | `call_ended` du serveur | raccroche | quitte la room, sans rappeler l'API |
 | Confidentialité du média | chiffré de bout en bout (DTLS-SRTP) | déchiffré par le SFU pour être relayé |
 
+- **La signalisation P2P passe par le WebSocket.** Offre, réponse et candidats
+  ICE circulent en `call_offer`, `call_answer` et `call_ice_candidate` : les
+  routes REST équivalentes de l'API ne relaient rien au pair. `start` et
+  `accept` lèvent donc `StateError` si `connectRealtime` n'a pas été appelé.
+  Les candidats sont encodés en JSON dans le champ `candidate`, comme dans le
+  SDK JS, pour conserver `sdpMid` et `sdpMLineIndex`.
 - **En P2P, l'appelant démarre après le décroché.** L'offre SDP n'est délivrée
   qu'en temps réel, et l'appelé ne l'écoute qu'à partir d'`accept` : côté
   appelant, attendez `call_answered` avant `start`.
