@@ -13,6 +13,10 @@ class FakeRealtimeServer {
   final List<WebSocket> _sockets = [];
   final Completer<void> _connecte = Completer<void>();
 
+  /// Messages reçus du client, décodés, dans l'ordre.
+  final List<Map<String, dynamic>> messages = [];
+  final Map<String, Completer<Map<String, dynamic>>> _attentes = {};
+
   static Future<FakeRealtimeServer> demarrer() async {
     final serveur = await HttpServer.bind(InternetAddress.loopbackIPv4, 0);
     final faux = FakeRealtimeServer._(serveur);
@@ -23,9 +27,29 @@ class FakeRealtimeServer {
   Future<void> _accepter(HttpRequest requete) async {
     final socket = await WebSocketTransformer.upgrade(requete);
     _sockets.add(socket);
-    // Les messages du client (ping, join) n'intéressent pas ces tests.
-    socket.listen((_) {}, onError: (Object _) {});
+    socket.listen(_recevoir, onError: (Object _) {});
     if (!_connecte.isCompleted) _connecte.complete();
+  }
+
+  void _recevoir(dynamic message) {
+    if (message is! String) return;
+    final decode = jsonDecode(message);
+    if (decode is! Map<String, dynamic>) return;
+    messages.add(decode);
+    final type = decode['type'];
+    if (type is String) _attentes.remove(type)?.complete(decode);
+  }
+
+  /// Attend le premier message d'un type donné, déjà reçu ou à venir.
+  Future<Map<String, dynamic>> attendre(
+    String type, {
+    Duration limite = const Duration(seconds: 5),
+  }) {
+    for (final message in messages) {
+      if (message['type'] == type) return Future.value(message);
+    }
+    final attente = _attentes[type] = Completer<Map<String, dynamic>>();
+    return attente.future.timeout(limite);
   }
 
   /// URL à passer à `connectRealtime`.

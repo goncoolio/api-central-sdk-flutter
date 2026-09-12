@@ -6,6 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'support/fake_group_call_room.dart';
 import 'support/fake_http.dart';
+import 'support/fake_realtime_server.dart';
 
 /// Réponse de `GET /calls/call-1/token`, telle que l'API la sérialise.
 const _jeton = FakeReply(200, {
@@ -43,12 +44,13 @@ void main() {
 
   late FakeGroupCallRoom room;
   late int roomsCreees;
+  late ApiCentral sdk;
 
   CallSession creerSession(FakeHttp http) {
     room = FakeGroupCallRoom();
     roomsCreees = 0;
     return CallSession.withRoomFactory(
-      sdk: sdkSimule(http),
+      sdk: sdk = sdkSimule(http),
       userId: 'u1',
       roomFactory: () {
         roomsCreees++;
@@ -194,6 +196,7 @@ void main() {
         'GET /calls/call-1/ice-servers': _serveursIce,
       });
       final session = creerSession(http);
+      await _brancherTempsReel(sdk);
 
       await expectLater(
         session.start('call-1', callType: CallType.audio),
@@ -215,6 +218,7 @@ void main() {
         'GET /calls/call-1/ice-servers': _serveursIce,
       });
       final session = creerSession(http);
+      await _brancherTempsReel(sdk);
 
       await expectLater(
         session.accept('call-1'),
@@ -284,4 +288,14 @@ void main() {
       await expectLater(session.states.isEmpty, completion(isTrue));
     });
   });
+}
+
+/// Ouvre une connexion temps réel sur un faux serveur : la signalisation d'un
+/// appel à deux l'exige, puisque les routes REST de l'API ne relaient rien.
+Future<void> _brancherTempsReel(ApiCentral sdk) async {
+  final serveur = await FakeRealtimeServer.demarrer();
+  addTearDown(serveur.arreter);
+  await sdk.connectRealtime(wsUrl: serveur.url);
+  addTearDown(sdk.disconnectRealtime);
+  await serveur.connecte;
 }

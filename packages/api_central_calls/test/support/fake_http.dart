@@ -94,6 +94,6 @@ Map<String, dynamic> appelJson(
         'status': rang == 0 ? 'joined' : 'invited',
       },
   ],
-  'participant_count': 1,
+  'participant_count': participantIds.length,
   'encryption_enabled': true,
 };

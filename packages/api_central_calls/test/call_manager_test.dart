@@ -5,7 +5,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'support/fake_http.dart';
 
 /// Ces tests couvrent ce qui est vérifiable sans appareil : la machine à états
-/// et la libération des ressources. La négociation WebRTC elle-même demande
+/// et la libération des ressources. La signalisation elle-même est couverte
+/// par `call_signaling_test.dart`, qui injecte des doublures natives. La négociation WebRTC elle-même demande
 /// deux appareils, des permissions accordées et un serveur TURN joignable —
 /// elle se valide à la main.
 void main() {
@@ -117,30 +118,6 @@ void main() {
         equals(['GET /calls/call-1']),
         reason: 'pas de POST answer',
       );
-    });
-
-    test('laisse passer un appel à deux', () async {
-      final http = FakeHttp({
-        'GET /calls/call-1': FakeReply(
-          200,
-          appelJson('call-1', participantIds: ['u1', 'u2']),
-        ),
-        'GET /calls/call-1/ice-servers': const FakeReply(200, {
-          'ice_servers': <dynamic>[],
-          'call_id': 'call-1',
-          'ttl': 86400,
-        }),
-      });
-      final manager = CallManager(sdk: sdkSimule(http), userId: 'u1');
-
-      // Sans plugin natif, la RTCPeerConnection ne peut pas être créée ici :
-      // seul compte que le contrôle laisse l'appel aller jusqu'aux serveurs
-      // ICE.
-      await expectLater(
-        manager.start('call-1', callType: CallType.audio),
-        throwsA(isNot(isA<UnsupportedError>())),
-      );
-      expect(http.journal, contains('GET /calls/call-1/ice-servers'));
     });
   });
 }

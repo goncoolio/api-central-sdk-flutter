@@ -5,6 +5,19 @@ import 'package:flutter/foundation.dart' show internal;
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 
 import 'call_mode.dart';
+import 'ice_candidate_codec.dart';
+
+/// Crée la `RTCPeerConnection` d'un appel. Injectable, car les tests n'ont pas
+/// les canaux de plateforme que réclame `flutter_webrtc`.
+typedef PeerConnectionFactory =
+    Future<RTCPeerConnection> Function(Map<String, dynamic> configuration);
+
+/// Ouvre le flux micro et caméra local. Injectable pour la même raison.
+typedef LocalMediaFactory =
+    Future<MediaStream> Function(Map<String, dynamic> contraintes);
+
+Future<MediaStream> _mediaParDefaut(Map<String, dynamic> contraintes) =>
+    navigator.mediaDevices.getUserMedia(contraintes);
 
 /// État d'un appel du point de vue du média.
 ///
@@ -21,18 +34,34 @@ enum CallManagerState { idle, connecting, connected, ended, failed }
 /// L'application reste responsable des permissions caméra et micro : les
 /// demander avant [start] ou [accept], sinon `getUserMedia` échoue.
 ///
-/// La connexion temps réel doit être ouverte avant l'appel — sans elle, les
-/// offres SDP et les candidats ICE n'arrivent jamais.
+/// La connexion temps réel doit être ouverte avant l'appel : toute la
+/// signalisation passe par le WebSocket, et [start] comme [accept] refusent de
+/// démarrer sans elle.
 ///
 /// Ne relie que deux participants : dès [CallMode.minGroupParticipants],
 /// [start] et [accept] lèvent [UnsupportedError] avant tout accès au média.
 /// `CallSession` choisit pour vous entre ce gestionnaire et
 /// `GroupCallManager`, qui passe par LiveKit.
 class CallManager {
-  CallManager({required this.sdk, required this.userId});
+  CallManager({required this.sdk, required this.userId})
+    : _creerPeerConnection = createPeerConnection,
+      _ouvrirMediaLocal = _mediaParDefaut;
+
+  /// Réservé aux tests : remplace la `RTCPeerConnection` et le flux local par
+  /// des doublures.
+  @internal
+  CallManager.withFactories({
+    required this.sdk,
+    required this.userId,
+    required PeerConnectionFactory peerConnectionFactory,
+    required LocalMediaFactory localMediaFactory,
+  }) : _creerPeerConnection = peerConnectionFactory,
+       _ouvrirMediaLocal = localMediaFactory;
 
   final ApiCentral sdk;
   final String userId;
+  final PeerConnectionFactory _creerPeerConnection;
+  final LocalMediaFactory _ouvrirMediaLocal;
 
   final _states = StreamController<CallManagerState>.broadcast();
   final _remoteStreams = StreamController<MediaStream>.broadcast();
@@ -105,25 +134,39 @@ class CallManager {
 
   Future<void> _demarrer(Call call, CallType callType) async {
     _exigerAppelADeux(call);
-    await _preparerConnexion(call.id, callType);
+    final realtime = _exigerTempsReel();
 
-    _pairId = call.participants
-        .map((p) => p.user.id)
-        .firstWhere((id) => id != userId, orElse: () => '');
+    try {
+      await _preparerConnexion(call.id, callType, realtime);
 
-    final offre = await _pc!.createOffer();
-    await _pc!.setLocalDescription(offre);
+      _pairId = call.participants
+          .map((p) => p.user.id)
+          .firstWhere((id) => id != userId, orElse: () => '');
 
-    final pair = _pairId;
-    if (pair != null && pair.isNotEmpty) {
-      await sdk.calls.sendOffer(call.id, toUserId: pair, sdp: offre.sdp ?? '');
+      final offre = await _pc!.createOffer();
+      await _pc!.setLocalDescription(offre);
+
+      final pair = _pairId;
+      if (pair != null && pair.isNotEmpty) {
+        realtime.sendCallOffer(call.id, toUserId: pair, sdp: offre.sdp ?? '');
+      }
+    } on Object {
+      await _abandonner();
+      rethrow;
     }
   }
 
   Future<void> _accepter(Call call) async {
     _exigerAppelADeux(call);
-    await _preparerConnexion(call.id, call.callType);
-    await sdk.calls.answer(call.id, userId: userId);
+    final realtime = _exigerTempsReel();
+
+    try {
+      await _preparerConnexion(call.id, call.callType, realtime);
+      await sdk.calls.answer(call.id, userId: userId);
+    } on Object {
+      await _abandonner();
+      rethrow;
+    }
   }
 
   /// Refuse un appel de groupe avant tout accès au média.
@@ -142,10 +185,29 @@ class CallManager {
     );
   }
 
-  Future<void> _preparerConnexion(String callId, CallType callType) async {
+  /// Exige une connexion temps réel, car toute la signalisation passe par
+  /// elle : les routes REST `offer`, `answer-sdp` et `ice-candidate` de l'API
+  /// stockent le signal et le publient sur un canal sans abonné, si bien que
+  /// le pair ne reçoit rien. Mieux vaut échouer avant d'ouvrir le micro.
+  RealtimeModule _exigerTempsReel() {
+    final realtime = sdk.realtime;
+    if (realtime != null) return realtime;
+    _callId = null;
+    _setState(CallManagerState.failed);
+    throw StateError(
+      'La signalisation des appels passe par le WebSocket : appelez '
+      'sdk.connectRealtime() avant start ou accept.',
+    );
+  }
+
+  Future<void> _preparerConnexion(
+    String callId,
+    CallType callType,
+    RealtimeModule realtime,
+  ) async {
     final iceServers = await sdk.calls.getIceServers(callId);
 
-    _pc = await createPeerConnection({
+    _pc = await _creerPeerConnection({
       'iceServers': iceServers.iceServers
           .map(
             (s) => <String, dynamic>{
@@ -157,7 +219,7 @@ class CallManager {
           .toList(),
     });
 
-    _localStream = await navigator.mediaDevices.getUserMedia({
+    _localStream = await _ouvrirMediaLocal({
       'audio': true,
       'video': callType == CallType.audio ? false : {'facingMode': 'user'},
     });
@@ -175,14 +237,10 @@ class CallManager {
     _pc!.onIceCandidate = (candidat) {
       final pair = _pairId;
       if (pair == null || pair.isEmpty) return;
-      unawaited(
-        sdk.calls.sendIceCandidate(
-          callId,
-          toUserId: pair,
-          candidate: candidat.candidate ?? '',
-          sdpMid: candidat.sdpMid,
-          sdpMLineIndex: candidat.sdpMLineIndex,
-        ),
+      realtime.sendCallIceCandidate(
+        callId,
+        toUserId: pair,
+        candidate: encoderCandidat(candidat),
       );
     };
 
@@ -199,14 +257,11 @@ class CallManager {
       }
     };
 
-    _brancherSignalisation();
+    _brancherSignalisation(realtime);
   }
 
   /// Applique les messages de signalisation reçus du WebSocket.
-  void _brancherSignalisation() {
-    final realtime = sdk.realtime;
-    if (realtime == null) return;
-
+  void _brancherSignalisation(RealtimeModule realtime) {
     _abonnements.addAll([
       realtime.onCallOfferReceived.listen((event) async {
         if (event.callId != _callId) return;
@@ -216,7 +271,7 @@ class CallManager {
         );
         final reponse = await _pc!.createAnswer();
         await _pc!.setLocalDescription(reponse);
-        await sdk.calls.sendAnswer(
+        realtime.sendCallAnswer(
           event.callId,
           toUserId: event.fromUserId,
           sdp: reponse.sdp ?? '',
@@ -230,13 +285,35 @@ class CallManager {
       }),
       realtime.onCallIceCandidateReceived.listen((event) async {
         if (event.callId != _callId) return;
-        await _pc?.addCandidate(RTCIceCandidate(event.candidate, null, null));
+        await _pc?.addCandidate(decoderCandidat(event.candidate));
       }),
       realtime.onCallEnded.listen((event) {
         if (event.callId != _callId) return;
         unawaited(hangUp());
       }),
     ]);
+  }
+
+  /// Échec de [start] ou [accept] : libère le média et la connexion, et passe
+  /// en [CallManagerState.failed]. L'appel reste connu, pour que [hangUp]
+  /// puisse encore le clore côté API.
+  Future<void> _abandonner() async {
+    for (final abonnement in _abonnements) {
+      await abonnement.cancel();
+    }
+    _abonnements.clear();
+
+    for (final piste in _localStream?.getTracks() ?? <MediaStreamTrack>[]) {
+      await piste.stop();
+    }
+    await _localStream?.dispose();
+    _localStream = null;
+
+    await _pc?.close();
+    _pc = null;
+    _pairId = null;
+
+    _setState(CallManagerState.failed);
   }
 
   /// Raccroche : prévient l'API, coupe le média et libère la connexion.
