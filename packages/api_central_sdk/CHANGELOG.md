@@ -1,4 +1,4 @@
-## Non publié
+## 0.4.0
 
 ### Nouveautés
 

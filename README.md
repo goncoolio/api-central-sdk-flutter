@@ -6,10 +6,10 @@ SDK Dart/Flutter pour l'API Central S2S.
 
 | Package | Version | Description |
 |---|---|---|
-| `api_central_sdk` | 0.2.0 | Core Dart pur : auth, users, messaging, notifications, support, live, signalisation des appels, realtime |
+| `api_central_sdk` | 0.4.0 | Core Dart pur : auth, users, messaging, notifications, support, live, signalisation des appels, realtime |
 | `api_central_calls` | 0.2.0 | Média des appels (Flutter ≥ 3.38) : WebRTC direct à deux, SFU LiveKit en groupe |
 | `api_central_encryption` | 0.1.0 | Chiffrement E2E : X25519 et AES-GCM (Dart pur) |
-| `api_central_provider` | 0.1.0 | ChangeNotifier prêts à brancher (Flutter) |
+| `api_central_provider` | 0.2.0 | ChangeNotifier prêts à brancher (Flutter) |
 
 Chaque package décrit ses évolutions dans son `CHANGELOG.md`.
 
@@ -246,7 +246,7 @@ ChangeNotifierProvider.value(value: conversations, child: MonEcran());
 | Notifier | Ce qu'il tient à jour |
 |---|---|
 | `ConversationsNotifier` | liste triée, non-lus, remontée sur message entrant |
-| `MessagesNotifier` | messages d'une conversation, pagination, envoi |
+| `MessagesNotifier` | messages d'une conversation, pagination, envoi (et réponses avec `send(content, replyToId:)`) |
 | `NotificationsNotifier` | liste et compteur pour un badge |
 | `ConnectionNotifier` | état du WebSocket |
 

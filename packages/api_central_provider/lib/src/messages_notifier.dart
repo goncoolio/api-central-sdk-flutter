@@ -57,12 +57,18 @@ class MessagesNotifier extends SafeNotifier {
 
   /// Envoie un message. La liste se met à jour à la réponse du serveur, puis
   /// l'écho temps réel est ignoré grâce au dédoublonnage par identifiant.
-  Future<void> send(String content) => guard(
+  ///
+  /// `replyToId` en fait une réponse : le message ajouté porte l'aperçu du
+  /// message cité dans [Message.replyTo]. L'API refuse (400) une cible
+  /// absente, supprimée ou d'une autre conversation : le message n'est pas
+  /// ajouté et `errorMessage` passe à « Impossible d'envoyer le message ».
+  Future<void> send(String content, {String? replyToId}) => guard(
         () async {
           final message = await sdk.messaging.sendMessage(
             conversationId,
             senderId: userId,
             content: content,
+            replyToId: replyToId,
           );
           _ajouter(message);
         },
