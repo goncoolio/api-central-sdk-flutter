@@ -1,3 +1,24 @@
+## 0.4.0
+
+### Nouveautés
+
+- **`MessageNewEvent.replyToId`** et **`MessageUpdatedEvent.replyToId`** :
+  identifiant du message auquel celui-ci répond, que l'API envoie dans
+  `message_new` et `message_updated` (`reply_to_id`, omis quand le message ne
+  répond à rien, `null` côté SDK). Seul l'identifiant voyage ; l'aperçu se
+  retrouve dans l'historique local ou via le REST.
+- **`MessageNewEvent.clientMessageId`** et
+  **`MessageUpdatedEvent.clientMessageId`** : écho de la clé fournie à l'envoi,
+  que l'API transmettait déjà et que le SDK jetait.
+
+### Documentation
+
+- `Message.replyTo` est un aperçu d'un seul niveau sur toutes les routes (le
+  commentaire annonçait la chaîne complète pour `getMessage` et `sendMessage`).
+  Contenu et pièces jointes arrivent vides si la cible a été supprimée.
+- `sendMessage` documente `replyToId`, déjà transmis en `reply_to_id`, et le
+  400 de l'API pour une cible absente, supprimée ou d'une autre conversation.
+
 ## 0.3.0
 
 ### Changements incompatibles

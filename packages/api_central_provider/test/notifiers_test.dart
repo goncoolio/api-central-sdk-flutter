@@ -1,5 +1,9 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:api_central_provider/api_central_provider.dart';
 import 'package:api_central_sdk/api_central_sdk.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 ApiCentral _sdk() => ApiCentral(
@@ -22,6 +26,29 @@ Message _msg(String id, String contenu) => Message(
       content: contenu,
       contentType: ContentType.text,
     );
+
+/// Répond toujours [reponse] et garde les requêtes reçues.
+class _FakeAdapter implements HttpClientAdapter {
+  _FakeAdapter(this.reponse);
+
+  final Map<String, dynamic> reponse;
+  final List<RequestOptions> requetes = [];
+
+  @override
+  Future<ResponseBody> fetch(
+    RequestOptions options,
+    Stream<Uint8List>? requestStream,
+    Future<void>? cancelFuture,
+  ) async {
+    requetes.add(options);
+    return ResponseBody.fromString(jsonEncode(reponse), 200, headers: {
+      Headers.contentTypeHeader: [Headers.jsonContentType],
+    });
+  }
+
+  @override
+  void close({bool force = false}) {}
+}
 
 AppNotification _notif(String id, {bool lue = false}) => AppNotification(
       id: id,
@@ -138,6 +165,89 @@ void main() {
 
       expect(
           n.messages.map((m) => m.content), equals(['Premier', 'Deuxième']));
+      n.dispose();
+    });
+
+    test('une réponse entrante reprend l aperçu du message cité', () {
+      final n = creer()..debugSeed([_msg('m1', 'On se voit demain ?')]);
+
+      n.debugApply(const RealtimeEvent.messageNew(
+        id: 'm2',
+        conversationId: 'c1',
+        content: 'Oui',
+        clientMessageId: 'local-42',
+        replyToId: 'm1',
+      ));
+
+      final reponse = n.messages.last;
+      expect(reponse.replyTo?.id, equals('m1'));
+      expect(reponse.replyTo?.content, equals('On se voit demain ?'));
+      expect(reponse.clientMessageId, equals('local-42'));
+      n.dispose();
+    });
+
+    test('une réponse à un message absent garde son identifiant seul', () {
+      final n = creer()..debugSeed([_msg('m1', 'Premier')]);
+
+      n.debugApply(const RealtimeEvent.messageNew(
+        id: 'm3',
+        conversationId: 'c1',
+        content: 'Oui',
+        replyToId: 'ancien',
+      ));
+
+      expect(n.messages.last.replyTo?.id, equals('ancien'),
+          reason: "l'application peut recharger l'aperçu par son identifiant");
+      expect(n.messages.last.replyTo?.content, isEmpty);
+      n.dispose();
+    });
+
+    test('send transmet replyToId et ajoute la réponse avec son aperçu',
+        () async {
+      final adapter = _FakeAdapter({
+        'id': 'm2',
+        'conversation_id': 'c1',
+        'content': 'Oui',
+        'content_type': 'text',
+        'reply_to': {
+          'id': 'm1',
+          'conversation_id': 'c1',
+          'content': 'On se voit demain ?',
+          'content_type': 'text',
+          'reply_to': null,
+        },
+        'created_at': '2026-10-23T10:00:00Z',
+      });
+      final sdk = _sdk()..client.dio.httpClientAdapter = adapter;
+      final n = MessagesNotifier(sdk: sdk, conversationId: 'c1', userId: 'u1')
+        ..debugSeed([_msg('m1', 'On se voit demain ?')]);
+
+      await n.send('Oui', replyToId: 'm1');
+
+      final envoye =
+          (adapter.requetes.single.data! as Map).cast<String, dynamic>();
+      expect(envoye['reply_to_id'], equals('m1'));
+      expect(n.messages.last.replyTo?.content, equals('On se voit demain ?'));
+      n.dispose();
+    });
+
+    test('send sans replyToId n envoie pas le champ', () async {
+      final adapter = _FakeAdapter({
+        'id': 'm2',
+        'conversation_id': 'c1',
+        'content': 'Salut',
+        'content_type': 'text',
+        'reply_to': null,
+      });
+      final sdk = _sdk()..client.dio.httpClientAdapter = adapter;
+      final n = MessagesNotifier(sdk: sdk, conversationId: 'c1', userId: 'u1');
+
+      await n.send('Salut');
+
+      final envoye =
+          (adapter.requetes.single.data! as Map).cast<String, dynamic>();
+      expect(envoye.containsKey('reply_to_id'), isFalse);
+      expect(n.messages.single.replyTo, isNull);
       n.dispose();
     });
 

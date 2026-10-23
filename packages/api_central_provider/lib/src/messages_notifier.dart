@@ -57,12 +57,18 @@ class MessagesNotifier extends SafeNotifier {
 
   /// Envoie un message. La liste se met à jour à la réponse du serveur, puis
   /// l'écho temps réel est ignoré grâce au dédoublonnage par identifiant.
-  Future<void> send(String content) => guard(
+  ///
+  /// `replyToId` en fait une réponse : le message ajouté porte l'aperçu du
+  /// message cité dans [Message.replyTo]. L'API refuse (400) une cible
+  /// absente, supprimée ou d'une autre conversation : le message n'est pas
+  /// ajouté et `errorMessage` passe à « Impossible d'envoyer le message ».
+  Future<void> send(String content, {String? replyToId}) => guard(
         () async {
           final message = await sdk.messaging.sendMessage(
             conversationId,
             senderId: userId,
             content: content,
+            replyToId: replyToId,
           );
           _ajouter(message);
         },
@@ -90,13 +96,32 @@ class MessagesNotifier extends SafeNotifier {
 
   void _appliquerNouveau(MessageNewEvent event) {
     if (event.conversationId != conversationId) return;
+    final replyToId = event.replyToId;
     _ajouter(Message(
       id: event.id,
       conversationId: event.conversationId,
       content: event.content,
       contentType: ContentType.text,
+      clientMessageId: event.clientMessageId,
+      replyTo: replyToId == null ? null : _apercu(replyToId),
       createdAt: DateTime.tryParse(event.createdAt ?? ''),
     ));
+  }
+
+  /// L'événement ne porte que l'identifiant du message cité : l'aperçu vient
+  /// de la liste chargée, sur un seul niveau comme celui du REST. Un message
+  /// cité absent de la liste donne un aperçu vide qui ne garde que son
+  /// identifiant, à recharger par `getMessage` si l'application l'affiche.
+  Message _apercu(String id) {
+    for (final m in _messages) {
+      if (m.id == id) return m.copyWith(replyTo: null);
+    }
+    return Message(
+      id: id,
+      conversationId: conversationId,
+      content: '',
+      contentType: ContentType.text,
+    );
   }
 
   void _appliquerSuppression(MessageDeletedEvent event) {

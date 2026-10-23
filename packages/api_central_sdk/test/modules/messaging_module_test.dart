@@ -166,6 +166,73 @@ void main() {
       );
     });
 
+    test('sendMessage transmet replyToId et lit l aperçu reply_to', () async {
+      final adapter = FakeAdapter(
+        (options, callIndex) => const FakeReply(200, {
+          'id': 'm2',
+          'conversation_id': 'c1',
+          'content': 'Oui',
+          'content_type': 'text',
+          'reply_to': {
+            'id': 'm1',
+            'conversation_id': 'c1',
+            'content': 'On se voit demain ?',
+            'content_type': 'text',
+            'reply_to': null,
+            'reactions': <dynamic>[],
+            'is_edited': false,
+            'is_deleted': false,
+            'read_by': <dynamic>[],
+            'created_at': '2026-10-23T09:00:00Z',
+          },
+          'reactions': <dynamic>[],
+          'is_edited': false,
+          'is_deleted': false,
+          'read_by': <dynamic>[],
+          'created_at': '2026-10-23T10:00:00Z',
+        }),
+      );
+
+      final message = await _sdk(adapter).messaging.sendMessage(
+        'c1',
+        senderId: 'u1',
+        content: 'Oui',
+        replyToId: 'm1',
+      );
+
+      final envoye = (adapter.requests.single.data! as Map)
+          .cast<String, dynamic>();
+      expect(envoye['reply_to_id'], equals('m1'));
+      expect(message.replyTo?.id, equals('m1'));
+      expect(message.replyTo?.content, equals('On se voit demain ?'));
+      expect(message.replyTo?.replyTo, isNull,
+          reason: "l'aperçu s'arrête au premier niveau");
+    });
+
+    test('reply_to null quand le message ne répond à rien', () async {
+      final adapter = FakeAdapter(
+        (options, callIndex) => const FakeReply(200, {
+          'id': 'm3',
+          'conversation_id': 'c1',
+          'content': 'Salut',
+          'content_type': 'text',
+          'reply_to': null,
+          'created_at': '2026-10-23T10:00:00Z',
+        }),
+      );
+
+      final message = await _sdk(adapter).messaging.sendMessage(
+        'c1',
+        senderId: 'u1',
+        content: 'Salut',
+      );
+
+      final envoye = (adapter.requests.single.data! as Map)
+          .cast<String, dynamic>();
+      expect(envoye.containsKey('reply_to_id'), isFalse);
+      expect(message.replyTo, isNull);
+    });
+
     test('addParticipant transmet l acteur exigé par l API', () async {
       final adapter = FakeAdapter(
         (options, callIndex) => const FakeReply(200, {'success': true}),

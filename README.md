@@ -6,10 +6,10 @@ SDK Dart/Flutter pour l'API Central S2S.
 
 | Package | Version | Description |
 |---|---|---|
-| `api_central_sdk` | 0.2.0 | Core Dart pur : auth, users, messaging, notifications, support, live, signalisation des appels, realtime |
+| `api_central_sdk` | 0.4.0 | Core Dart pur : auth, users, messaging, notifications, support, live, signalisation des appels, realtime |
 | `api_central_calls` | 0.2.0 | Média des appels (Flutter ≥ 3.38) : WebRTC direct à deux, SFU LiveKit en groupe |
 | `api_central_encryption` | 0.1.0 | Chiffrement E2E : X25519 et AES-GCM (Dart pur) |
-| `api_central_provider` | 0.1.0 | ChangeNotifier prêts à brancher (Flutter) |
+| `api_central_provider` | 0.2.0 | ChangeNotifier prêts à brancher (Flutter) |
 
 Chaque package décrit ses évolutions dans son `CHANGELOG.md`.
 
@@ -211,6 +211,25 @@ Trois points à connaître :
   clé expose l'historique de la session. Cela empêche le serveur de lire les
   messages, mais n'offre pas de confidentialité persistante complète.
 
+## Réponses à un message
+
+```dart
+final reponse = await sdk.messaging.sendMessage(convId,
+    senderId: monId, content: 'Oui, à demain', replyToId: messageCite.id);
+print(reponse.replyTo?.content); // aperçu d'un niveau, null sans réponse
+
+sdk.realtime!.onMessageNew.listen((e) {
+  // Seul l'identifiant voyage en temps réel : l'aperçu se retrouve dans
+  // l'historique local, ou par getMessage.
+  final citeId = e.replyToId;
+});
+```
+
+L'API répond 400 si `replyToId` désigne un message absent, supprimé ou d'une
+autre conversation. Quand le message cité a été supprimé depuis, `replyTo`
+arrive avec un contenu et des pièces jointes vides. `MessagesNotifier` reprend
+l'aperçu dans sa liste quand une réponse arrive en temps réel.
+
 ## État prêt à brancher
 
 `api_central_provider` fournit des `ChangeNotifier` pour les usages courants :
@@ -227,7 +246,7 @@ ChangeNotifierProvider.value(value: conversations, child: MonEcran());
 | Notifier | Ce qu'il tient à jour |
 |---|---|
 | `ConversationsNotifier` | liste triée, non-lus, remontée sur message entrant |
-| `MessagesNotifier` | messages d'une conversation, pagination, envoi |
+| `MessagesNotifier` | messages d'une conversation, pagination, envoi (et réponses avec `send(content, replyToId:)`) |
 | `NotificationsNotifier` | liste et compteur pour un badge |
 | `ConnectionNotifier` | état du WebSocket |
 
