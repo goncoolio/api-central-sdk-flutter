@@ -103,6 +103,15 @@ sealed class RealtimeEvent with _$RealtimeEvent {
     String? senderId,
     String? contentType,
     String? createdAt,
+
+    /// Écho du `clientMessageId` fourni à l'envoi, pour rapprocher l'événement
+    /// du message affiché en optimiste.
+    String? clientMessageId,
+
+    /// Identifiant du message auquel celui-ci répond, `null` s'il ne répond à
+    /// rien. Seul l'identifiant est transmis : l'aperçu se retrouve dans
+    /// l'historique local, ou via le REST ([Message.replyTo]).
+    String? replyToId,
     List<String>? participants,
   }) = MessageNewEvent;
 
@@ -114,6 +123,15 @@ sealed class RealtimeEvent with _$RealtimeEvent {
     String? senderId,
     String? contentType,
     String? createdAt,
+
+    /// Écho du `clientMessageId` fourni à l'envoi, pour rapprocher l'événement
+    /// du message affiché en optimiste.
+    String? clientMessageId,
+
+    /// Identifiant du message auquel celui-ci répond, `null` s'il ne répond à
+    /// rien. Seul l'identifiant est transmis : l'aperçu se retrouve dans
+    /// l'historique local, ou via le REST ([Message.replyTo]).
+    String? replyToId,
   }) = MessageUpdatedEvent;
 
   @FreezedUnionValue('message_deleted')

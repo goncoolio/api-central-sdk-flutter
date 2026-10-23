@@ -60,6 +60,8 @@ MessageNewEvent _$MessageNewEventFromJson(Map<String, dynamic> json) =>
       senderId: json['senderId'] as String?,
       contentType: json['contentType'] as String?,
       createdAt: json['createdAt'] as String?,
+      clientMessageId: json['clientMessageId'] as String?,
+      replyToId: json['replyToId'] as String?,
       participants: (json['participants'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
@@ -74,6 +76,8 @@ Map<String, dynamic> _$MessageNewEventToJson(MessageNewEvent instance) =>
       'senderId': instance.senderId,
       'contentType': instance.contentType,
       'createdAt': instance.createdAt,
+      'clientMessageId': instance.clientMessageId,
+      'replyToId': instance.replyToId,
       'participants': instance.participants,
       'type': instance.$type,
     };
@@ -86,6 +90,8 @@ MessageUpdatedEvent _$MessageUpdatedEventFromJson(Map<String, dynamic> json) =>
       senderId: json['senderId'] as String?,
       contentType: json['contentType'] as String?,
       createdAt: json['createdAt'] as String?,
+      clientMessageId: json['clientMessageId'] as String?,
+      replyToId: json['replyToId'] as String?,
       $type: json['type'] as String?,
     );
 
@@ -98,6 +104,8 @@ Map<String, dynamic> _$MessageUpdatedEventToJson(
   'senderId': instance.senderId,
   'contentType': instance.contentType,
   'createdAt': instance.createdAt,
+  'clientMessageId': instance.clientMessageId,
+  'replyToId': instance.replyToId,
   'type': instance.$type,
 };
 

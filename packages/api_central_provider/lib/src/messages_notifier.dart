@@ -90,13 +90,32 @@ class MessagesNotifier extends SafeNotifier {
 
   void _appliquerNouveau(MessageNewEvent event) {
     if (event.conversationId != conversationId) return;
+    final replyToId = event.replyToId;
     _ajouter(Message(
       id: event.id,
       conversationId: event.conversationId,
       content: event.content,
       contentType: ContentType.text,
+      clientMessageId: event.clientMessageId,
+      replyTo: replyToId == null ? null : _apercu(replyToId),
       createdAt: DateTime.tryParse(event.createdAt ?? ''),
     ));
+  }
+
+  /// L'événement ne porte que l'identifiant du message cité : l'aperçu vient
+  /// de la liste chargée, sur un seul niveau comme celui du REST. Un message
+  /// cité absent de la liste donne un aperçu vide qui ne garde que son
+  /// identifiant, à recharger par `getMessage` si l'application l'affiche.
+  Message _apercu(String id) {
+    for (final m in _messages) {
+      if (m.id == id) return m.copyWith(replyTo: null);
+    }
+    return Message(
+      id: id,
+      conversationId: conversationId,
+      content: '',
+      contentType: ContentType.text,
+    );
   }
 
   void _appliquerSuppression(MessageDeletedEvent event) {

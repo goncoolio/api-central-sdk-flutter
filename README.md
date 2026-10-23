@@ -211,6 +211,25 @@ Trois points à connaître :
   clé expose l'historique de la session. Cela empêche le serveur de lire les
   messages, mais n'offre pas de confidentialité persistante complète.
 
+## Réponses à un message
+
+```dart
+final reponse = await sdk.messaging.sendMessage(convId,
+    senderId: monId, content: 'Oui, à demain', replyToId: messageCite.id);
+print(reponse.replyTo?.content); // aperçu d'un niveau, null sans réponse
+
+sdk.realtime!.onMessageNew.listen((e) {
+  // Seul l'identifiant voyage en temps réel : l'aperçu se retrouve dans
+  // l'historique local, ou par getMessage.
+  final citeId = e.replyToId;
+});
+```
+
+L'API répond 400 si `replyToId` désigne un message absent, supprimé ou d'une
+autre conversation. Quand le message cité a été supprimé depuis, `replyTo`
+arrive avec un contenu et des pièces jointes vides. `MessagesNotifier` reprend
+l'aperçu dans sa liste quand une réponse arrive en temps réel.
+
 ## État prêt à brancher
 
 `api_central_provider` fournit des `ChangeNotifier` pour les usages courants :

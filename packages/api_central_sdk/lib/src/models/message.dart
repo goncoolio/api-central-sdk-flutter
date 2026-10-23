@@ -52,11 +52,11 @@ abstract class Reaction with _$Reaction {
 
 /// Message d'une conversation.
 ///
-/// La profondeur de [Message.replyTo] dépend de la route appelée :
-/// `getMessage` et `sendMessage` remontent la chaîne complète des réponses,
-/// tandis que `listMessages` s'arrête au premier niveau — le `replyTo` d'un
-/// `replyTo` y vaut toujours `null`. Une application qui affiche un fil de
-/// discussion complet doit donc recharger le message par son identifiant.
+/// [Message.replyTo] est un aperçu d'un seul niveau du message auquel
+/// celui-ci répond, quelle que soit la route : le `replyTo` d'un `replyTo`
+/// vaut toujours `null`. Si la cible a été supprimée, son contenu et ses
+/// pièces jointes arrivent vides. Une application qui affiche un fil de
+/// discussion complet recharge chaque message par son identifiant.
 @freezed
 abstract class Message with _$Message {
   const factory Message({

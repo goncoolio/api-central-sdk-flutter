@@ -164,6 +164,10 @@ class MessagingModule {
   /// `clientMessageId` permet à l'application de rapprocher le message renvoyé
   /// de celui affiché en optimiste.
   ///
+  /// `replyToId` désigne le message auquel celui-ci répond ; l'API répond 400
+  /// si la cible est absente, supprimée ou d'une autre conversation. Le
+  /// message renvoyé en porte l'aperçu dans [Message.replyTo].
+  ///
   /// `mentions` porte les identifiants des utilisateurs mentionnés : sans lui,
   /// les participants réglés sur [NotificationPreference.mentions] ne reçoivent
   /// aucune notification pour ce message.

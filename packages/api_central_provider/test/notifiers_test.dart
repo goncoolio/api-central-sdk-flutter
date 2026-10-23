@@ -141,6 +141,40 @@ void main() {
       n.dispose();
     });
 
+    test('une réponse entrante reprend l aperçu du message cité', () {
+      final n = creer()..debugSeed([_msg('m1', 'On se voit demain ?')]);
+
+      n.debugApply(const RealtimeEvent.messageNew(
+        id: 'm2',
+        conversationId: 'c1',
+        content: 'Oui',
+        clientMessageId: 'local-42',
+        replyToId: 'm1',
+      ));
+
+      final reponse = n.messages.last;
+      expect(reponse.replyTo?.id, equals('m1'));
+      expect(reponse.replyTo?.content, equals('On se voit demain ?'));
+      expect(reponse.clientMessageId, equals('local-42'));
+      n.dispose();
+    });
+
+    test('une réponse à un message absent garde son identifiant seul', () {
+      final n = creer()..debugSeed([_msg('m1', 'Premier')]);
+
+      n.debugApply(const RealtimeEvent.messageNew(
+        id: 'm3',
+        conversationId: 'c1',
+        content: 'Oui',
+        replyToId: 'ancien',
+      ));
+
+      expect(n.messages.last.replyTo?.id, equals('ancien'),
+          reason: "l'application peut recharger l'aperçu par son identifiant");
+      expect(n.messages.last.replyTo?.content, isEmpty);
+      n.dispose();
+    });
+
     test('ignore un message d une autre conversation', () {
       final n = creer()..debugSeed([_msg('m1', 'Premier')]);
 

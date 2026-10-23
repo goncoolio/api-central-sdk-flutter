@@ -57,6 +57,57 @@ void main() {
           reason: 'typing_update ne doit pas passer le filtre');
     });
 
+    group('réponses à un message', () {
+      const messageNew = {
+        'type': 'message_new',
+        'id': 'm2',
+        'conversation_id': 'c1',
+        'sender_id': 'u2',
+        'content': 'Oui',
+        'content_type': 'text',
+        'created_at': '2026-10-23T10:00:00Z',
+        'client_message_id': 'local-42',
+      };
+
+      test('message_new expose replyToId et clientMessageId', () async {
+        await realtime.connect();
+
+        final recu = realtime.onMessageNew.first;
+        canal.recevoir({...messageNew, 'reply_to_id': 'm1'});
+
+        final event = await recu;
+        expect(event.replyToId, equals('m1'));
+        expect(event.clientMessageId, equals('local-42'));
+      });
+
+      test('message_new sans reply_to_id laisse replyToId à null', () async {
+        await realtime.connect();
+
+        final recu = realtime.onMessageNew.first;
+        canal.recevoir(messageNew);
+
+        expect((await recu).replyToId, isNull,
+            reason: "l'API omet le champ quand le message ne répond à rien");
+      });
+
+      test('message_updated expose replyToId', () async {
+        await realtime.connect();
+
+        final recu = realtime.onMessageUpdated.first;
+        canal.recevoir({
+          ...messageNew,
+          'type': 'message_updated',
+          'content': 'Oui !',
+          'reply_to_id': 'm1',
+        });
+
+        final event = await recu;
+        expect(event.content, equals('Oui !'));
+        expect(event.replyToId, equals('m1'));
+        expect(event.clientMessageId, equals('local-42'));
+      });
+    });
+
     test('envoie conversation_join sur le canal', () async {
       await realtime.connect();
       canal.envoyes.clear();
