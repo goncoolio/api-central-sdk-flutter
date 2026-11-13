@@ -216,17 +216,32 @@ class MessagingModule {
     return Message.fromJson(json);
   }
 
+  /// Modifie un message.
+  ///
+  /// `senderId` nomme l'auteur : l'API refuse (403) s'il n'est pas l'auteur du
+  /// message. Facultatif — un jeton utilisateur agit pour son porteur, un
+  /// jeton d'application qui ne nomme personne modifie en son propre nom.
   Future<Message> editMessage(String messageId,
-      {required String content}) async {
+      {required String content, String? senderId}) async {
     final json = await _client.put<Map<String, dynamic>>(
       '/messaging/messages/$messageId',
-      body: {'content': content},
+      body: {'content': content, 'senderId': ?senderId},
     );
     return Message.fromJson(json);
   }
 
-  Future<void> deleteMessage(String messageId) =>
-      _client.delete<Map<String, dynamic>>('/messaging/messages/$messageId');
+  /// Supprime un message (suppression douce).
+  ///
+  /// `userId` nomme celui qui supprime : l'auteur du message ou un
+  /// administrateur de la conversation, sinon 403. `moderation` — jeton
+  /// d'application seulement — déclare une suppression décidée par la
+  /// modération de l'application pour `userId`.
+  Future<void> deleteMessage(String messageId,
+          {String? userId, bool moderation = false}) =>
+      _client.delete<Map<String, dynamic>>(
+        '/messaging/messages/$messageId',
+        query: {'userId': ?userId, if (moderation) 'moderation': true},
+      );
 
   // --- Réactions -----------------------------------------------------------
 

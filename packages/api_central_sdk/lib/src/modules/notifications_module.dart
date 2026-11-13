@@ -119,13 +119,18 @@ class NotificationsModule {
     return (json['count'] as num?)?.toInt() ?? 0;
   }
 
-  /// L'API n'attend que les identifiants : le destinataire est déduit.
+  /// Le corps ne porte que les identifiants. `userId`, en paramètre de
+  /// requête, borne l'opération aux notifications de cet utilisateur ; sans
+  /// lui, un jeton utilisateur agit pour son porteur et un jeton d'application
+  /// sur toute l'application.
   Future<MarkReadResult> markAsRead({
     required List<String> notificationIds,
+    String? userId,
   }) async {
     final json = await _client.post<Map<String, dynamic>>(
       '/notifications/mark-read',
       body: {'notificationIds': notificationIds},
+      query: {'userId': ?userId},
     );
     return MarkReadResult.fromJson(json);
   }
@@ -139,6 +144,10 @@ class NotificationsModule {
     return MarkReadResult.fromJson(json);
   }
 
-  Future<void> delete(String notificationId) =>
-      _client.delete<Map<String, dynamic>>('/notifications/$notificationId');
+  /// `userId` nommé : la notification doit lui appartenir (404 sinon).
+  Future<void> delete(String notificationId, {String? userId}) =>
+      _client.delete<Map<String, dynamic>>(
+        '/notifications/$notificationId',
+        query: {'userId': ?userId},
+      );
 }

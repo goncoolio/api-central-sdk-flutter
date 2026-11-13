@@ -133,18 +133,23 @@ class SupportModule {
 
   /// Ajoute une réponse à un ticket.
   ///
-  /// `senderType` n'est pas un paramètre : l'API le déduit du contexte et ne
-  /// l'accepte qu'en sortie. `content` fait 1 à 10000 caractères.
+  /// `senderType` dit à quel titre l'expéditeur répond ; absent, l'API le
+  /// déduit (demandeur, agent assigné, ou support sous jeton d'application).
+  /// [ReplySenderType.agent] est réservé au jeton d'application : un terminal
+  /// qui l'envoie reçoit 403. Une réponse du support revient avec
+  /// `SenderType.admin`. `content` fait 1 à 10000 caractères.
   Future<TicketReply> addReply(
     String ticketId, {
     required String senderId,
     required String content,
+    ReplySenderType? senderType,
   }) async {
     final json = await _client.post<Map<String, dynamic>>(
       '/support/tickets/$ticketId/replies',
       body: {
         'senderId': senderId,
         'content': content,
+        'senderType': ?senderType?.name,
       },
     );
     return TicketReply.fromJson(json);
@@ -321,3 +326,13 @@ String? statusVersApi(TicketStatus? status) => switch (status) {
       TicketStatus.inProgress => 'in_progress',
       _ => status.name,
     };
+
+/// À quel titre l'expéditeur d'une réponse de ticket répond.
+enum ReplySenderType {
+  /// Le demandeur du ticket ; tout autre expéditeur est refusé.
+  user,
+
+  /// Le support : l'application se porte garante de l'expéditeur. Jeton
+  /// d'application seulement.
+  agent,
+}

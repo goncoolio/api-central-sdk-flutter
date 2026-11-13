@@ -307,5 +307,30 @@ void main() {
           reason:
               "l'API ne diffuse l'accusé de lecture que si messageId est fourni");
     });
+
+    test("nomme l'acteur d'une modification et d'une suppression", () async {
+      final adapter = FakeAdapter(
+        (options, callIndex) => options.method == 'PUT'
+            ? const FakeReply(200, {
+                'id': 'm1',
+                'conversationId': 'c1',
+                'content': 'x',
+                'contentType': 'text',
+                'createdAt': '2026-01-01T00:00:00Z',
+              })
+            : const FakeReply(200, {'success': true}),
+      );
+      final sdk = _sdk(adapter);
+
+      await sdk.messaging.editMessage('m1', content: 'x', senderId: 'u1');
+      await sdk.messaging.deleteMessage('m1');
+      await sdk.messaging.deleteMessage('m1', userId: 'staff', moderation: true);
+
+      expect((adapter.requests[0].data! as Map)['sender_id'], equals('u1'));
+      expect(adapter.requests[1].queryParameters, isEmpty,
+          reason: 'sans acteur nommé, rien ne part en plus');
+      expect(adapter.requests[2].queryParameters,
+          equals({'user_id': 'staff', 'moderation': true}));
+    });
   });
 }
