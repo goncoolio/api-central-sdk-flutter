@@ -92,6 +92,24 @@ void main() {
       expect(result.updatedCount, equals(2));
     });
 
+    test('borne mark-read et delete à un utilisateur nommé', () async {
+      final adapter = FakeAdapter(
+        (options, callIndex) =>
+            const FakeReply(200, {'success': true, 'updated_count': 1}),
+      );
+      final sdk = _sdk(adapter);
+
+      await sdk.notifications.markAsRead(notificationIds: ['n1'], userId: 'u1');
+      await sdk.notifications.delete('n1', userId: 'u1');
+      await sdk.notifications.delete('n1');
+
+      expect(adapter.requests[0].queryParameters, equals({'user_id': 'u1'}));
+      expect((adapter.requests[0].data! as Map).keys.toSet(),
+          equals({'notification_ids'}));
+      expect(adapter.requests[1].queryParameters, equals({'user_id': 'u1'}));
+      expect(adapter.requests[2].queryParameters, isEmpty);
+    });
+
     test('marque tout comme lu avec user_id en query et corps vide', () async {
       final adapter = FakeAdapter(
         (options, callIndex) =>

@@ -1,3 +1,31 @@
+## 0.4.0
+
+L'API Central vérifie désormais l'utilisateur nommé comme acteur (auteur d'un
+message, propriétaire d'une notification, partie à un ticket). Ces paramètres,
+tous facultatifs, permettent de le nommer ; sans eux, rien ne change.
+
+### Nouveautés
+
+- **`messaging.editMessage(id, content:, senderId:)`** : `senderId` nomme
+  l'auteur ; l'API refuse (403) s'il n'est pas l'auteur du message.
+- **`messaging.deleteMessage(id, userId:, moderation:)`** : `userId` doit être
+  l'auteur ou un administrateur de la conversation ; `moderation: true` (jeton
+  d'application seulement) déclare une suppression de modération.
+- **`notifications.markAsRead(notificationIds:, userId:)`** et
+  **`notifications.delete(id, userId:)`** : bornés aux notifications de
+  `userId`.
+- **`support.addReply(id, senderId:, content:, senderType:)`** et l'énumération
+  **`ReplySenderType`** : `agent` (jeton d'application seulement) quand
+  l'expéditeur répond pour le support, `user` pour exiger le demandeur.
+
+### À savoir
+
+- Avec un jeton utilisateur (application mobile), l'API refuse désormais en 403
+  `assignTicket` et l'écriture des catégories et des articles : les catégories
+  sont créées côté API Central, pas par les utilisateurs d'une application.
+  `listTickets` ne rend que les tickets du porteur.
+- Une réponse du support revient avec `SenderType.admin`.
+
 ## 0.3.0
 
 ### Changements incompatibles

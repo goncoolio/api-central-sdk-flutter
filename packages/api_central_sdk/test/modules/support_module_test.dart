@@ -261,7 +261,32 @@ void main() {
       final envoye =
           (adapter.requests.single.data! as Map).cast<String, dynamic>();
       expect(envoye.keys.toSet(), equals({'sender_id', 'content'}),
-          reason: "l'API n'accepte que ces deux champs");
+          reason: 'sender_type ne part que si on le demande');
+    });
+
+    test('répond pour le support avec sender_type agent', () async {
+      final adapter = FakeAdapter(
+        (options, callIndex) => const FakeReply(200, {
+          'id': 'r2',
+          'ticketId': 't1',
+          'senderId': 'staff',
+          'senderType': 'admin',
+          'content': 'Nous regardons',
+        }),
+      );
+
+      final reply = await _sdk(adapter).support.addReply(
+            't1',
+            senderId: 'staff',
+            content: 'Nous regardons',
+            senderType: ReplySenderType.agent,
+          );
+
+      final envoye =
+          (adapter.requests.single.data! as Map).cast<String, dynamic>();
+      expect(envoye['sender_type'], equals('agent'));
+      expect(reply.senderType, equals(SenderType.admin),
+          reason: 'une réponse du support revient typée admin');
     });
   });
 }
